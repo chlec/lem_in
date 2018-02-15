@@ -18,6 +18,5 @@ int		main(void)
 		i++;
 		ft_strdel(&line);	
 	}
-	i = 0;
 	return (0);
 }
