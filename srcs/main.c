@@ -39,8 +39,10 @@ int		main(void)
 	t_room	*room;
 	char	**temp;
 	int		i;
+	t_room	*head;
 
 	line = NULL;
+	head = NULL;
 	i = 0;
 	room = NULL;
 	if (!(env = (t_env*)malloc(sizeof(env))))
@@ -59,6 +61,8 @@ int		main(void)
 			room->x = ft_atoi(temp[1]);
 			room->y = ft_atoi(temp[2]);
 			room->next = NULL;
+			if (!head)
+				head = room;
 			room = room->next;
 			//ft_strdel(&temp);
 		}
