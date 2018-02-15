@@ -11,9 +11,10 @@ int		main(void)
 
 	line = NULL;
 	i = 0;
-	if (!(room = (t_room*)malloc(sizeof(room))))
+	room = NULL;
+/*	if (!(room = (t_room*)malloc(sizeof(room))))
 		return (0);
-	if (!(env = (t_env*)malloc(sizeof(env))))
+*/	if (!(env = (t_env*)malloc(sizeof(env))))
 		return (0);
 	while ((ret = get_next_line(0, &line)))
 	{
@@ -21,14 +22,19 @@ int		main(void)
 			env->nb_ant = ft_atoi(line);
 		if (line[1] == ' ')
 		{
+			if (!(room = (t_room*)malloc(sizeof(room))))
+				return (0);
 			temp = ft_strsplit(line, ' ');
 			ft_strcpy(room->name, temp[0]);
 			room->x = ft_atoi(temp[1]);
 			room->y = ft_atoi(temp[2]);
-			//ft_strdel(&temp);	
+			room->next = NULL;
+			room = room->next;
+			//ft_strdel(&temp);
 		}
 		if (!ft_strcmp(line, "##start"))
 		{
+			ft_strdel(&line);	
 			get_next_line(0, &line);
 			temp = ft_strsplit(line, ' ');
 			ft_strcpy(env->start->name, temp[0]);
@@ -38,6 +44,7 @@ int		main(void)
 		}
 		if (!ft_strcmp(line, "##end"))
 		{
+			ft_strdel(&line);	
 			get_next_line(0, &line);
 			temp = ft_strsplit(line, ' ');
 			ft_strcpy(env->end->name, temp[0]);
