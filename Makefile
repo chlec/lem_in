@@ -4,7 +4,8 @@ PATH_SRCS = srcs/
 
 HEADERS_FILES = includes/
 
-SRCS =	$(PATH_SRCS)main.c
+SRCS =	$(PATH_SRCS)main.c \
+		$(PATH_SRCS)ft_list_push_back.c
 
 OBJS = $(SRCS:.c=.o)
 

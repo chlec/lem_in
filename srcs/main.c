@@ -12,7 +12,6 @@ void	handle_command(t_env *env, char *line)
 		env->start->name = temp[0];
 		env->start->x = ft_atoi(temp[1]);
 		env->start->y = ft_atoi(temp[2]);
-		env->start->next = NULL;
 		//	ft_strdel(&temp);	
 		ft_strdel(&line);
 	}
@@ -24,7 +23,6 @@ void	handle_command(t_env *env, char *line)
 		env->end->name = temp[0];
 		env->end->x = ft_atoi(temp[1]);
 		env->end->y = ft_atoi(temp[2]);
-		env->end->next = NULL;
 		//	ft_strdel(&temp);	
 		ft_strdel(&line);
 	}
@@ -36,15 +34,13 @@ int		main(void)
 	int		ret;
 	char	*line;
 	t_env	*env;
+	t_list	*head;
 	t_room	*room;
 	char	**temp;
 	int		i;
-	t_room	*head;
-	t_room	*l_room;
 
 	line = NULL;
 	head = NULL;
-	l_room = NULL;
 	i = 0;
 	room = NULL;
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
@@ -62,11 +58,8 @@ int		main(void)
 			room->name = temp[0];
 			room->x = ft_atoi(temp[1]);
 			room->y = ft_atoi(temp[2]);
-			room->next = NULL;
-			printf("nom de room = %s\n", room->name);
-			if (!head)
-				head = room;
-			room = room->next;
+			ft_list_push_back(&head, room);
+			room = NULL;
 			//ft_strdel(&temp);
 		}
 		else if (line[0] == '#')
@@ -74,12 +67,13 @@ int		main(void)
 		i++;
 		ft_strdel(&line);	
 	}
-/*	while (head)
+	while (head)
 	{
-		printf("nom de room = %s\n", head->name);
+		room = (t_room*)(head->content);
+		printf("nom de room = %s\n", room->name);
 		head = head->next;
 	}
-*/	printf("nom de start = %s x = %d y = %d\n", env->start->name, env->start->x, env->start->y);
+	printf("nom de start = %s x = %d y = %d\n", env->start->name, env->start->x, env->start->y);
 	printf("nom de end = %s x = %d y = %d\n", env->end->name, env->end->x, env->end->y);
 	return (0);
 }
