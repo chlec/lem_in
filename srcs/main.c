@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 12:26:58 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/15 13:28:14 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/15 14:18:00 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		main(void)
 	t_env	*env;
 	int		i;
 
-	line = 0;
+	line = NULL;
 	i = 0;
 	if (!(env = (t_env*)malloc(sizeof(env))))
 		return (0);
