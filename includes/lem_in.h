@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 12:27:33 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/15 13:26:30 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/15 13:36:20 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ typedef struct		s_env
 {
 	t_ant	*ant;
 	t_path	*path;
+	t_room	*start;
+	t_room	*end;
 	int		nb_ant;
 }					t_env;
 
