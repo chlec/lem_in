@@ -45,7 +45,7 @@ int		main(void)
 	head = NULL;
 	i = 0;
 	room = NULL;
-	if (!(env = (t_env*)malloc(sizeof(env))))
+	if (!(env = (t_env*)malloc(sizeof(t_env))))
 		return (0);
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
@@ -54,7 +54,7 @@ int		main(void)
 		//ROOM
 		if (ft_strlen(line) > 1 && line[1] == ' ')
 		{
-			if (!(room = (t_room*)malloc(sizeof(room))))
+			if (!(room = (t_room*)malloc(sizeof(t_room))))
 				return (0);
 			temp = ft_strsplit(line, ' ');
 			room->name = temp[0];
