@@ -34,17 +34,16 @@ int		main(void)
 	int		ret;
 	char	*line;
 	t_env	*env;
-	t_list	*head;
 	t_room	*room;
 	char	**temp;
 	int		i;
 
 	line = NULL;
-	head = NULL;
 	i = 0;
 	room = NULL;
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
 		return (0);
+	env->head_room = NULL;
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
 		if (i == 0)
@@ -58,7 +57,7 @@ int		main(void)
 			room->name = temp[0];
 			room->x = ft_atoi(temp[1]);
 			room->y = ft_atoi(temp[2]);
-			ft_list_push_back(&head, room);
+			ft_list_push_back(&(env->head_room), room);
 			room = NULL;
 			//ft_strdel(&temp);
 		}
@@ -67,11 +66,11 @@ int		main(void)
 		i++;
 		ft_strdel(&line);	
 	}
-	while (head)
+	while (env->head_room)
 	{
-		room = (t_room*)(head->content);
+		room = (t_room*)(env->head_room->content);
 		printf("nom de room = %s\n", room->name);
-		head = head->next;
+		env->head_room = env->head_room->next;
 	}
 	printf("nom de start = %s x = %d y = %d\n", env->start->name, env->start->x, env->start->y);
 	printf("nom de end = %s x = %d y = %d\n", env->end->name, env->end->x, env->end->y);

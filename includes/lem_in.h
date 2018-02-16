@@ -28,6 +28,7 @@ typedef struct		s_env
 	t_path	*path;
 	t_room	*start;
 	t_room	*end;
+	t_list	*head_room;
 	int		nb_ant;
 }					t_env;
 
