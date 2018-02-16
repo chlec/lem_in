@@ -1,6 +1,6 @@
 #include "lem_in.h"
 
-void	ft_list_push_back(t_list **begin_list, void *data)
+void	ft_list_push_back(t_list **begin_list, void *data, size_t len)
 {
 	t_list	*list;
 
@@ -9,8 +9,8 @@ void	ft_list_push_back(t_list **begin_list, void *data)
 	{
 		while (list->next)
 			list = list->next;
-		list->next = ft_lstnew(data, sizeof(data));
+		list->next = ft_lstnew(data, len);
 	}
 	else
-		*begin_list = ft_lstnew(data, sizeof(data));
+		*begin_list = ft_lstnew(data, len);
 }

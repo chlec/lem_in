@@ -13,7 +13,7 @@ void	handle_command(t_env *env, char *line)
 		env->start->x = ft_atoi(temp[1]);
 		env->start->y = ft_atoi(temp[2]);
 		//	ft_strdel(&temp);	
-		ft_list_push_back(&(env->head_room), env->start);
+		ft_list_push_back(&(env->head_room), env->start, sizeof(t_room));
 		ft_strdel(&line);
 	}
 	else if (!ft_strcmp(line, "##end"))
@@ -25,7 +25,7 @@ void	handle_command(t_env *env, char *line)
 		env->end->x = ft_atoi(temp[1]);
 		env->end->y = ft_atoi(temp[2]);
 		//	ft_strdel(&temp);
-		ft_list_push_back(&(env->head_room), env->end);
+		ft_list_push_back(&(env->head_room), env->end, sizeof(t_room));
 		ft_strdel(&line);
 	}
 
@@ -51,6 +51,7 @@ int		main(void)
         return (0);
 	env->head_room = NULL;
 	env->head_pipe = NULL;
+	pipe = NULL;
 	get_next_line(0, &line);
     env->nb_ant = ft_atoi(line);
     while ((ret = get_next_line(0, &line)) > 0)
@@ -64,7 +65,7 @@ int		main(void)
             room->name = temp[0];
             room->x = ft_atoi(temp[1]);
             room->y = ft_atoi(temp[2]);
-            ft_list_push_back(&(env->head_room), room);
+            ft_list_push_back(&(env->head_room), room, sizeof(t_room));
             room = NULL;
             //ft_strdel(&temp);
         }
@@ -99,7 +100,7 @@ int		main(void)
                 }
                 head_temp = head_temp->next;
             }
-			ft_list_push_back(&(env->head_pipe), pipe);
+			ft_list_push_back(&(env->head_pipe), pipe, sizeof(t_pipe));
         }
         ft_strdel(&line);
 

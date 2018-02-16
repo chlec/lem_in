@@ -39,6 +39,6 @@ typedef struct		s_env
 	int		nb_ant;
 }					t_env;
 
-void				ft_list_push_back(t_list **begin_list, void *data);
+void				ft_list_push_back(t_list **begin_list, void *data, size_t len);
 
 #endif
