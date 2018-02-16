@@ -13,6 +13,7 @@ void	handle_command(t_env *env, char *line)
 		env->start->x = ft_atoi(temp[1]);
 		env->start->y = ft_atoi(temp[2]);
 		//	ft_strdel(&temp);	
+		ft_list_push_back(&(env->head_room), env->start);
 		ft_strdel(&line);
 	}
 	else if (!ft_strcmp(line, "##end"))
@@ -23,7 +24,8 @@ void	handle_command(t_env *env, char *line)
 		env->end->name = temp[0];
 		env->end->x = ft_atoi(temp[1]);
 		env->end->y = ft_atoi(temp[2]);
-		//	ft_strdel(&temp);	
+		//	ft_strdel(&temp);
+		ft_list_push_back(&(env->head_room), env->end);
 		ft_strdel(&line);
 	}
 
@@ -38,20 +40,21 @@ int		main(void)
     t_list    *head_path;
     t_room    *room;
     char    **temp;
-    int        i;
 	t_path	*path;
-    
+	t_pipe	*pipe;
+   
+   	path = NULL;	
     line = NULL;
     head_path = NULL;
-    i = 0;
     room = NULL;
     if (!(env = (t_env*)malloc(sizeof(t_env))))
         return (0);
 	env->head_room = NULL;
+	env->head_pipe = NULL;
+	get_next_line(0, &line);
+    env->nb_ant = ft_atoi(line);
     while ((ret = get_next_line(0, &line)) > 0)
     {
-        if (i == 0)
-            env->nb_ant = ft_atoi(line);
         //ROOM
         if (ft_strlen(line) > 1 && line[1] == ' ')
         {
@@ -69,16 +72,9 @@ int		main(void)
             handle_command(env, line);
         else if (line[1] == '-')
         {
+			pipe = (t_pipe*)malloc(sizeof(t_pipe));
             temp = ft_strsplit(line, '-');
             printf("%s     %s\n", temp[0], temp[1]);
-            if (!ft_strcmp(temp[0], env->start->name))
-            {
-                printf("debut du chemain = %s\n", env->start->name);
-            }
-            if (!ft_strcmp(temp[1], env->start->name))
-            {
-                printf("debut du chemain = %s\n", env->start->name);
-            }
             head_temp = env->head_room;
             while (head_temp)
             {
@@ -86,12 +82,8 @@ int		main(void)
                 room = (t_room*)(head_temp->content);
                 if (!ft_strcmp(room->name, temp[0]))
                 {
-				//	path = malloc(sizeof(t_path));
-				//	path->room = room;
-				//	path->len = 0;
-               //     ft_list_push_back(&head_path, path);
-                    ft_list_push_back(&head_path, room);
-                    printf("room de depart = %s\n", room->name);
+                    pipe->left = room;
+                    printf("room de depart = %s\n", pipe->left->name);
                 }
                 head_temp = head_temp->next;
             }
@@ -102,40 +94,33 @@ int		main(void)
                 room = (t_room*)(head_temp->content);
                 if (!ft_strcmp(room->name, temp[1]))
                 {
-				//	path = malloc(sizeof(t_path));
-				//	path->room = room;
-				//	path->len = 0;
-               //     ft_list_push_back(&head_path, path);
-                    ft_list_push_back(&head_path, room);
-                    printf("room de depart = %s\n", room->name);
+                    pipe->right = room;
+                    printf("room de depart = %s\n", pipe->right->name);
                 }
                 head_temp = head_temp->next;
             }
-            if (!ft_strcmp(temp[0], env->end->name))
-            {
-                printf("fin du chemain = %s\n", env->end->name);
-            }
-            if (!ft_strcmp(temp[1], env->end->name))
-            {
-                printf("fin du chemain = %s\n", env->end->name);
-            }
+			ft_list_push_back(&(env->head_pipe), pipe);
         }
-        i++;
         ft_strdel(&line);
+
     }
-    while (env->head_room)
+    /*while (env->head_room)
     {
         room = (t_room*)(env->head_room->content);
         printf("nom de room = %s\n", room->name);
         env->head_room = env->head_room->next;
-    }
-	while (head_path)
+    }*/
+	while (env->head_pipe)
 	{
-		room = (t_room*)(head_path->content);
-        printf("nom de path = %s\n", room->name);
-        head_path = head_path->next;
+		pipe = (t_pipe*)(env->head_pipe->content);
+		if (pipe->left && pipe->right)
+		{
+       		 printf("nom de path left = %s\t", pipe->left->name);
+       	 	printf("nom de path right = %s\n", pipe->right->name);
+		}
+		env->head_pipe = env->head_pipe->next;
 	}
-    printf("nom de start = %s x = %d y = %d\n", env->start->name, env->start->x, env->start->y);
-    printf("nom de end = %s x = %d y = %d\n", env->end->name, env->end->x, env->end->y);
+    /*printf("nom de start = %s x = %d y = %d\n", env->start->name, env->start->x, env->start->y);
+    printf("nom de end = %s x = %d y = %d\n", env->end->name, env->end->x, env->end->y);*/
     return (0);
 }

@@ -22,6 +22,12 @@ typedef struct		s_ant
 	int				room;
 }					t_ant;
 
+typedef struct		s_pipe
+{
+	t_room	*left;
+	t_room	*right;
+}					t_pipe;
+
 typedef struct		s_env
 {
 	t_ant	*ant;
@@ -29,6 +35,7 @@ typedef struct		s_env
 	t_room	*start;
 	t_room	*end;
 	t_list	*head_room;
+	t_list	*head_pipe;
 	int		nb_ant;
 }					t_env;
 
