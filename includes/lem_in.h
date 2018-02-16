@@ -12,7 +12,7 @@ typedef struct		s_room
 
 typedef struct		s_path
 {
-	t_room			*room;
+	t_list			*room;
 	int				len;
 }					t_path;
 

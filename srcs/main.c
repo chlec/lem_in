@@ -31,14 +31,62 @@ void	handle_command(t_env *env, char *line)
 
 }
 
+void	cree_path(t_env *env)
+{
+	t_path	*path;
+	t_list	*PIPE;
+	t_list	*ROOM;
+	t_room	*room1;
+	t_room	*room2;
+	t_pipe	*pipe2;
+
+	path = (t_path*)malloc(sizeof(t_path));
+	path->room = NULL;
+	path->len = 0;
+	PIPE = env->head_pipe;
+	while (PIPE)
+	{
+		printf("pipe...\n");
+		pipe2 = (t_pipe*)(PIPE->content);
+		ROOM = env->head_room;
+		while (ROOM)
+		{
+			room1 = (t_room*)ROOM->content;
+			if (room1->name == pipe2->left->name || room1->name == pipe2->right->name)
+			{
+				while (path->room)
+				{
+					room2 = (t_room*)(path->room->content);
+					if (room2->name == room1->name)
+						break;
+					path->room = path->room->next;
+				}
+				//On ajoute la room2 au path
+				printf("on ajoute a la suite\n");
+				ft_list_push_back(&(path->room), room1->name == pipe2->left->name ? pipe2->right : pipe2->left, sizeof(t_room));
+				path->len++;
+				break;
+			}
+			ROOM = ROOM->next;
+		}	
+		PIPE = PIPE->next;
+	}
+	while (path->room)
+	{
+		room1 = (t_room*)path->room->content;
+		printf("chemin: %s\n", room1->name);
+		path->room = path->room->next;
+	}
+}
+
 int		main(void)
 {
-    int        ret;
+    int		ret;
     char    *line;
-    t_env    *env;
-    t_list    *head_temp;
-    t_list    *head_path;
-    t_room    *room;
+    t_env	*env;
+    t_list	*head_temp;
+    t_list	*head_path;
+    t_room	*room;
     char    **temp;
 	t_path	*path;
 	t_pipe	*pipe;
@@ -111,7 +159,7 @@ int		main(void)
         printf("nom de room = %s\n", room->name);
         env->head_room = env->head_room->next;
     }*/
-	while (env->head_pipe)
+/*	while (env->head_pipe)
 	{
 		pipe = (t_pipe*)(env->head_pipe->content);
 		if (pipe->left && pipe->right)
@@ -120,7 +168,8 @@ int		main(void)
        	 	printf("nom de path right = %s\n", pipe->right->name);
 		}
 		env->head_pipe = env->head_pipe->next;
-	}
+	}*/
+	cree_path(env);
     /*printf("nom de start = %s x = %d y = %d\n", env->start->name, env->start->x, env->start->y);
     printf("nom de end = %s x = %d y = %d\n", env->end->name, env->end->x, env->end->y);*/
     return (0);
