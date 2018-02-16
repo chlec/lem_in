@@ -13,7 +13,7 @@ OBJS_FILTERED = $(notdir $(OBJS))
 
 LIB_OBJS = libft/*.o
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = #-Wall -Werror -Wextra
 
 all: $(NAME)
 

@@ -39,6 +39,7 @@ int		main(void)
     t_room    *room;
     char    **temp;
     int        i;
+	t_path	*path;
     
     line = NULL;
     head_path = NULL;
@@ -81,9 +82,14 @@ int		main(void)
             head_temp = env->head_room;
             while (head_temp)
             {
+				//room = contenu de head temp == head_room
                 room = (t_room*)(head_temp->content);
                 if (!ft_strcmp(room->name, temp[0]))
                 {
+				//	path = malloc(sizeof(t_path));
+				//	path->room = room;
+				//	path->len = 0;
+               //     ft_list_push_back(&head_path, path);
                     ft_list_push_back(&head_path, room);
                     printf("room de depart = %s\n", room->name);
                 }
@@ -92,11 +98,16 @@ int		main(void)
             head_temp = env->head_room;
             while (head_temp)
             {
+				//room = contenu de head temp == head_room
                 room = (t_room*)(head_temp->content);
                 if (!ft_strcmp(room->name, temp[1]))
                 {
+				//	path = malloc(sizeof(t_path));
+				//	path->room = room;
+				//	path->len = 0;
+               //     ft_list_push_back(&head_path, path);
                     ft_list_push_back(&head_path, room);
-                    printf("room d'ariver = %s\n", room->name);
+                    printf("room de depart = %s\n", room->name);
                 }
                 head_temp = head_temp->next;
             }
@@ -118,6 +129,12 @@ int		main(void)
         printf("nom de room = %s\n", room->name);
         env->head_room = env->head_room->next;
     }
+	while (head_path)
+	{
+		room = (t_room*)(head_path->content);
+        printf("nom de path = %s\n", room->name);
+        head_path = head_path->next;
+	}
     printf("nom de start = %s x = %d y = %d\n", env->start->name, env->start->x, env->start->y);
     printf("nom de end = %s x = %d y = %d\n", env->end->name, env->end->x, env->end->y);
     return (0);
