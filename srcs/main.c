@@ -31,13 +31,21 @@ void	handle_command(t_env *env, char *line)
 
 }
 
-t_path	*copy_maillon(t_path *p)
+t_path	*copy_maillon(t_list **p)
 {
 	t_path	*ret;
+	t_list	*list;
 
+	list = *p;
 	ret = malloc(sizeof(t_path));
-	ret->room = p->room;
-	ret->len = p->len;
+	ret->room = NULL;
+	ret->len = 0;
+	while (list)
+	{
+		ft_list_push_back(&(ret->room), list->content, sizeof(t_room));
+		ret->len++;
+		list = list->next;
+	}
 	return (ret);	
 }
 
@@ -45,9 +53,8 @@ void	cree_path(t_env *env)
 {
 	t_path	*path;
 	t_list	*PIPE;
-//	t_list	*ROOM;
 	t_room	*room1;
-	t_room	*room2;
+	//t_room	*room2;
 	t_pipe	*pipe2;
 	t_path	*path_temp;
 
@@ -58,31 +65,28 @@ void	cree_path(t_env *env)
 	while (PIPE)
 	{
 		pipe2 = (t_pipe*)(PIPE->content);
-		path_temp = copy_maillon(path);
+		path_temp = copy_maillon(&(path->room));
 		room1 = NULL;
 		//Idee: On parcourt path_temp jusquau dernier et apres on check si on a une suite
-		while (path_temp->room)
+		while (path_temp->room && !room1)
 		{	
 			if (path_temp->room->next == NULL)
-			{
 				room1 = (t_room*)path_temp->room->content;
-				break ;
-			}
 			path_temp->room = path_temp->room->next;
 		}
-		if (room1)
+		if (room1 != NULL)
 		{
-			printf("on check room %s...\n", room1->name);
+			printf("dernier elemm %s...\n", room1->name);
 			if (ft_strequ(room1->name, pipe2->left->name) || ft_strequ(room1->name, pipe2->right->name))
 			{
-				path_temp = copy_maillon(path);
+/*				path_temp = copy_maillon(path);
 				while (path_temp->room)
 				{
 					room2 = (t_room*)(path_temp->room->content);
 					if (ft_strequ(room2->name, room1->name))
 						break;
 					path_temp->room = path_temp->room->next;
-				}
+				}*/
 				//On ajoute la room2 au path
 				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe2->left->name) ? pipe2->right : pipe2->left, sizeof(t_room));
 				printf("on ajoute a la suite la room %s\n", ft_strequ(room1->name, pipe2->left->name) ? pipe2->right->name : pipe2->left->name);
@@ -92,10 +96,12 @@ void	cree_path(t_env *env)
 		}
 		else
 		{
+			//Il faudrait trouver le 1er et le mettre avec son 1er pipe
 			printf("on ajoute %s \n", pipe2->left->name);
 			ft_list_push_back(&(path->room), pipe2->left, sizeof(t_room));
 			printf("on ajoute %s \n", pipe2->right->name);
 			ft_list_push_back(&(path->room), pipe2->right, sizeof(t_room));
+			path->len += 2;
 		}
 		PIPE = PIPE->next;
 	}
