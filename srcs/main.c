@@ -77,6 +77,7 @@ void	cree_path(t_env *env)
 {
 	t_path	*path;
 	t_list	*PIPE;
+	t_list	*PIPE_fix;
 	t_room	*room1;
 	//t_room	*room2;
 	t_pipe	*pipe2;
@@ -86,7 +87,14 @@ void	cree_path(t_env *env)
 	path->room = NULL;
 	path->len = 0;
 	PIPE = env->head_pipe;
-	while (PIPE)
+	PIPE_fix = PIPE;
+	room1 = NULL;
+	/*comme ca il s'arret bien quant il faut.
+	Par contre je pence qu'il faut suprimer
+	les pipe qu'on a deja utiliser sinon il y a des cas
+	ou il reprend le meme pipe dans un sens puis dans l'autre
+	donc BOUCLE SANS FIN!!!!!!!!*/
+	while (room1 == NULL || ft_strcmp(room1->name, "1"))
 	{
 		pipe2 = (t_pipe*)(PIPE->content);
 		path_temp = copy_maillon(&(path->room));
@@ -115,6 +123,7 @@ void	cree_path(t_env *env)
 				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe2->left->name) ? pipe2->right : pipe2->left, sizeof(t_room));
 				printf("on ajoute a la suite la room %s\n", ft_strequ(room1->name, pipe2->left->name) ? pipe2->right->name : pipe2->left->name);
 				path->len++;
+				PIPE = PIPE_fix;
 //				break;
 			}
 		}
