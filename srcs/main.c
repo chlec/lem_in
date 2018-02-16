@@ -115,7 +115,7 @@ void	cree_path(t_env *env)
 				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe2->left->name) ? pipe2->right : pipe2->left, sizeof(t_room));
 				printf("on ajoute a la suite la room %s\n", ft_strequ(room1->name, pipe2->left->name) ? pipe2->right->name : pipe2->left->name);
 				path->len++;
-				break;
+//				break;
 			}
 		}
 		else
@@ -188,7 +188,7 @@ int		main(void)
         {
             pipe = (t_pipe*)malloc(sizeof(t_pipe));
             temp = ft_strsplit(line, '-');
-            printf("%s     %s\n", temp[0], temp[1]);
+           // printf("%s     %s\n", temp[0], temp[1]);
             head_temp = env->head_room;
             pipe->left = NULL;
             while (head_temp)
@@ -198,7 +198,7 @@ int		main(void)
                 if (!ft_strcmp(room->name, temp[0]))
                 {
                     pipe->left = room;
-                    printf("room de depart = %s\n", pipe->left->name);
+             //       printf("room de depart = %s\n", pipe->left->name);
                 }
                 head_temp = head_temp->next;
             }
@@ -210,7 +210,7 @@ int		main(void)
                 if (!ft_strcmp(room->name, temp[1]))
                 {
                     pipe->right = room;
-                    printf("room de depart = %s\n", pipe->right->name);
+             //       printf("room de depart = %s\n", pipe->right->name);
                 }
                 head_temp = head_temp->next;
             }
