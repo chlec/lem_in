@@ -73,13 +73,38 @@ t_path	*copy_maillon(t_list **p)
 	return (ret);	
 }
 
+int     linked(t_list **p, t_room *left, t_room *right)
+{
+    t_list  *path;
+    t_room  *room;
+    t_room  *next;
+
+    path = *p;
+    /*
+        Ici on check tout le path et on regarde si les 2 arguments passé ne sont pas deja collé.
+        On regarde le path jusqu'a trouver l'une des room left ou right. Apres on la compare avec la next,
+        Si elle sont bien coller ou renvoi 1 sinon 0
+    */
+    while (path)
+    {
+        room = (t_room*)(path->content);
+        if (path->next && (ft_strequ(room->name, left->name) || ft_strequ(room->name, right->name)))
+        {
+            next = (t_room*)(path->next->content);
+            if (ft_strequ(next->name, ft_strequ(room->name, left->name) ? right->name : left->name))
+                return (1);
+        }
+        path = path->next;
+    }
+    return (0);
+}
+
 void	cree_path(t_env *env)
 {
 	t_path	*path;
 	t_list	*PIPE;
 	t_list	*PIPE_fix;
 	t_room	*room1;
-	//t_room	*room2;
 	t_pipe	*pipe2;
 	t_path	*path_temp;
 
@@ -120,10 +145,13 @@ void	cree_path(t_env *env)
 					path_temp->room = path_temp->room->next;
 				}*/
 				//On ajoute la room2 au path
-				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe2->left->name) ? pipe2->right : pipe2->left, sizeof(t_room));
-				printf("on ajoute a la suite la room %s\n", ft_strequ(room1->name, pipe2->left->name) ? pipe2->right->name : pipe2->left->name);
-				path->len++;
-				PIPE = PIPE_fix;
+                if (!linked(&(path->room), pipe2->left, pipe2->right))
+                {
+    				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe2->left->name) ? pipe2->right : pipe2->left, sizeof(t_room));
+    				printf("on ajoute a la suite la room %s\n", ft_strequ(room1->name, pipe2->left->name) ? pipe2->right->name : pipe2->left->name);
+    				path->len++;
+    				PIPE = PIPE_fix;
+                }
 //				break;
 			}
 		}
