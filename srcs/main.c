@@ -121,7 +121,21 @@ void	cree_path(t_env *env)
 	donc BOUCLE SANS FIN!!!!!!!!*/
 	while (room1 == NULL || ft_strcmp(room1->name, "1"))
 	{
+        /*
+        A FAIRE: Dès qu'on a un pipe, on regarde si il a deja ete traiter.
+        Si non, onc ckeck tout les path jusqu'a trouver une room qui est dans le pipe, on le duplique et on lui met un nouveau chemin
+        Du coup des que le chemin arrive a END, on fait un path->next.
+        Pour le map.txt on veut:
+            0 -> 4 -> 3 -> 1
+            0 -> 4 -> 2 -> 1
+            0 -> 6 -> 7 -> 2 -> 1
+            0 -> 6 -> 7 -> 3 -> 1
+            0 -> 6 -> 5 -> 2 -> 1
+
+        Je crois que c'est bon après
+        */
 		pipe2 = (t_pipe*)(PIPE->content);
+        printf("ON EST DANS LA BOUCLE. ROOM1: %s - ROOM2: %s\n", pipe2->left->name, pipe2->right->name);
 		path_temp = copy_maillon(&(path->room));
 		room1 = NULL;
 		//Idee: On parcourt path_temp jusquau dernier et apres on check si on a une suite
