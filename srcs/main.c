@@ -145,20 +145,11 @@ void	cree_path(t_env *env)
 				room1 = (t_room*)path_temp->room->content;
 			path_temp->room = path_temp->room->next;
 		}
-		if (room1 != NULL)
+		if (room1)
 		{
 			printf("dernier elemm %s...\n", room1->name);
 			if (ft_strequ(room1->name, pipe2->left->name) || ft_strequ(room1->name, pipe2->right->name))
 			{
-/*				path_temp = copy_maillon(path);
-				while (path_temp->room)
-				{
-					room2 = (t_room*)(path_temp->room->content);
-					if (ft_strequ(room2->name, room1->name))
-						break;
-					path_temp->room = path_temp->room->next;
-				}*/
-				//On ajoute la room2 au path
                 if (!linked(&(path->room), pipe2->left, pipe2->right))
                 {
     				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe2->left->name) ? pipe2->right : pipe2->left, sizeof(t_room));
@@ -166,8 +157,17 @@ void	cree_path(t_env *env)
     				path->len++;
     				PIPE = PIPE_fix;
                 }
-//				break;
 			}
+            if (ft_strequ(room1->name, "1"))
+            {
+                ft_list_push_back(&(env->head_path), path, sizeof(t_path));
+                /*
+                    Ici il faudrait repartir au debut, puis on recrée un chemin et on check a chaque coup qu'il soit bien different
+                    du précédent, par contre je sais pas quelle condition d'arret faire
+                */
+                //room1 = NULL;
+                //env->head_path = env->head_path->next;
+            }
 		}
 		else
 		{
@@ -180,11 +180,16 @@ void	cree_path(t_env *env)
 		}
 		PIPE = PIPE->next;
 	}
-	while (path->room)
+	while (env->head_path)
 	{
-		room1 = (t_room*)path->room->content;
-		printf("chemin: %s\n", room1->name);
-		path->room = path->room->next;
+        path = (t_path*)(env->head_path->content);
+        while (path->room)
+        {
+    		room1 = (t_room*)(path->room->content);
+    		printf("chemin: %s\n", room1->name);
+            path->room = path->room->next;
+        }
+		env->head_path = env->head_path->next;
 	}
 }
 
@@ -194,7 +199,6 @@ int		main(void)
     char    *line;
     t_env    *env;
     t_list    *head_temp;
-    t_list    *head_path;
     t_room    *room;
     char    **temp;
     t_path    *path;
@@ -202,12 +206,12 @@ int		main(void)
     
     path = NULL;
     line = NULL;
-    head_path = NULL;
     room = NULL;
     if (!(env = (t_env*)malloc(sizeof(t_env))))
         return (0);
     env->head_room = NULL;
     env->head_pipe = NULL;
+    env->head_path = NULL;
     pipe = NULL;
     get_next_line(0, &line);
     env->nb_ant = ft_atoi(line);

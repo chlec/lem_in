@@ -31,11 +31,11 @@ typedef struct		s_pipe
 typedef struct		s_env
 {
 	t_ant	*ant;
-	t_path	*path;
 	t_room	*start;
 	t_room	*end;
 	t_list	*head_room;
 	t_list	*head_pipe;
+	t_list	*head_path;
 	int		nb_ant;
 }					t_env;
 
