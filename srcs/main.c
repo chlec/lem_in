@@ -73,6 +73,21 @@ t_path	*copy_maillon(t_list **p)
 	return (ret);	
 }
 
+int     list_len(t_list **l)
+{
+    t_list  *list;
+    int     len;
+
+    len = 0;
+    list = *l;
+    while (list)
+    {
+        len++;
+        list = list->next;
+    }
+    return (len);
+}
+
 int     linked(t_list **p, t_room *left, t_room *right)
 {
     t_list  *path;
@@ -165,8 +180,16 @@ void	cree_path(t_env *env)
                     Ici il faudrait repartir au debut, puis on recrée un chemin et on check a chaque coup qu'il soit bien different
                     du précédent, par contre je sais pas quelle condition d'arret faire
                 */
-                //room1 = NULL;
-                //env->head_path = env->head_path->next;
+                if (list_len(&(env->head_path)) < 2)
+                {
+                    room1 = NULL;
+                    free(path);
+                    path = NULL;
+                    path = (t_path*)malloc(sizeof(t_path));
+                    path->room = NULL;
+                    path->len = 0;
+                    PIPE = PIPE_fix;
+                }
             }
 		}
 		else
@@ -189,6 +212,7 @@ void	cree_path(t_env *env)
     		printf("chemin: %s\n", room1->name);
             path->room = path->room->next;
         }
+        printf("------\n");
 		env->head_path = env->head_path->next;
 	}
 }
