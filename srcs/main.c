@@ -150,6 +150,7 @@ t_path	*get_path_to_pipe(t_list **p, t_pipe *pipe)
 			if (ft_strequ(room->name, pipe->left->name) || ft_strequ(room->name, pipe->right->name))
 				return (copy_maillon_n(&(path->room), len));
 			len++;
+			path->room = path->room->next;
 		}
 	}
 	return (0);
@@ -194,14 +195,13 @@ void	cree_path(t_env *env)
         printf("ON EST DANS LA BOUCLE. ROOM1: %s - ROOM2: %s\n", pipe2->left->name, pipe2->right->name);
 		path_temp = copy_maillon(&(path->room));
 		room1 = NULL;
-		//Idee: On parcourt path_temp jusquau dernier et apres on check si on a une suite
 		while (path_temp->room && !room1)
 		{	
 			if (path_temp->room->next == NULL)
 				room1 = (t_room*)path_temp->room->content;
 			path_temp->room = path_temp->room->next;
 		}
-		if (room1) //&& !pipe2->used)
+		if (room1 && !pipe2->used)
 		{
 			//Cette condition verifie si le dernier element du path est dans le pipe
 			if (ft_strequ(room1->name, pipe2->left->name) || ft_strequ(room1->name, pipe2->right->name))
@@ -219,12 +219,13 @@ void	cree_path(t_env *env)
 
             if (ft_strequ(room1->name, "1"))
             {
+				printf("path complet ajouter!\n");
                 ft_list_push_back(&(env->head_path), path, sizeof(t_path));
                 /*
                     Ici il faudrait repartir au debut, puis on recrée un chemin et on check a chaque coup qu'il soit bien different
                     du précédent, par contre je sais pas quelle condition d'arret faire
                 */
-                if (list_len(&(env->head_path)) < 1) //Mettre 2 
+                if (list_len(&(env->head_path)) < 2) //Mettre 2 
                 {
                     room1 = NULL;
                     free(path);
@@ -236,7 +237,7 @@ void	cree_path(t_env *env)
                 }
             }
 		}
-		else if (list_len(&(env->head_path)) == 0)
+		else if (!room1)
 		{
 			//Il faudrait trouver le 1er et le mettre avec son 1er pipe
 			printf("on ajoute %s \n", pipe2->left->name);
@@ -246,11 +247,13 @@ void	cree_path(t_env *env)
 			pipe2->used = 1;
 			path->len += 2;
 		}
-	/*	else
+		else if (path->len == 0)
 		{
-			//Ici on prend un path qui a un des pipe et on le copie jusqu'au pipe
+			//ici cest que le pipe est deja utiliser
+			pipe2->used = 0;
+			printf("on reprend un ancien path, car pipe deja use: %s-%s\n", pipe2->left->name, pipe2->right->name);
 			path = get_path_to_pipe(&(env->head_path), pipe2);
-		}*/
+		}
 		if (path->len > 0)
 		PIPE = PIPE->next;
 	}
@@ -265,6 +268,32 @@ void	cree_path(t_env *env)
         }
         printf("------\n");
 		env->head_path = env->head_path->next;
+	}
+}
+
+void	create_path(t_env *env)
+{
+	t_path	*path;
+	t_list	*pipe_list;
+	t_list	*PIPE_fix;
+	t_room	*room1;
+	t_pipe	*pipe;
+//	t_path	*path_temp;
+
+	/*
+	 * Faire de la recursive!
+	 * En gros si on a 0-4 on fait tout les chemin possible a partir de 0-4 et ainsi de suite
+	 * */
+	path = (t_path*)malloc(sizeof(t_path));
+	path->room = NULL;
+	path->len = 0;
+	pipe_list = env->head_pipe;
+	PIPE_fix = pipe_list;
+	room1 = NULL;
+	while (pipe_list)
+	{
+		pipe = (t_pipe*)pipe_list->content;			
+		pipe_list = pipe_list->next;
 	}
 }
 
