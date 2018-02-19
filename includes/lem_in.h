@@ -26,6 +26,7 @@ typedef struct		s_pipe
 {
 	t_room	*left;
 	t_room	*right;
+	int		used;
 }					t_pipe;
 
 typedef struct		s_env
