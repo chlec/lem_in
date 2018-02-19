@@ -182,7 +182,7 @@ void	cree_path(t_env *env)
                     Ici il faudrait repartir au debut, puis on recrée un chemin et on check a chaque coup qu'il soit bien different
                     du précédent, par contre je sais pas quelle condition d'arret faire
                 */
-                if (list_len(&(env->head_path)) < 2)
+                if (list_len(&(env->head_path)) < 1) //Mettre 2 
                 {
                     room1 = NULL;
                     free(path);
@@ -194,7 +194,7 @@ void	cree_path(t_env *env)
                 }
             }
 		}
-		else
+		else if (env->head_path == NULL)
 		{
 			//Il faudrait trouver le 1er et le mettre avec son 1er pipe
 			printf("on ajoute %s \n", pipe2->left->name);
@@ -202,6 +202,10 @@ void	cree_path(t_env *env)
 			printf("on ajoute %s \n", pipe2->right->name);
 			ft_list_push_back(&(path->room), pipe2->right, sizeof(t_room));
 			path->len += 2;
+		}
+		else
+		{
+			//Ici on prend un path qui a un des pipe et on le copie jusqu'au pipe
 		}
 		if (path->len > 0)
 			PIPE = PIPE->next;
