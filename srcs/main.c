@@ -162,9 +162,10 @@ void	cree_path(t_env *env)
 		}
 		if (room1)
 		{
-			printf("dernier elemm %s...\n", room1->name);
+			//Cette condition verifie si le dernier element du path est dans le pipe
 			if (ft_strequ(room1->name, pipe2->left->name) || ft_strequ(room1->name, pipe2->right->name))
 			{
+				//On check que le pipe n'a pas deja ete traite
                 if (!linked(&(path->room), pipe2->left, pipe2->right))
                 {
     				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe2->left->name) ? pipe2->right : pipe2->left, sizeof(t_room));
@@ -173,6 +174,7 @@ void	cree_path(t_env *env)
     				PIPE = PIPE_fix;
                 }
 			}
+
             if (ft_strequ(room1->name, "1"))
             {
                 ft_list_push_back(&(env->head_path), path, sizeof(t_path));
@@ -201,7 +203,8 @@ void	cree_path(t_env *env)
 			ft_list_push_back(&(path->room), pipe2->right, sizeof(t_room));
 			path->len += 2;
 		}
-		PIPE = PIPE->next;
+		if (path->len > 0)
+			PIPE = PIPE->next;
 	}
 	while (env->head_path)
 	{
@@ -242,7 +245,7 @@ int		main(void)
     while ((ret = get_next_line(0, &line)) > 0)
     {
         //ROOM
-        if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !strchr(line, '#') && !strchr(line, 'L'))
+        if (len_double_tab(ft_strsplit(line, ' ')) == 3 && line[0] != '#' && line[0] != 'L')
         {
             if (!(room = (t_room*)malloc(sizeof(t_room))))
                 return (0);
