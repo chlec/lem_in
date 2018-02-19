@@ -271,14 +271,14 @@ void	cree_path(t_env *env)
 	}
 }
 
-void	create_path(t_env *env)
+void	create_path(t_env *env, t_path *p)
 {
 	t_path	*path;
 	t_list	*pipe_list;
 	t_list	*PIPE_fix;
 	t_room	*room1;
 	t_pipe	*pipe;
-//	t_path	*path_temp;
+	t_path	*path_temp;
 
 	/*
 	 * Faire de la recursive!
@@ -292,7 +292,34 @@ void	create_path(t_env *env)
 	room1 = NULL;
 	while (pipe_list)
 	{
-		pipe = (t_pipe*)pipe_list->content;			
+		pipe = (t_pipe*)pipe_list->content;
+		if (!p)
+		{
+			printf("debut: on ajoute %s \n", pipe->left->name);
+			ft_list_push_back(&(path->room), pipe->left, sizeof(t_room));
+			printf("debut: on ajoute %s \n", pipe->right->name);
+			ft_list_push_back(&(path->room), pipe->right, sizeof(t_room));
+			path->len += 2;
+			return create_path(env, path);
+		}
+		else
+		{
+			path_temp = p;
+			while (path_temp->room && !room1)
+			{	
+				if (path_temp->room->next == NULL)
+					room1 = (t_room*)path_temp->room->content;
+				path_temp->room = path_temp->room->next;
+			}
+			if ((ft_strequ(room1->name, pipe->right->name) || ft_strequ(room1->name, pipe->left->name)) && !linked(&(p->room), pipe->left, pipe->right))
+			{
+				printf("on ajoute %s\n", ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name);
+				ft_list_push_back(&(p->room), ft_strequ(room1->name, pipe->left->name) ? pipe->right : pipe->left, sizeof(t_room));
+				create_path(env, p);
+			}
+			if (ft_strequ(room1->name, "1"))
+				return ;
+		}
 		pipe_list = pipe_list->next;
 	}
 }
@@ -407,7 +434,20 @@ int		main(void)
      }
      env->head_pipe = env->head_pipe->next;
      }
-     */    cree_path(env);
+     */    create_path(env, NULL);
+	while (env->head_path)
+	{
+        path = (t_path*)(env->head_path->content);
+        while (path->room)
+        {
+    		room = (t_room*)(path->room->content);
+    		printf("chemin: %s\n", room->name);
+            path->room = path->room->next;
+        }
+        printf("------\n");
+		env->head_path = env->head_path->next;
+	}
+
     /*printf("nom de start = %s x = %d y = %d\n", env->start->name, env->start->x, env->start->y);
      printf("nom de end = %s x = %d y = %d\n", env->end->name, env->end->x, env->end->y);*/
     return (0);
