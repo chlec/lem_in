@@ -348,30 +348,35 @@ void	create_path(t_env *env, t_path *p)
 			//	usleep(500000);
 				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe->left->name) ? pipe->right : pipe->left, sizeof(t_room));
 				p->len++;
-	//			pipe->used = 1;
+//				pipe->used = 1;
 				create_path(env, copy_maillon(&(path->room)));
 			}
-			if (ft_strequ(ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name, "1"))
+			if (ft_strequ(get_last_room(&(path->room))->name, "1"))
 			{
                 ft_list_push_back(&(env->head_path), path, sizeof(t_path));
 				printf("NOUVEAU PATH\n");
-				create_path(env, NULL);
+				return create_path(env, NULL);
 			}
 		}
 		pipe_list = pipe_list->next;
 	}
 }
 
-void	filter_path(t_list	**all)
+void	filter_path(t_list **all)
 {
 	t_list	*all_path;
 	t_path	*path;
 	t_room	*room;
-
+	
+	all_path = *all;
 	while (all_path)
 	{
 		path = (t_path*)all_path->content;
-		w
+		while (path->room)
+		{
+			room = (t_room*)path->room->content;
+			path->room = path->room->next;
+		}	
 		all_path = all_path->next;
 	}
 }
@@ -487,7 +492,7 @@ int		main(void)
      env->head_pipe = env->head_pipe->next;
      }
      */    create_path(env, NULL);
-	filter_path(&(env->head_path));
+//	filter_path(&(env->head_path));
 	while (env->head_path)
 	{
         path = (t_path*)(env->head_path->content);
