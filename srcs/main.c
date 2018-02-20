@@ -337,7 +337,6 @@ void	create_path(t_env *env, t_path *p)
 		else
 		{
 			path_temp = p;
-			display_path(&(p->room));
 			//the loop behind break the linked list
 			room1 = get_last_room(&(p->room));
 			display_path(&(p->room));
@@ -347,7 +346,7 @@ void	create_path(t_env *env, t_path *p)
 				usleep(500000);
 				ft_list_push_back(&(p->room), ft_strequ(room1->name, pipe->left->name) ? pipe->right : pipe->left, sizeof(t_room));
 				p->len++;
-				return create_path(env, p);
+				create_path(env, p);
 			}
 			if (ft_strequ(room1->name, "1"))
 				return ;
