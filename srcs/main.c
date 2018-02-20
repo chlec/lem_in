@@ -271,7 +271,23 @@ void	cree_path(t_env *env)
 	}
 }
 
-void	create_path(t_env *env, t_path *p)
+void	display_path(t_path **p)
+{
+	t_path	*path;
+	t_room	*room;
+
+	path = *p;
+	printf("Le path contient les salles: \n");
+	while (path->room)
+	{
+		room = (t_room*)path->room->content;
+		ft_putstr(room->name);
+		path->room = path->room->next;
+	}
+	ft_putchar('\n');
+}
+
+void	create_path(t_env *env, t_path **p)
 {
 	t_path	*path;
 	t_list	*pipe_list;
@@ -284,9 +300,6 @@ void	create_path(t_env *env, t_path *p)
 	 * Faire de la recursive!
 	 * En gros si on a 0-4 on fait tout les chemin possible a partir de 0-4 et ainsi de suite
 	 * */
-	path = (t_path*)malloc(sizeof(t_path));
-	path->room = NULL;
-	path->len = 0;
 	pipe_list = env->head_pipe;
 	PIPE_fix = pipe_list;
 	room1 = NULL;
@@ -295,27 +308,35 @@ void	create_path(t_env *env, t_path *p)
 		pipe = (t_pipe*)pipe_list->content;
 		if (!p)
 		{
+			path = (t_path*)malloc(sizeof(t_path));
+			path->room = NULL;
+			path->len = 0;
 			printf("debut: on ajoute %s \n", pipe->left->name);
 			ft_list_push_back(&(path->room), pipe->left, sizeof(t_room));
 			printf("debut: on ajoute %s \n", pipe->right->name);
 			ft_list_push_back(&(path->room), pipe->right, sizeof(t_room));
 			path->len += 2;
-			return create_path(env, path);
+			return create_path(env, &path);
 		}
 		else
 		{
-			path_temp = p;
+			path_temp = *p;
 			while (path_temp->room && !room1)
 			{	
 				if (path_temp->room->next == NULL)
 					room1 = (t_room*)path_temp->room->content;
 				path_temp->room = path_temp->room->next;
 			}
-			if ((ft_strequ(room1->name, pipe->right->name) || ft_strequ(room1->name, pipe->left->name)) && !linked(&(p->room), pipe->left, pipe->right))
+			display_path(p);
+			printf("Length of path: %d\n", list_len(&((*p)->room)));
+			if ((ft_strequ(room1->name, pipe->right->name) || ft_strequ(room1->name, pipe->left->name)) && !linked(&((*p)->room), pipe->left, pipe->right))
 			{
+				printf("LINKED: %d, addr: %p\n", linked(&((*p)->room), pipe->left, pipe->right), &((*p)->room));
 				printf("on ajoute %s\n", ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name);
-				ft_list_push_back(&(p->room), ft_strequ(room1->name, pipe->left->name) ? pipe->right : pipe->left, sizeof(t_room));
-				create_path(env, p);
+				usleep(500000);
+				ft_list_push_back(&((*p)->room), ft_strequ(room1->name, pipe->left->name) ? pipe->right : pipe->left, sizeof(t_room));
+				(*p)->len++;
+				return create_path(env, p);
 			}
 			if (ft_strequ(room1->name, "1"))
 				return ;
