@@ -156,23 +156,6 @@ t_path	*get_path_to_pipe(t_list **p, t_pipe *pipe)
 	return (0);
 }
 
-void	display_path(t_list **l)
-{
-	t_list	*list;
-	t_room	*room;
-
-	list = *l;
-	printf("Le path contient les salles: \n");
-	while (list)
-	{
-		room = (t_room*)list->content;
-		ft_putstr(room->name);
-		ft_putchar(' ');
-		list = list->next;
-	}
-	ft_putchar('\n');
-}
-
 t_room	*get_last_room(t_list **l)
 {
 	t_list	*list;
@@ -187,6 +170,40 @@ t_room	*get_last_room(t_list **l)
 		list = list->next;
 	}
 	return (room);
+}
+
+int		already_found(t_list **l, t_list **p)
+{
+	t_list	*all_path;
+	t_list	*path;
+	t_list	*new_path;
+	t_room	*room1;
+	t_room	*room2;
+
+	all_path = *l;
+	while (all_path)
+	{
+		path = (t_path*)all_path->content;
+		new_path = *p;
+		while (path->room)
+		{
+			if (new_path)
+			{
+				room1 = (t_room*)new_path->content;
+				room2 = (t_room*)path->room->content;
+				if (room2->name != room1->name)
+					break ;
+				if (!new_path->next && !path->room->next)
+					return (1);
+				path->room = path->room->next;
+				new_path = new_path->next;
+			}
+			else
+				break ;
+		}
+		all_path = all_path->next;
+	}
+	return (0);
 }
 
 void	create_path(t_env *env, t_path *p)
@@ -213,6 +230,7 @@ void	create_path(t_env *env, t_path *p)
 			path->room = NULL;
 			path->len = 0;
 			//On met toujours le ##end en 1er sur le path
+			printf("Debut de path, on met %s et %s\n", pipe->left->name, pipe->right->name);
 			ft_list_push_back(&(path->room), ft_strequ(pipe->left->name, env->end->name) ? pipe->left : pipe->right, sizeof(t_room));
 			ft_list_push_back(&(path->room), ft_strequ(pipe->left->name, env->end->name) ? pipe->right : pipe->left, sizeof(t_room));
 			path->len += 2;
@@ -224,7 +242,7 @@ void	create_path(t_env *env, t_path *p)
 			path = copy_maillon(&(p->room));
 			//the loop behind break the linked list
 			room1 = get_last_room(&(p->room));
-			if ((ft_strequ(room1->name, pipe->right->name) || ft_strequ(room1->name, pipe->left->name)) && !linked(&(path->room), pipe->left, pipe->right))
+			if ((ft_strequ(room1->name, pipe->right->name) || ft_strequ(room1->name, pipe->left->name)))
 			{
 				printf("on ajoute %s\n", ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name);
 			//	usleep(500000);
@@ -232,12 +250,12 @@ void	create_path(t_env *env, t_path *p)
 				p->len++;
 				//Supprimer la ligne du dessous?
 				pipe->used = 1;
-				create_path(env, copy_maillon(&(path->room)));
+				create_path(env, path);
 			}
-			if (ft_strequ(get_last_room(&(path->room))->name, env->start->name))
+			if (ft_strequ(get_last_room(&(path->room))->name, env->start->name) && !already_found(&(env->head_path), &(path->room)))
 			{
+				printf("Ajout du path au head\n");
                 ft_list_push_back(&(env->head_path), path, sizeof(t_path));
-				printf("NOUVEAU PATH\n");
 				return create_path(env, NULL);
 			}
 		}
