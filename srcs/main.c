@@ -212,20 +212,19 @@ void	create_path(t_env *env, t_path *p)
 			path = (t_path*)malloc(sizeof(t_path));
 			path->room = NULL;
 			path->len = 0;
-			printf("debut: on ajoute %s \n", pipe->left->name);
-			ft_list_push_back(&(path->room), pipe->left, sizeof(t_room));
-			printf("debut: on ajoute %s \n", pipe->right->name);
-			ft_list_push_back(&(path->room), pipe->right, sizeof(t_room));
+			//On met toujours le ##end en 1er sur le path
+			ft_list_push_back(&(path->room), ft_strequ(pipe->left->name, env->end->name) ? pipe->left : pipe->right, sizeof(t_room));
+			ft_list_push_back(&(path->room), ft_strequ(pipe->left->name, env->end->name) ? pipe->right : pipe->left, sizeof(t_room));
 			path->len += 2;
 			pipe->used = 1;
 			return create_path(env, path);
 		}
-		else if (p)
+		else if (p && !pipe->used)
 		{
 			path = copy_maillon(&(p->room));
 			//the loop behind break the linked list
 			room1 = get_last_room(&(p->room));
-			if ((ft_strequ(room1->name, pipe->right->name) || ft_strequ(room1->name, pipe->left->name)) && !linked(&(path->room), pipe->left, pipe->right) && !pipe->used)
+			if ((ft_strequ(room1->name, pipe->right->name) || ft_strequ(room1->name, pipe->left->name)) && !linked(&(path->room), pipe->left, pipe->right))
 			{
 				printf("on ajoute %s\n", ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name);
 			//	usleep(500000);
