@@ -156,121 +156,6 @@ t_path	*get_path_to_pipe(t_list **p, t_pipe *pipe)
 	return (0);
 }
 
-void	cree_path(t_env *env)
-{
-	t_path	*path;
-	t_list	*PIPE;
-	t_list	*PIPE_fix;
-	t_room	*room1;
-	t_pipe	*pipe2;
-	t_path	*path_temp;
-
-	path = (t_path*)malloc(sizeof(t_path));
-	path->room = NULL;
-	path->len = 0;
-	PIPE = env->head_pipe;
-	PIPE_fix = PIPE;
-	room1 = NULL;
-	/*comme ca il s'arret bien quant il faut.
-	Par contre je pence qu'il faut suprimer
-	les pipe qu'on a deja utiliser sinon il y a des cas
-	ou il reprend le meme pipe dans un sens puis dans l'autre
-	donc BOUCLE SANS FIN!!!!!!!!*/
-	while ((room1 == NULL || ft_strcmp(room1->name, "1")) && PIPE )
-	{
-        /*
-        A FAIRE: Dès qu'on a un pipe, on regarde si il a deja ete traiter.
-        Si non, onc ckeck tout les path jusqu'a trouver une room qui est dans le pipe, on le duplique et on lui met un nouveau chemin
-        Du coup des que le chemin arrive a END, on fait un path->next.
-        Pour le map.txt on veut:
-            0 -> 4 -> 3 -> 1
-            0 -> 4 -> 2 -> 1
-            0 -> 6 -> 7 -> 2 -> 1
-            0 -> 6 -> 7 -> 3 -> 1
-            0 -> 6 -> 5 -> 2 -> 1
-
-        Je crois que c'est bon après
-        */
-		pipe2 = (t_pipe*)(PIPE->content);
-        printf("ON EST DANS LA BOUCLE. ROOM1: %s - ROOM2: %s\n", pipe2->left->name, pipe2->right->name);
-		path_temp = copy_maillon(&(path->room));
-		room1 = NULL;
-		while (path_temp->room && !room1)
-		{	
-			if (path_temp->room->next == NULL)
-				room1 = (t_room*)path_temp->room->content;
-			path_temp->room = path_temp->room->next;
-		}
-		if (room1 && !pipe2->used)
-		{
-			//Cette condition verifie si le dernier element du path est dans le pipe
-			if (ft_strequ(room1->name, pipe2->left->name) || ft_strequ(room1->name, pipe2->right->name))
-			{
-				//On check que le pipe n'a pas deja ete traite
-                if (!linked(&(path->room), pipe2->left, pipe2->right))
-                {
-    				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe2->left->name) ? pipe2->right : pipe2->left, sizeof(t_room));
-    				printf("on ajoute a la suite la room %s\n", ft_strequ(room1->name, pipe2->left->name) ? pipe2->right->name : pipe2->left->name);
-    				path->len++;
-					pipe2->used = 1;
-    				PIPE = PIPE_fix;
-                }
-			}
-
-            if (ft_strequ(room1->name, "1"))
-            {
-				printf("path complet ajouter!\n");
-                ft_list_push_back(&(env->head_path), path, sizeof(t_path));
-                /*
-                    Ici il faudrait repartir au debut, puis on recrée un chemin et on check a chaque coup qu'il soit bien different
-                    du précédent, par contre je sais pas quelle condition d'arret faire
-                */
-                if (list_len(&(env->head_path)) < 2) //Mettre 2 
-                {
-                    room1 = NULL;
-                    free(path);
-                    path = NULL;
-                    path = (t_path*)malloc(sizeof(t_path));
-                    path->room = NULL;
-                    path->len = 0;
-                    PIPE = PIPE_fix;
-                }
-            }
-		}
-		else if (!room1)
-		{
-			//Il faudrait trouver le 1er et le mettre avec son 1er pipe
-			printf("on ajoute %s \n", pipe2->left->name);
-			ft_list_push_back(&(path->room), pipe2->left, sizeof(t_room));
-			printf("on ajoute %s \n", pipe2->right->name);
-			ft_list_push_back(&(path->room), pipe2->right, sizeof(t_room));
-			pipe2->used = 1;
-			path->len += 2;
-		}
-		else if (path->len == 0)
-		{
-			//ici cest que le pipe est deja utiliser
-			pipe2->used = 0;
-			printf("on reprend un ancien path, car pipe deja use: %s-%s\n", pipe2->left->name, pipe2->right->name);
-			path = get_path_to_pipe(&(env->head_path), pipe2);
-		}
-		if (path->len > 0)
-		PIPE = PIPE->next;
-	}
-	while (env->head_path)
-	{
-        path = (t_path*)(env->head_path->content);
-        while (path->room)
-        {
-    		room1 = (t_room*)(path->room->content);
-    		printf("chemin: %s\n", room1->name);
-            path->room = path->room->next;
-        }
-        printf("------\n");
-		env->head_path = env->head_path->next;
-	}
-}
-
 void	display_path(t_list **l)
 {
 	t_list	*list;
@@ -311,7 +196,6 @@ void	create_path(t_env *env, t_path *p)
 	t_list	*PIPE_fix;
 	t_room	*room1;
 	t_pipe	*pipe;
-//	t_path	*path_temp;
 
 	/*
 	 * Faire de la recursive!
@@ -323,7 +207,7 @@ void	create_path(t_env *env, t_path *p)
 	while (pipe_list)
 	{
 		pipe = (t_pipe*)pipe_list->content;
-		if (!p && !pipe->used && (ft_strequ(pipe->left->name, "0") || ft_strequ(pipe->right->name, "0")))
+		if (!p && !pipe->used && (ft_strequ(pipe->left->name, env->end->name) || ft_strequ(pipe->right->name, env->end->name)))
 		{
 			path = (t_path*)malloc(sizeof(t_path));
 			path->room = NULL;
@@ -341,17 +225,17 @@ void	create_path(t_env *env, t_path *p)
 			path = copy_maillon(&(p->room));
 			//the loop behind break the linked list
 			room1 = get_last_room(&(p->room));
-			display_path(&(p->room));
 			if ((ft_strequ(room1->name, pipe->right->name) || ft_strequ(room1->name, pipe->left->name)) && !linked(&(path->room), pipe->left, pipe->right) && !pipe->used)
 			{
 				printf("on ajoute %s\n", ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name);
 			//	usleep(500000);
 				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe->left->name) ? pipe->right : pipe->left, sizeof(t_room));
 				p->len++;
-//				pipe->used = 1;
+				//Supprimer la ligne du dessous?
+				pipe->used = 1;
 				create_path(env, copy_maillon(&(path->room)));
 			}
-			if (ft_strequ(get_last_room(&(path->room))->name, "1"))
+			if (ft_strequ(get_last_room(&(path->room))->name, env->start->name))
 			{
                 ft_list_push_back(&(env->head_path), path, sizeof(t_path));
 				printf("NOUVEAU PATH\n");
