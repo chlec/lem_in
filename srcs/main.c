@@ -175,7 +175,8 @@ t_room	*get_last_room(t_list **l)
 int		already_found(t_list **l, t_list **p)
 {
 	t_list	*all_path;
-	t_list	*path;
+	t_path	*path;
+	t_list	*path_room;
 	t_list	*new_path;
 	t_room	*room1;
 	t_room	*room2;
@@ -184,18 +185,19 @@ int		already_found(t_list **l, t_list **p)
 	while (all_path)
 	{
 		path = (t_path*)all_path->content;
+		path_room = (path->room);
 		new_path = *p;
-		while (path->room)
+		while (path_room)
 		{
 			if (new_path)
 			{
 				room1 = (t_room*)new_path->content;
-				room2 = (t_room*)path->room->content;
+				room2 = (t_room*)path_room->content;
 				if (room2->name != room1->name)
 					break ;
-				if (!new_path->next && !path->room->next)
+				if (!new_path->next && !path_room->next)
 					return (1);
-				path->room = path->room->next;
+				path_room = path_room->next;
 				new_path = new_path->next;
 			}
 			else
