@@ -28,6 +28,7 @@ int        handle_command(t_env *env, char *line)
             env->start->name = temp[0];
             env->start->x = ft_atoi(temp[1]);
             env->start->y = ft_atoi(temp[2]);
+			env->start->ant = env->nb_ant;
             //    ft_strdel(&temp);
             ft_list_push_back(&(env->head_room), env->start, sizeof(t_room));
             ft_strdel(&line);
@@ -45,6 +46,7 @@ int        handle_command(t_env *env, char *line)
             env->end->name = temp[0];
             env->end->x = ft_atoi(temp[1]);
             env->end->y = ft_atoi(temp[2]);
+			env->end->ant = 0;
             //    ft_strdel(&temp);
             ft_list_push_back(&(env->head_room), env->end, sizeof(t_room));
             ft_strdel(&line);
@@ -337,6 +339,7 @@ int		main(void)
             room->name = temp[0];
             room->x = ft_atoi(temp[1]);
             room->y = ft_atoi(temp[2]);
+			room->ant = 0;
             ft_list_push_back(&(env->head_room), room, sizeof(t_room));
             room = NULL;
             //ft_strdel(&temp);

@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/21 16:04:00 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/21 16:57:46 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ void	move_ant(t_env *env)
 {
 	int		nb;
 
-	env->ant = 0;
 	nb = 0;
-	while (nb < env->nb_ant)
+	while (env->end->nb_ant < env->nb_ant)
 	{
 			
 	}

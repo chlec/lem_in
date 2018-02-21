@@ -8,6 +8,7 @@ typedef struct		s_room
 	char			*name;
 	int				x;
 	int				y;
+	int				ant;
 }					t_room;
 
 typedef struct		s_path
