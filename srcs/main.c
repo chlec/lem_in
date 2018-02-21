@@ -215,6 +215,8 @@ void	create_path(t_env *env, t_path *p)
 	t_list	*PIPE_fix;
 	t_room	*room1;
 	t_pipe	*pipe;
+	t_list	*all_path;
+	t_path	*current_path;
 
 	/*
 	 * Faire de la recursive!
@@ -223,9 +225,26 @@ void	create_path(t_env *env, t_path *p)
 	pipe_list = env->head_pipe;
 	PIPE_fix = pipe_list;
 	room1 = NULL;
+	all_path = NULL;
+	current_path = NULL;
 	while (pipe_list)
 	{
 		pipe = (t_pipe*)pipe_list->content;
+		//On check ici si le pipe est a 1 et qu'il n'est pas mis
+		if (pipe->used && !p)
+		{
+			all_path = env->head_path;
+			while (all_path)
+			{
+				current_path = (t_path*)all_path->content;
+				if (!linked(&(current_path->room), pipe->left, pipe->right))
+					pipe->used = 0;
+				else
+					pipe->used = 1;
+				all_path = all_path->next;
+			}
+			//sleep(1);
+		}
 		if (!p && !pipe->used && (ft_strequ(pipe->left->name, env->end->name) || ft_strequ(pipe->right->name, env->end->name)))
 		{
 			path = (t_path*)malloc(sizeof(t_path));
