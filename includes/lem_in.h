@@ -31,7 +31,7 @@ typedef struct		s_pipe
 
 typedef struct		s_env
 {
-	t_ant	*ant;
+	t_list	*ant;
 	t_room	*start;
 	t_room	*end;
 	t_list	*head_room;
@@ -41,5 +41,7 @@ typedef struct		s_env
 }					t_env;
 
 void				ft_list_push_back(t_list **begin_list, void *data, size_t len);
+void				move_ant(t_env *env);
+
 
 #endif
