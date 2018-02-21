@@ -121,7 +121,7 @@ int     linked(t_list **p, t_room *left, t_room *right)
     while (path)
     {
         room = (t_room*)(path->content);
-        if (path->next && (ft_strequ(room->name, left->name) || ft_strequ(room->name, right->name)))
+		if (path->next && (ft_strequ(room->name, left->name) || ft_strequ(room->name, right->name)))
         {
             next = (t_room*)(path->next->content);
             if (ft_strequ(next->name, ft_strequ(room->name, left->name) ? right->name : left->name))
@@ -172,13 +172,30 @@ t_room	*get_last_room(t_list **l)
 	return (room);
 }
 
+int		room_is_present(t_list	**l, t_room *room)
+{
+	t_list	*list;
+	t_room	*room2;
+
+	list = *l;
+	list = list->next;
+	while (list->next)
+	{
+		room2 = (t_room*)list->content;
+		if (ft_strequ(room->name, room2->name))
+			return (1);	
+		list = list->next;
+	}
+	return (0);
+}
+
 int		already_found(t_list **l, t_list **p)
 {
 	t_list	*all_path;
 	t_path	*path;
 	t_list	*new_path;
 	t_room	*room1;
-	t_room	*room2;
+//	t_room	*room2;
 
 	all_path = *l;
 
@@ -188,13 +205,10 @@ int		already_found(t_list **l, t_list **p)
 		new_path = *p;
 		while (new_path)
 		{
-			if (new_path->next)
-			{
-				room1 = (t_room*)new_path->content;
-				room2 = (t_room*)new_path->next->content;
-				if (linked(&(path->room), room1, room2))
-					return (1);
-			}
+			room1 = (t_room*)new_path->content;
+//			room2 = (t_room*)new_path->next->content;
+			if (room_is_present((&path->room), room1))
+				return (1);
 			new_path = new_path->next;
 		}
 		all_path = all_path->next;
