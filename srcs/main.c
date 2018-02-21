@@ -176,7 +176,6 @@ int		already_found(t_list **l, t_list **p)
 {
 	t_list	*all_path;
 	t_path	*path;
-	t_list	*path_room;
 	t_list	*new_path;
 	t_room	*room1;
 	t_room	*room2;
@@ -186,25 +185,17 @@ int		already_found(t_list **l, t_list **p)
 	while (all_path)
 	{
 		path = (t_path*)all_path->content;
-		path_room = (path->room);
 		new_path = *p;
-		new_path = new_path->next;
-		path_room = path_room->next;
-		while (path_room)
+		while (new_path)
 		{
-			if (new_path)
+			if (new_path->next)
 			{
 				room1 = (t_room*)new_path->content;
-				room2 = (t_room*)path_room->content;
-				if (room2->name == room1->name)
+				room2 = (t_room*)new_path->next->content;
+				if (linked(&(path->room), room1, room2))
 					return (1);
-				if (!new_path->next && !path_room->next)
-					return (1);
-				path_room = path_room->next;
-				new_path = new_path->next;
 			}
-			else
-				break ;
+			new_path = new_path->next;
 		}
 		all_path = all_path->next;
 	}
@@ -234,10 +225,10 @@ void	create_path(t_env *env, t_path *p)
 	{
 		pipe = (t_pipe*)pipe_list->content;
 		//On check ici si le pipe est a 1 et qu'il n'est pas mis
-		if (pipe->used && !p)
+		if (pipe->used)
 		{
 			all_path = env->head_path;
-			while (all_path)
+			while (all_path && !p)
 			{
 				current_path = (t_path*)all_path->content;
 				if (!linked(&(current_path->room), pipe->left, pipe->right))
@@ -261,7 +252,7 @@ void	create_path(t_env *env, t_path *p)
 			pipe->used = 1;
 			return create_path(env, path);
 		}
-		else if (p && !pipe->used)
+		else if (p && !pipe->used && !ft_strequ(pipe->left->name, env->end->name) && !ft_strequ(pipe->right->name, env->end->name))
 		{
 			path = copy_maillon(&(p->room));
 			//the loop behind break the linked list
