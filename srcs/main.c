@@ -182,19 +182,22 @@ int		already_found(t_list **l, t_list **p)
 	t_room	*room2;
 
 	all_path = *l;
+
 	while (all_path)
 	{
 		path = (t_path*)all_path->content;
 		path_room = (path->room);
 		new_path = *p;
+		new_path = new_path->next;
+		path_room = path_room->next;
 		while (path_room)
 		{
 			if (new_path)
 			{
 				room1 = (t_room*)new_path->content;
 				room2 = (t_room*)path_room->content;
-				if (room2->name != room1->name)
-					break ;
+				if (room2->name == room1->name)
+					return (1);
 				if (!new_path->next && !path_room->next)
 					return (1);
 				path_room = path_room->next;
