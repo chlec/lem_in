@@ -238,21 +238,6 @@ void	create_path(t_env *env, t_path *p)
 	while (pipe_list)
 	{
 		pipe = (t_pipe*)pipe_list->content;
-		//On check ici si le pipe est a 1 et qu'il n'est pas mis
-		if (pipe->used)
-		{
-			all_path = env->head_path;
-			while (all_path && !p)
-			{
-				current_path = (t_path*)all_path->content;
-				if (!linked(&(current_path->room), pipe->left, pipe->right))
-					pipe->used = 0;
-				else
-					pipe->used = 1;
-				all_path = all_path->next;
-			}
-			//sleep(1);
-		}
 		if (!p && !pipe->used && (ft_strequ(pipe->left->name, env->end->name) || ft_strequ(pipe->right->name, env->end->name)))
 		{
 			path = (t_path*)malloc(sizeof(t_path));
@@ -264,9 +249,15 @@ void	create_path(t_env *env, t_path *p)
 			ft_list_push_back(&(path->room), ft_strequ(pipe->left->name, env->end->name) ? pipe->right : pipe->left, sizeof(t_room));
 			path->len += 2;
 			pipe->used = 1;
+			if (ft_strequ(get_last_room(&(path->room))->name, env->start->name) && !already_found(&(env->head_path), &(path->room)))
+			{
+				printf("Ajout du path au head\n");
+                ft_list_push_back(&(env->head_path), path, sizeof(t_path));
+				return create_path(env, NULL);
+			}
 			return create_path(env, path);
 		}
-		else if (p && !pipe->used) //&& !ft_strequ(pipe->left->name, env->end->name) && !ft_strequ(pipe->right->name, env->end->name))
+		else if (p && !pipe->used)
 		{
 			path = copy_maillon(&(p->room));
 			//the loop behind break the linked list
@@ -275,7 +266,7 @@ void	create_path(t_env *env, t_path *p)
 			{
 				printf("on ajoute %s\n", ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name);
 			//	usleep(500000);
-				if (ft_strequ(room1->name, env->end->name))
+				if (ft_strequ(room1->name, env->end->name) || ft_strequ(room1->name, env->start->name))
 					return create_path(env, NULL);
 				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe->left->name) ? pipe->right : pipe->left, sizeof(t_room));
 				p->len++;
