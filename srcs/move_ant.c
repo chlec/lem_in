@@ -57,7 +57,6 @@ void	print_antv2(t_env *env)
 	t_list	*head_temp;
 
 	head_temp = env->head_ant;
-
 	while (head_temp)
 	{
 		l_ant = (t_ant*)(head_temp->content);
@@ -74,7 +73,6 @@ void	print_ant(t_env *env)
 	t_list	*head_temp;
 
 	head_temp = env->head_ant;
-
 	while (head_temp)
 	{
 		l_ant = (t_ant*)(head_temp->content);
@@ -83,51 +81,60 @@ void	print_ant(t_env *env)
 	}
 	printf("\n");
 }
+
+void	ant_is_moving(t_env *env, t_room *room, t_room *room_after)
+{
+	if (!ft_strcmp(room->name, env->end->name) && room_after->ant > 0)
+	{
+//		printf("fourmis qui viens de la room %s\n %d\n", room_after->name, room_after->ant);
+		find_ant(env, room_after->name, room->name);
+		env->end->ant = env->end->ant + 1; 
+		room->ant = room->ant + 1;
+		room_after->ant = room_after->ant - 1;
+	}
+	else if (room->ant == 0 && room_after->ant > 0)
+	{
+		find_ant(env, room_after->name, room->name);
+		room->ant = room->ant + 1;
+		room_after->ant = room_after->ant - 1;
+	}
+}
+
 /*il faut faire touts les chemins possible quant il faut, et afficher la fourmie qui est a la room end*/
 void	move_ant(t_env *env)
 {
 	t_list	*head;
+	t_list	*head_p;
 	t_path	*path;
-	t_room	*room;
-	t_room	*room_after;
 
 	path = NULL;
-	room = NULL;
 	head = NULL;
+	head_p = NULL;
 	init_ant(env);
-	print_antv2(env);
-	path = (t_path*)(env->head_path->content);
-	head = path->room;
-	while (env->end->ant != env->nb_ant)
+//	print_ant(env);
+	while (env->end->ant < env->nb_ant)
 	{
-		path = (t_path*)(env->head_path->content);
-		path->room = head;
-/*------------------parcour de 1 chemin----------------------*/
-		while (path->room->next)
+		head_p = env->head_path;
+		while (head_p)
 		{
-			room = (t_room*)(path->room->content);
-			room_after = (t_room*)(path->room->next->content);
-			if (!ft_strcmp(room->name, env->end->name) && room_after->ant > 0)
+			path = (t_path*)(head_p->content);
+			head = path->room;
+			while (path->room->next)
 			{
-				find_ant(env, room_after->name, room->name);
-				env->end->ant = env->end->ant + 1; 
-				room->ant = room->ant + 1;
-				room_after->ant = room_after->ant - 1;
+				ant_is_moving(env, path->room->content, path->room->next->content);
+				path->room = path->room->next;
 			}
-			else if (room->ant == 0 && room_after->ant > 0)
-			{
-				find_ant(env, room_after->name, room->name);
-				room->ant = room->ant + 1;
-				room_after->ant = room_after->ant - 1;
-			}
-			path->room = path->room->next;
+			path->room = head;
+//			sleep(1);
+//			print_antv2(env);
+			head_p = head_p->next;
 		}
-/*---------------------fin du parcour-----------------------------*/
-	print_antv2(env);
+		print_antv2(env);
+//		printf("fourmis fini = %d fourmis total = %d\n", env->end->ant, env->nb_ant);
 	}
-
-/*	while (env->end->nb_ant < env->nb_ant)
-	{
-		
-	}*/
 }
+
+
+
+
+
