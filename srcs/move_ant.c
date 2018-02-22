@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/22 12:04:57 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/22 12:21:49 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	init_ant(t_env *env)
 		printf("L%d-%s\n", l_ant->num, l_ant->position);
 		l_ant = NULL;
 		i++;
-		env->head_ant = env->head_ant->next;
+//		env->head_ant = env->head_ant->next;
 	}
 	env->head_ant = save_head;
 }
@@ -42,7 +42,7 @@ void	print_ant(t_env *env)
 	while (env->head_ant)
 	{
 		l_ant = (t_ant*)env->head_ant;
-//		printf("L%d-%s\n", l_ant->num, l_ant->position);
+		printf("L%d-%s\n", l_ant->num, l_ant->position);
 		env->head_ant = env->head_ant->next;
 	}
 }

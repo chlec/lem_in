@@ -325,6 +325,7 @@ int		main(void)
     env->head_room = NULL;
     env->head_pipe = NULL;
     env->head_path = NULL;
+    env->head_ant = NULL;
     pipe = NULL;
     get_next_line(0, &line);
     env->nb_ant = ft_atoi(line);
