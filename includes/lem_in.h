@@ -3,6 +3,12 @@
 # include "libft.h"
 # include <stdio.h>
 
+typedef struct		s_ant
+{
+	int				num;
+	char			*position;
+}					t_ant;
+
 typedef struct		s_room
 {
 	char			*name;
@@ -16,13 +22,13 @@ typedef struct		s_path
 	t_list			*room;
 	int				len;
 }					t_path;
-
+/*
 typedef struct		s_ant
 {
 	int				num;
 	int				room;
 }					t_ant;
-
+*/
 typedef struct		s_pipe
 {
 	t_room	*left;
@@ -38,6 +44,7 @@ typedef struct		s_env
 	t_list	*head_room;
 	t_list	*head_pipe;
 	t_list	*head_path;
+	t_list	*head_ant;
 	int		nb_ant;
 }					t_env;
 
