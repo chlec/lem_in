@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/22 15:50:31 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/22 16:43:01 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	init_ant(t_env *env)
 		if(!(l_ant = (t_ant*)malloc(sizeof(t_ant))))
 			return ;
 		l_ant->num = i + 1;
+		//l_ant->position = env->start->name;
 		l_ant->position = env->start->name;
 		ft_list_push_back(&(env->head_ant), l_ant, sizeof(t_ant));
 		l_ant = NULL;
@@ -31,6 +32,43 @@ void	init_ant(t_env *env)
 	}
 }
 
+
+void	find_ant(t_env *env, char *pos_init, char *new_pos)
+{
+	t_ant	*l_ant;
+	t_list	*head_temp;
+
+	head_temp = env->head_ant;
+
+	while (head_temp)
+	{
+		l_ant = (t_ant*)(head_temp->content);
+		if (!ft_strcmp(l_ant->position, pos_init))
+		{
+	//		printf("L%d-%s va dans %s\n", l_ant->num, l_ant->position, new_pos);
+			l_ant->position = new_pos;
+			return ;
+		}
+		head_temp = head_temp->next;
+	}
+}
+
+void	print_antv2(t_env *env)
+{
+	t_ant	*l_ant;
+	t_list	*head_temp;
+
+	head_temp = env->head_ant;
+
+	while (head_temp)
+	{
+		l_ant = (t_ant*)(head_temp->content);
+		if (ft_strcmp(l_ant->position, env->start->name) && ft_strcmp(l_ant->position, env->end->name))
+			printf("L%d-%s ", l_ant->num, l_ant->position);
+		head_temp = head_temp->next;
+	}
+	printf("\n");
+}
 
 void	print_ant(t_env *env)
 {
@@ -50,27 +88,21 @@ void	print_ant(t_env *env)
 
 void	move_ant(t_env *env)
 {
-	t_path *path;
-	t_list	*head_temp;
-	t_room *room;
-	t_list *head;
-	t_room *room_after;
-	int i;
+	t_list	*head;
+	t_path	*path;
+	t_room	*room;
+	t_room	*room_after;
 
-	i = 0;
-	head_temp = env->head_path;
 	path = NULL;
 	room = NULL;
 	head = NULL;
 	init_ant(env);
-	print_ant(env);
-	path = (t_path*)(head_temp->content);
+	print_antv2(env);
+	path = (t_path*)(env->head_path->content);
 	head = path->room;
-//	printf("%d\n", env->nb_ant);
 	while (env->end->ant != env->nb_ant)
-//	while (i < 5)
 	{
-		path = (t_path*)(head_temp->content);
+		path = (t_path*)(env->head_path->content);
 		path->room = head;
 		while (path->room->next)
 		{
@@ -78,24 +110,20 @@ void	move_ant(t_env *env)
 			room_after = (t_room*)(path->room->next->content);
 			if (!ft_strcmp(room->name, env->end->name) && room_after->ant > 0)
 			{
-				printf("une fourmie sauver\n");
+				find_ant(env, room_after->name, room->name);
 				env->end->ant = env->end->ant + 1; 
 				room->ant = room->ant + 1;
 				room_after->ant = room_after->ant - 1;
 			}
 			else if (room->ant == 0 && room_after->ant > 0)
 			{
-				printf("une fourmie bouge\n");
+				find_ant(env, room_after->name, room->name);
 				room->ant = room->ant + 1;
 				room_after->ant = room_after->ant - 1;
 			}
-//			printf("fourmise dans END = %d", env->end->ant);
-			printf("dans la room %s, il y a %d fourmis  ", room->name, room->ant);
-			printf("et la suivant  %s, il y a %d fourmis\n", room_after->name, room_after->ant);
 			path->room = path->room->next;
 		}
-		printf("------------------\n");
-		i++;
+	print_antv2(env);
 	}
 
 /*	while (env->end->nb_ant < env->nb_ant)
