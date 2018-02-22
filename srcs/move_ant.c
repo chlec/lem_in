@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/22 16:43:01 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/22 16:57:13 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	init_ant(t_env *env)
 		if(!(l_ant = (t_ant*)malloc(sizeof(t_ant))))
 			return ;
 		l_ant->num = i + 1;
-		//l_ant->position = env->start->name;
 		l_ant->position = env->start->name;
 		ft_list_push_back(&(env->head_ant), l_ant, sizeof(t_ant));
 		l_ant = NULL;
@@ -45,7 +44,6 @@ void	find_ant(t_env *env, char *pos_init, char *new_pos)
 		l_ant = (t_ant*)(head_temp->content);
 		if (!ft_strcmp(l_ant->position, pos_init))
 		{
-	//		printf("L%d-%s va dans %s\n", l_ant->num, l_ant->position, new_pos);
 			l_ant->position = new_pos;
 			return ;
 		}
@@ -85,7 +83,7 @@ void	print_ant(t_env *env)
 	}
 	printf("\n");
 }
-
+/*il faut faire touts les chemins possible quant il faut, et afficher la fourmie qui est a la room end*/
 void	move_ant(t_env *env)
 {
 	t_list	*head;
@@ -104,6 +102,7 @@ void	move_ant(t_env *env)
 	{
 		path = (t_path*)(env->head_path->content);
 		path->room = head;
+/*------------------parcour de 1 chemin----------------------*/
 		while (path->room->next)
 		{
 			room = (t_room*)(path->room->content);
@@ -123,6 +122,7 @@ void	move_ant(t_env *env)
 			}
 			path->room = path->room->next;
 		}
+/*---------------------fin du parcour-----------------------------*/
 	print_antv2(env);
 	}
 
