@@ -325,7 +325,7 @@ int		main(void)
     env->head_room = NULL;
     env->head_pipe = NULL;
     env->head_path = NULL;
-    env->head_ant = NULL;
+	env->head_ant = NULL;
     pipe = NULL;
     get_next_line(0, &line);
     env->nb_ant = ft_atoi(line);
@@ -404,7 +404,7 @@ int		main(void)
     }
     create_path(env, NULL);
 //	filter_path(&(env->head_path));
-	while (env->head_path)
+/*	while (env->head_path)
 	{
         path = (t_path*)(env->head_path->content);
         while (path->room)
@@ -416,7 +416,7 @@ int		main(void)
         printf("------\n");
 		env->head_path = env->head_path->next;
 	}
-	move_ant(env);
+*/	move_ant(env);
     /*printf("nom de start = %s x = %d y = %d\n", env->start->name, env->start->x, env->start->y);
      printf("nom de end = %s x = %d y = %d\n", env->end->name, env->end->x, env->end->y);*/
     return (0);
