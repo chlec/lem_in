@@ -1,18 +1,16 @@
-#include "lem_in.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
+/*   Updated: 2018/02/22 16:57:13 by mdaunois         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int len_double_tab(char **tab)
-{
-    int i;
-    
-    i = 0;
-    if (!tab)
-        return (0);
-    while (tab[i])
-    {
-        i++;
-    }
-    return (i);
-}
+#include "lem_in.h"
 
 int        handle_command(t_env *env, char *line)
 {
@@ -57,57 +55,6 @@ int        handle_command(t_env *env, char *line)
     return (1);
 }
 
-t_path	*copy_maillon(t_list **p)
-{
-	t_path	*ret;
-	t_list	*list;
-
-	list = *p;
-	ret = malloc(sizeof(t_path));
-	ret->room = NULL;
-	ret->len = 0;
-	while (list)
-	{
-		ft_list_push_back(&(ret->room), list->content, sizeof(t_room));
-		ret->len++;
-		list = list->next;
-	}
-	return (ret);	
-}
-
-t_path	*copy_maillon_n(t_list **p, int n)
-{
-	t_path	*ret;
-	t_list	*list;
-
-	list = *p;
-	ret = malloc(sizeof(t_path));
-	ret->room = NULL;
-	ret->len = 0;
-	while (list && ret->len < n)
-	{
-		ft_list_push_back(&(ret->room), list->content, sizeof(t_room));
-		ret->len++;
-		list = list->next;
-	}
-	return (ret);	
-}
-
-int     list_len(t_list **l)
-{
-    t_list  *list;
-    int     len;
-
-    len = 0;
-    list = *l;
-    while (list)
-    {
-        len++;
-        list = list->next;
-    }
-    return (len);
-}
-
 int     linked(t_list **p, t_room *left, t_room *right)
 {
     t_list  *path;
@@ -115,11 +62,6 @@ int     linked(t_list **p, t_room *left, t_room *right)
     t_room  *next;
 
     path = *p;
-    /*
-        Ici on check tout le path et on regarde si les 2 arguments passé ne sont pas deja collé.
-        On regarde le path jusqu'a trouver l'une des room left ou right. Apres on la compare avec la next,
-        Si elle sont bien coller ou renvoi 1 sinon 0
-    */
     while (path)
     {
         room = (t_room*)(path->content);
@@ -132,63 +74,6 @@ int     linked(t_list **p, t_room *left, t_room *right)
         path = path->next;
     }
     return (0);
-}
-
-t_path	*get_path_to_pipe(t_list **p, t_pipe *pipe)
-{
-	t_path	*path;
-	t_room	*room;
-	t_list	*list;
-	int		len;
-
-	list = *p;
-	while (list)
-	{
-		path = (t_path*)list->content;
-		len = 0;
-		while (path->room)
-		{
-			room = (t_room*)path->room->content;
-			if (ft_strequ(room->name, pipe->left->name) || ft_strequ(room->name, pipe->right->name))
-				return (copy_maillon_n(&(path->room), len));
-			len++;
-			path->room = path->room->next;
-		}
-	}
-	return (0);
-}
-
-t_room	*get_last_room(t_list **l)
-{
-	t_list	*list;
-	t_room	*room;
-
-	list = *l;
-	room = NULL;
-	while (list && !room)
-	{	
-		if (list->next == NULL)
-			room = (t_room*)list->content;
-		list = list->next;
-	}
-	return (room);
-}
-
-int		room_is_present(t_list	**l, t_room *room)
-{
-	t_list	*list;
-	t_room	*room2;
-
-	list = *l;
-	list = list->next;
-	while (list->next)
-	{
-		room2 = (t_room*)list->content;
-		if (ft_strequ(room->name, room2->name))
-			return (1);	
-		list = list->next;
-	}
-	return (0);
 }
 
 int		already_found(t_list **l, t_list **p)

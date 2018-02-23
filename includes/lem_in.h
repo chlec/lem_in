@@ -50,6 +50,11 @@ typedef struct		s_env
 
 void				ft_list_push_back(t_list **begin_list, void *data, size_t len);
 void				move_ant(t_env *env);
+int 				len_double_tab(char **tab);
+t_path				*copy_maillon(t_list **p);
+int     			list_len(t_list **l);
+t_room				*get_last_room(t_list **l);
+int					room_is_present(t_list	**l, t_room *room);
 
 
 #endif
