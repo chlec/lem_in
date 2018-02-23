@@ -287,25 +287,6 @@ void	create_path(t_env *env, t_path *p)
 	}
 }
 
-void	filter_path(t_list **all)
-{
-	t_list	*all_path;
-	t_path	*path;
-	t_room	*room;
-	
-	all_path = *all;
-	while (all_path)
-	{
-		path = (t_path*)all_path->content;
-		while (path->room)
-		{
-			room = (t_room*)path->room->content;
-			path->room = path->room->next;
-		}	
-		all_path = all_path->next;
-	}
-}
-
 int		main(void)
 {
     int        ret;
@@ -403,21 +384,18 @@ int		main(void)
         
     }
     create_path(env, NULL);
-//	filter_path(&(env->head_path));
-/*	while (env->head_path)
-	{
+	move_ant(env);
+   /*while (env->head_path)
+    {
         path = (t_path*)(env->head_path->content);
         while (path->room)
         {
-    		room = (t_room*)(path->room->content);
-    		printf("chemin: %s\n", room->name);
+            room = (t_room*)(path->room->content);
+            printf("chemin: %s\n", room->name);
             path->room = path->room->next;
         }
         printf("------\n");
-		env->head_path = env->head_path->next;
-	}
-*/	move_ant(env);
-    /*printf("nom de start = %s x = %d y = %d\n", env->start->name, env->start->x, env->start->y);
-     printf("nom de end = %s x = %d y = %d\n", env->end->name, env->end->x, env->end->y);*/
+        env->head_path = env->head_path->next;
+    }*/
     return (0);
 }

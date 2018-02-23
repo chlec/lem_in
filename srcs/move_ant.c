@@ -60,8 +60,14 @@ void	print_antv2(t_env *env)
 	while (head_temp)
 	{
 		l_ant = (t_ant*)(head_temp->content);
-		if (ft_strcmp(l_ant->position, env->start->name) && ft_strcmp(l_ant->position, env->end->name))
+		if (ft_strcmp(l_ant->position, env->start->name))// && ft_strcmp(l_ant->position, env->end->name))
 			printf("L%d-%s ", l_ant->num, l_ant->position);
+		//En gros si une fourmi arrive a 0, on la supprime de la chaine
+		if (!ft_strcmp(l_ant->position, env->end->name))
+		{
+			free(l_ant);
+			env->head_ant = head_temp->next;
+		}
 		head_temp = head_temp->next;
 	}
 	printf("\n");
@@ -86,7 +92,7 @@ void	ant_is_moving(t_env *env, t_room *room, t_room *room_after)
 {
 	if (!ft_strcmp(room->name, env->end->name) && room_after->ant > 0)
 	{
-//		printf("fourmis qui viens de la room %s\n %d\n", room_after->name, room_after->ant);
+		//printf("fourmis qui viens de la room %s\n %d\n", room_after->name, room_after->ant);
 		find_ant(env, room_after->name, room->name);
 		env->end->ant = env->end->ant + 1; 
 		room->ant = room->ant + 1;
