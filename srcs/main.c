@@ -131,14 +131,14 @@ void	create_path(t_env *env, t_path *p)
 			path->room = NULL;
 			path->len = 0;
 			//On met toujours le ##end en 1er sur le path
-			printf("Debut de path, on met %s et %s\n", pipe->left->name, pipe->right->name);
+		//	printf("Debut de path, on met %s et %s\n", pipe->left->name, pipe->right->name);
 			ft_list_push_back(&(path->room), ft_strequ(pipe->left->name, env->end->name) ? pipe->left : pipe->right, sizeof(t_room));
 			ft_list_push_back(&(path->room), ft_strequ(pipe->left->name, env->end->name) ? pipe->right : pipe->left, sizeof(t_room));
 			path->len += 2;
 			pipe->used = 1;
 			if (ft_strequ(get_last_room(&(path->room))->name, env->start->name) && !already_found(&(env->head_path), &(path->room)))
 			{
-				printf("Ajout du path au head\n");
+				//printf("Ajout du path au head\n");
                 ft_list_push_back(&(env->head_path), path, sizeof(t_path));
 				return create_path(env, NULL);
 			}
@@ -151,7 +151,7 @@ void	create_path(t_env *env, t_path *p)
 			room1 = get_last_room(&(p->room));
 			if ((ft_strequ(room1->name, pipe->right->name) || ft_strequ(room1->name, pipe->left->name)))
 			{
-				printf("on ajoute %s\n", ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name);
+				//printf("on ajoute %s\n", ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name);
 			//	usleep(500000);
 				if (ft_strequ(room1->name, env->end->name) || ft_strequ(room1->name, env->start->name))
 					return create_path(env, NULL);
@@ -163,7 +163,7 @@ void	create_path(t_env *env, t_path *p)
 			}
 			if (ft_strequ(get_last_room(&(path->room))->name, env->start->name) && !already_found(&(env->head_path), &(path->room)))
 			{
-				printf("Ajout du path au head\n");
+				//printf("Ajout du path au head\n");
                 ft_list_push_back(&(env->head_path), path, sizeof(t_path));
 				return create_path(env, NULL);
 			}
@@ -195,9 +195,12 @@ int		main(void)
     pipe = NULL;
     get_next_line(0, &line);
     env->nb_ant = ft_atoi(line);
+    ft_putnbr(env->nb_ant);
+    ft_putchar('\n');
     while ((ret = get_next_line(0, &line)) > 0)
     {
         //ROOM
+        ft_putendl(line);
         if (len_double_tab(ft_strsplit(line, ' ')) == 3 && line[0] != '#' && line[0] != 'L')
         {
             if (!(room = (t_room*)malloc(sizeof(t_room))))
@@ -266,8 +269,8 @@ int		main(void)
             return (0);
         }
         ft_strdel(&line);
-        
     }
+    ft_putchar('\n');
     create_path(env, NULL);
 	move_ant(env);
    /*while (env->head_path)
