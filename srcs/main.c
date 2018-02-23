@@ -19,6 +19,7 @@ int        handle_command(t_env *env, char *line)
     if (!ft_strcmp(line, "##start"))
     {
         get_next_line(0, &line);
+        ft_putendl(line);
         if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !strchr(line, '#') && !strchr(line, 'L'))
         {
             temp = ft_strsplit(line, ' ');
@@ -37,6 +38,7 @@ int        handle_command(t_env *env, char *line)
     else if (!ft_strcmp(line, "##end"))
     {
         get_next_line(0, &line);
+        ft_putendl(line);
         if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !strchr(line, '#') && !strchr(line, 'L'))
         {
             temp = ft_strsplit(line, ' ');
