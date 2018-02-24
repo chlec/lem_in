@@ -18,8 +18,14 @@ int        handle_command(t_env *env, char *line)
     
     if (!ft_strcmp(line, "##start"))
     {
-        get_next_line(0, &line);
-        ft_putendl(line);
+	if (env->start)
+		return (0);
+//	while (line[0] == '#')
+//	{
+        	get_next_line(0, &line);
+  	     	ft_putendl(line);
+//	}
+    //    	ft_putendl(line);
         if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !strchr(line, '#') && !strchr(line, 'L'))
         {
             temp = ft_strsplit(line, ' ');
@@ -37,8 +43,16 @@ int        handle_command(t_env *env, char *line)
     }
     else if (!ft_strcmp(line, "##end"))
     {
-        get_next_line(0, &line);
-        ft_putendl(line);
+	if (env->end)
+		return (0);
+//	while (line[0] == '#')
+//	{
+        	get_next_line(0, &line);
+        	ft_putendl(line);
+//	}
+  //      	ft_putendl(line);
+        //get_next_line(0, &line);
+        //ft_putendl(line);
         if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !strchr(line, '#') && !strchr(line, 'L'))
         {
             temp = ft_strsplit(line, ' ');
@@ -190,12 +204,20 @@ int		main(void)
     room = NULL;
     if (!(env = (t_env*)malloc(sizeof(t_env))))
         return (0);
+    env->start = NULL;
+    env->end = NULL;
     env->head_room = NULL;
     env->head_pipe = NULL;
     env->head_path = NULL;
 	env->head_ant = NULL;
     pipe = NULL;
-    get_next_line(0, &line);
+    if (get_next_line(0, &line) <= 0)
+            {
+                ft_putstr_fd("Error\n", 2);
+                ft_strdel(&line);
+               return (0);
+            }
+//    get_next_line(0, &line);
     env->nb_ant = ft_atoi(line);
     ft_putnbr(env->nb_ant);
     ft_putchar('\n');
@@ -220,9 +242,10 @@ int		main(void)
         {
             if (handle_command(env, line) == 0)
             {
-                ft_putstr_fd("Error\n", 2);
+         //       ft_putstr_fd("Error\n", 2);
                 ft_strdel(&line);
-                return (0);
+		break;
+         //       return (0);
             }
         }
         else if (len_double_tab(ft_strsplit(line, '-')) == 2)
@@ -258,22 +281,35 @@ int		main(void)
             }
             if (pipe->left == NULL || pipe->right == NULL)
             {
-                ft_putstr_fd("Error\n", 2);
+         //       ft_putstr_fd("Error\n", 2);
                 ft_strdel(&line);
-                return (0);
+		break;
+        //        return (0);
             }
             ft_list_push_back(&(env->head_pipe), pipe, sizeof(t_pipe));
         }
         else
         {
-            ft_putstr_fd("Error\n", 2);
+      //      ft_putstr_fd("Error\n", 2);
             ft_strdel(&line);
-            return (0);
+	    break;
+            //return (0);
         }
         ft_strdel(&line);
     }
+
     ft_putchar('\n');
+    if (env->start == NULL || env->end == NULL)
+	{
+	ft_putstr_fd("Error\nno start or no end\n", 2);
+	return (0);
+	}
     create_path(env, NULL);
+    if (env->head_path == NULL)
+	{
+	ft_putstr_fd("Error\nno path\n", 2);
+	return (0);
+	}
 	move_ant(env);
    /*while (env->head_path)
     {
