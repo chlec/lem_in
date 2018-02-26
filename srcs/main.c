@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/22 16:57:13 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/26 15:15:06 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,82 +14,82 @@
 
 int        handle_command(t_env *env, char *line)
 {
-    char    **temp;
-    
-    if (!ft_strcmp(line, "##start"))
-    {
-	if (env->start)
-		return (0);
-//	while (line[0] == '#')
-//	{
-        	get_next_line(0, &line);
-  	     	ft_putendl(line);
-//	}
-    //    	ft_putendl(line);
-        if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !strchr(line, '#') && !strchr(line, 'L'))
-        {
-            temp = ft_strsplit(line, ' ');
-            env->start = (t_room*)malloc(sizeof(t_room));
-            env->start->name = temp[0];
-            env->start->x = ft_atoi(temp[1]);
-            env->start->y = ft_atoi(temp[2]);
+	char    **temp;
+
+	if (!ft_strcmp(line, "##start"))
+	{
+		if (env->start)
+			return (0);
+		//	while (line[0] == '#')
+		//	{
+		get_next_line(0, &line);
+		ft_putendl(line);
+		//	}
+		//    	ft_putendl(line);
+		if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !strchr(line, '#') && !strchr(line, 'L'))
+		{
+			temp = ft_strsplit(line, ' ');
+			env->start = (t_room*)malloc(sizeof(t_room));
+			env->start->name = temp[0];
+			env->start->x = ft_atoi(temp[1]);
+			env->start->y = ft_atoi(temp[2]);
 			env->start->ant = env->nb_ant;
-            //    ft_strdel(&temp);
-            ft_list_push_back(&(env->head_room), env->start, sizeof(t_room));
-            ft_strdel(&line);
-        }
-        else
-            return (0);
-    }
-    else if (!ft_strcmp(line, "##end"))
-    {
-	if (env->end)
-		return (0);
-//	while (line[0] == '#')
-//	{
-        	get_next_line(0, &line);
-        	ft_putendl(line);
-//	}
-  //      	ft_putendl(line);
-        //get_next_line(0, &line);
-        //ft_putendl(line);
-        if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !strchr(line, '#') && !strchr(line, 'L'))
-        {
-            temp = ft_strsplit(line, ' ');
-            env->end = (t_room*)malloc(sizeof(t_room));
-            env->end->name = temp[0];
-            env->end->x = ft_atoi(temp[1]);
-            env->end->y = ft_atoi(temp[2]);
+			//    ft_strdel(&temp);
+			ft_list_push_back(&(env->head_room), env->start, sizeof(t_room));
+			ft_strdel(&line);
+		}
+		else
+			return (0);
+	}
+	else if (!ft_strcmp(line, "##end"))
+	{
+		if (env->end)
+			return (0);
+		//	while (line[0] == '#')
+		//	{
+		get_next_line(0, &line);
+		ft_putendl(line);
+		//	}
+		//      	ft_putendl(line);
+		//get_next_line(0, &line);
+		//ft_putendl(line);
+		if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !strchr(line, '#') && !strchr(line, 'L'))
+		{
+			temp = ft_strsplit(line, ' ');
+			env->end = (t_room*)malloc(sizeof(t_room));
+			env->end->name = temp[0];
+			env->end->x = ft_atoi(temp[1]);
+			env->end->y = ft_atoi(temp[2]);
 			env->end->ant = 0;
-            //    ft_strdel(&temp);
-            ft_list_push_back(&(env->head_room), env->end, sizeof(t_room));
-            ft_strdel(&line);
-        }
-        else
-            return (0);
-    }
-    return (1);
+			//    ft_strdel(&temp);
+			ft_list_push_back(&(env->head_room), env->end, sizeof(t_room));
+			ft_strdel(&line);
+		}
+		else
+			return (0);
+	}
+	return (1);
 }
 
 int     linked(t_list **p, t_room *left, t_room *right)
 {
-    t_list  *path;
-    t_room  *room;
-    t_room  *next;
+	t_list  *path;
+	t_room  *room;
+	t_room  *next;
 
-    path = *p;
-    while (path)
-    {
-        room = (t_room*)(path->content);
+	path = *p;
+	while (path)
+	{
+		room = (t_room*)(path->content);
 		if (path->next && (ft_strequ(room->name, left->name) || ft_strequ(room->name, right->name)))
-        {
-            next = (t_room*)(path->next->content);
-            if (ft_strequ(next->name, ft_strequ(room->name, left->name) ? right->name : left->name))
-                return (1);
-        }
-        path = path->next;
-    }
-    return (0);
+		{
+			next = (t_room*)(path->next->content);
+			if (ft_strequ(next->name, ft_strequ(room->name, left->name) ? right->name : left->name))
+				return (1);
+		}
+		path = path->next;
+	}
+	return (0);
 }
 
 int		already_found(t_list **l, t_list **p)
@@ -98,7 +98,7 @@ int		already_found(t_list **l, t_list **p)
 	t_path	*path;
 	t_list	*new_path;
 	t_room	*room1;
-//	t_room	*room2;
+	//	t_room	*room2;
 
 	all_path = *l;
 
@@ -109,7 +109,7 @@ int		already_found(t_list **l, t_list **p)
 		while (new_path)
 		{
 			room1 = (t_room*)new_path->content;
-//			room2 = (t_room*)new_path->next->content;
+			//			room2 = (t_room*)new_path->next->content;
 			if (room_is_present((&path->room), room1))
 				return (1);
 			new_path = new_path->next;
@@ -147,7 +147,7 @@ void	create_path(t_env *env, t_path *p)
 			path->room = NULL;
 			path->len = 0;
 			//On met toujours le ##end en 1er sur le path
-		//	printf("Debut de path, on met %s et %s\n", pipe->left->name, pipe->right->name);
+			//	printf("Debut de path, on met %s et %s\n", pipe->left->name, pipe->right->name);
 			ft_list_push_back(&(path->room), ft_strequ(pipe->left->name, env->end->name) ? pipe->left : pipe->right, sizeof(t_room));
 			ft_list_push_back(&(path->room), ft_strequ(pipe->left->name, env->end->name) ? pipe->right : pipe->left, sizeof(t_room));
 			path->len += 2;
@@ -155,7 +155,7 @@ void	create_path(t_env *env, t_path *p)
 			if (ft_strequ(get_last_room(&(path->room))->name, env->start->name) && !already_found(&(env->head_path), &(path->room)))
 			{
 				//printf("Ajout du path au head\n");
-                ft_list_push_back(&(env->head_path), path, sizeof(t_path));
+				ft_list_push_back(&(env->head_path), path, sizeof(t_path));
 				return create_path(env, NULL);
 			}
 			return create_path(env, path);
@@ -168,7 +168,7 @@ void	create_path(t_env *env, t_path *p)
 			if ((ft_strequ(room1->name, pipe->right->name) || ft_strequ(room1->name, pipe->left->name)))
 			{
 				//printf("on ajoute %s\n", ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name);
-			//	usleep(500000);
+				//	usleep(500000);
 				if (ft_strequ(room1->name, env->end->name) || ft_strequ(room1->name, env->start->name))
 					return create_path(env, NULL);
 				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe->left->name) ? pipe->right : pipe->left, sizeof(t_room));
@@ -180,7 +180,7 @@ void	create_path(t_env *env, t_path *p)
 			if (ft_strequ(get_last_room(&(path->room))->name, env->start->name) && !already_found(&(env->head_path), &(path->room)))
 			{
 				//printf("Ajout du path au head\n");
-                ft_list_push_back(&(env->head_path), path, sizeof(t_path));
+				ft_list_push_back(&(env->head_path), path, sizeof(t_path));
 				return create_path(env, NULL);
 			}
 		}
@@ -188,140 +188,184 @@ void	create_path(t_env *env, t_path *p)
 	}
 }
 
+int		in_integer(char *argv)
+{
+	int		nb;
+	char	*str_nbr;
+	int		i;
+
+	i = 0;
+	nb = ft_atoi(argv);
+	str_nbr = ft_itoa(nb);
+	while ((argv[i] == '0' || argv[i] == '+') && argv[i + 1])
+	{
+		i++;
+	}
+	if (argv[i] == str_nbr[0])
+	{
+		ft_strdel(&str_nbr);
+		return (1);
+	}
+	ft_strdel(&str_nbr);
+	return (0);
+}
+
+void	init_room(t_env *env, char *line)
+{
+	t_room 	*room;
+	char	**temp;
+
+	if (!(room = (t_room*)malloc(sizeof(t_room))))
+		return ;
+	temp = ft_strsplit(line, ' ');
+	room->name = temp[0];
+	room->x = ft_atoi(temp[1]);
+	room->y = ft_atoi(temp[2]);
+	room->ant = 0;
+	ft_list_push_back(&(env->head_room), room, sizeof(t_room));
+	room = NULL;
+}
+
+int		init_pipe(t_env *env, char *line)
+{
+	t_pipe *pipe;
+	t_room *room;
+	char	**temp;
+	t_list	*head_temp;
+
+	pipe = (t_pipe*)malloc(sizeof(t_pipe));
+	temp = ft_strsplit(line, '-');
+	head_temp = env->head_room;
+	pipe->used = 0;
+	pipe->left = NULL;
+	while (head_temp)
+	{
+		room = (t_room*)(head_temp->content);
+		if (!ft_strcmp(room->name, temp[0]))
+			pipe->left = room;
+		head_temp = head_temp->next;
+	}
+	head_temp = env->head_room;
+	while (head_temp)
+	{
+		room = (t_room*)(head_temp->content);
+		if (!ft_strcmp(room->name, temp[1]))
+			pipe->right = room;
+		head_temp = head_temp->next;
+	}
+	if (pipe->left == NULL || pipe->right == NULL)
+	{
+		ft_strdel(&line);
+		return (0);
+	}
+	ft_list_push_back(&(env->head_pipe), pipe, sizeof(t_pipe));
+	return (1);
+}
+
+
+/*t_env	*init_env(t_env *env)
+{
+	if (!(env = (t_env*)malloc(sizeof(t_env))))
+		return (0);
+	env->start = NULL;
+	env->end = NULL;
+	env->head_room = NULL;
+	env->head_pipe = NULL;
+	env->head_path = NULL;
+	env->head_ant = NULL;
+	return (env);
+}*/
+
 int		main(void)
 {
-    int        ret;
-    char    *line;
-    t_env    *env;
-    t_list    *head_temp;
-    t_room    *room;
-    char    **temp;
-    t_path    *path;
-    t_pipe    *pipe;
-    
-    path = NULL;
-    line = NULL;
-    room = NULL;
-    if (!(env = (t_env*)malloc(sizeof(t_env))))
-        return (0);
-    env->start = NULL;
-    env->end = NULL;
-    env->head_room = NULL;
-    env->head_pipe = NULL;
-    env->head_path = NULL;
-	env->head_ant = NULL;
-    pipe = NULL;
-    if (get_next_line(0, &line) <= 0)
-            {
-                ft_putstr_fd("Error\n", 2);
-                ft_strdel(&line);
-               return (0);
-            }
-//    get_next_line(0, &line);
-    env->nb_ant = ft_atoi(line);
-    ft_putnbr(env->nb_ant);
-    ft_putchar('\n');
-    while ((ret = get_next_line(0, &line)) > 0)
-    {
-        //ROOM
-        ft_putendl(line);
-        if (len_double_tab(ft_strsplit(line, ' ')) == 3 && line[0] != '#' && line[0] != 'L')
-        {
-            if (!(room = (t_room*)malloc(sizeof(t_room))))
-                return (0);
-            temp = ft_strsplit(line, ' ');
-            room->name = temp[0];
-            room->x = ft_atoi(temp[1]);
-            room->y = ft_atoi(temp[2]);
-			room->ant = 0;
-            ft_list_push_back(&(env->head_room), room, sizeof(t_room));
-            room = NULL;
-            //ft_strdel(&temp);
-        }
-        else if (line[0] == '#')
-        {
-            if (handle_command(env, line) == 0)
-            {
-         //       ft_putstr_fd("Error\n", 2);
-                ft_strdel(&line);
-		break;
-         //       return (0);
-            }
-        }
-        else if (len_double_tab(ft_strsplit(line, '-')) == 2)
-        {
-            pipe = (t_pipe*)malloc(sizeof(t_pipe));
-            temp = ft_strsplit(line, '-');
-           // printf("%s     %s\n", temp[0], temp[1]);
-            head_temp = env->head_room;
-			pipe->used = 0;
-            pipe->left = NULL;
-            while (head_temp)
-            {
-                //room = contenu de head temp == head_room
-                room = (t_room*)(head_temp->content);
-                if (!ft_strcmp(room->name, temp[0]))
-                {
-                    pipe->left = room;
-             //       printf("room de depart = %s\n", pipe->left->name);
-                }
-                head_temp = head_temp->next;
-            }
-            head_temp = env->head_room;
-            while (head_temp)
-            {
-                //room = contenu de head temp == head_room
-                room = (t_room*)(head_temp->content);
-                if (!ft_strcmp(room->name, temp[1]))
-                {
-                    pipe->right = room;
-             //       printf("room de depart = %s\n", pipe->right->name);
-                }
-                head_temp = head_temp->next;
-            }
-            if (pipe->left == NULL || pipe->right == NULL)
-            {
-         //       ft_putstr_fd("Error\n", 2);
-                ft_strdel(&line);
-		break;
-        //        return (0);
-            }
-            ft_list_push_back(&(env->head_pipe), pipe, sizeof(t_pipe));
-        }
-        else
-        {
-      //      ft_putstr_fd("Error\n", 2);
-            ft_strdel(&line);
-	    break;
-            //return (0);
-        }
-        ft_strdel(&line);
-    }
+	int        ret;
+	char    *line;
+	t_env    *env;
 
-    ft_putchar('\n');
-    if (env->start == NULL || env->end == NULL)
+	line = NULL;
+//	env = init_env(env);
+	if (!(env = (t_env*)malloc(sizeof(t_env))))
+		return (0);
+	env->start = NULL;
+	env->end = NULL;
+	env->head_room = NULL;
+	env->head_pipe = NULL;
+	env->head_path = NULL;
+	env->head_ant = NULL;
+	if (get_next_line(0, &line) <= 0)
 	{
-	ft_putstr_fd("Error\nno start or no end\n", 2);
-	return (0);
+		ft_putstr_fd("Error\n", 2);
+//		ft_strdel(&line);
+		return (0);
 	}
-    create_path(env, NULL);
-    if (env->head_path == NULL)
+	//    get_next_line(0, &line);
+	if (in_integer(line) == 0)
 	{
-	ft_putstr_fd("Error\nno path\n", 2);
-	return (0);
+		ft_putstr_fd("Error\n", 2);
+		ft_strdel(&line);
+		return (0);
+	}
+	env->nb_ant = ft_atoi(line);
+	ft_putnbr(env->nb_ant);
+	ft_putchar('\n');
+	while ((ret = get_next_line(0, &line)) > 0)
+	{
+		//ROOM
+		ft_putendl(line);
+		if (len_double_tab(ft_strsplit(line, ' ')) == 3 && line[0] != '#' && line[0] != 'L')
+			init_room(env, line);
+		else if (line[0] == '#')
+		{
+			if (handle_command(env, line) == 0)
+			{
+				//       ft_putstr_fd("Error\n", 2);
+				ft_strdel(&line);
+				break;
+				//       return (0);
+			}
+		}
+		else if (len_double_tab(ft_strsplit(line, '-')) == 2)
+		{
+			if (init_pipe(env, line) == 0)
+				break;
+		}
+		else
+		{
+		//	      ft_putstr_fd("Error\n", 2);
+			ft_strdel(&line);
+			break;
+			//return (0);
+		}
+		ft_strdel(&line);
+	}
+	ft_putchar('\n');
+	if (env->start == NULL || env->end == NULL)
+	{
+		ft_putstr_fd("Error\nno start or no end\n", 2);
+		return (0);
+	}
+	create_path(env, NULL);
+	if (env->head_path == NULL)
+	{
+		ft_putstr_fd("Error\nno path\n", 2);
+		return (0);
 	}
 	move_ant(env);
-   /*while (env->head_path)
-    {
-        path = (t_path*)(env->head_path->content);
-        while (path->room)
-        {
-            room = (t_room*)(path->room->content);
-            printf("chemin: %s\n", room->name);
-            path->room = path->room->next;
-        }
-        printf("------\n");
-        env->head_path = env->head_path->next;
-    }*/
-    return (0);
+/*		
+	t_path *path;
+	t_room *room;
+
+	while (env->head_path)
+	  {
+	  path = (t_path*)(env->head_path->content);
+	  while (path->room)
+	  {
+	  room = (t_room*)(path->room->content);
+	  printf("chemin: %s\n", room->name);
+	  path->room = path->room->next;
+	  }
+	  printf("------\n");
+	  env->head_path = env->head_path->next;
+	  }
+*/	return (0);
 }
