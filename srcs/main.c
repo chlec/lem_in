@@ -296,6 +296,58 @@ void	del_env(t_env **environment)
 	}
 }
 
+void		nb_room_path(t_env *env)
+{	
+	t_path	*path;
+	t_room	*room;
+	t_list	*head_p;
+	t_list	*head_r;
+	int 	len;
+
+	len = 0;
+	head_p = env->head_path;
+	head_r = head_p->content;;
+	while (head_p)
+	{
+		len = 0;
+		path = (t_path*)(head_p->content);
+		head_r = path->room;
+		while (head_r)
+		{
+			room = (t_room*)(head_r->content);
+			head_r = head_r->next;
+			len++;
+		}
+		path->len = len;
+		head_p = head_p->next;
+	}
+}
+
+void		print_path(t_env *env)
+{	
+	t_path	*path;
+	t_room	*room;
+	t_list	*head_p;
+	t_list	*head_r;
+
+	head_p = env->head_path;
+	head_r = head_p->content;;
+	while (head_p)
+	{
+		path = (t_path*)(head_p->content);
+		head_r = path->room;
+		printf("nombre de room = %d\n", path->len);
+		while (head_r)
+		{
+			room = (t_room*)(head_r->content);
+			printf("chemin: %s nb_ant = %d \n", room->name, room->ant);
+			head_r = head_r->next;
+		}
+		printf("------\n");
+		head_p = head_p->next;
+	}
+}
+
 int		main(void)
 {
 	int		ret;
@@ -371,25 +423,10 @@ int		main(void)
 		ft_putstr_fd("Error\nno path\n", 2);
 		return (0);
 	}
+	nb_room_path(env);
+	print_path(env);
 	move_ant(env);
-	del_env(&env);
-/*		
-	t_path *path;
-	t_room *room;
-
-	while (env->head_path)
-	  {
-	  path = (t_path*)(env->head_path->content);
-	  while (path->room)
-	  {
-	  room = (t_room*)(path->room->content);
-	  printf("chemin: %s\n", room->name);
-	  path->room = path->room->next;
-	  }
-	  printf("------\n");
-	  env->head_path = env->head_path->next;
-	  }
-*/
-	while (1);
+//	del_env(&env);
+//	while (1);
 	return (0);
 }
