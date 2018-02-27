@@ -6,11 +6,23 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/22 16:57:13 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/27 10:52:02 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+void	free_double_tab(char **tab)
+{
+	int		i;
+
+	i = 0;
+	while (tab[i])
+	{
+		ft_strdel(&tab[i]);
+		i++;
+	}
+}
 
 int len_double_tab(char **tab)
 {

@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/26 15:15:06 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/27 11:17:07 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,18 @@ int        handle_command(t_env *env, char *line)
 		ft_putendl(line);
 		//	}
 		//    	ft_putendl(line);
-		if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !strchr(line, '#') && !strchr(line, 'L'))
+		if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !ft_strchr(line, '#') && !ft_strchr(line, 'L'))
 		{
 			temp = ft_strsplit(line, ' ');
 			env->start = (t_room*)malloc(sizeof(t_room));
-			env->start->name = temp[0];
+			env->start->name = ft_strdup(temp[0]);
 			env->start->x = ft_atoi(temp[1]);
 			env->start->y = ft_atoi(temp[2]);
 			env->start->ant = env->nb_ant;
 			//    ft_strdel(&temp);
 			ft_list_push_back(&(env->head_room), env->start, sizeof(t_room));
 			ft_strdel(&line);
+			free_double_tab(temp);
 		}
 		else
 			return (0);
@@ -53,17 +54,18 @@ int        handle_command(t_env *env, char *line)
 		//      	ft_putendl(line);
 		//get_next_line(0, &line);
 		//ft_putendl(line);
-		if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !strchr(line, '#') && !strchr(line, 'L'))
+		if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !ft_strchr(line, '#') && !ft_strchr(line, 'L'))
 		{
 			temp = ft_strsplit(line, ' ');
 			env->end = (t_room*)malloc(sizeof(t_room));
-			env->end->name = temp[0];
+			env->end->name = ft_strdup(temp[0]);
 			env->end->x = ft_atoi(temp[1]);
 			env->end->y = ft_atoi(temp[2]);
 			env->end->ant = 0;
 			//    ft_strdel(&temp);
 			ft_list_push_back(&(env->head_room), env->end, sizeof(t_room));
 			ft_strdel(&line);
+			free_double_tab(temp);
 		}
 		else
 			return (0);
@@ -123,21 +125,17 @@ void	create_path(t_env *env, t_path *p)
 {
 	t_path	*path;
 	t_list	*pipe_list;
-	t_list	*PIPE_fix;
 	t_room	*room1;
 	t_pipe	*pipe;
 	t_list	*all_path;
-	t_path	*current_path;
 
 	/*
 	 * Faire de la recursive!
 	 * En gros si on a 0-4 on fait tout les chemin possible a partir de 0-4 et ainsi de suite
 	 * */
 	pipe_list = env->head_pipe;
-	PIPE_fix = pipe_list;
 	room1 = NULL;
 	all_path = NULL;
-	current_path = NULL;
 	while (pipe_list)
 	{
 		pipe = (t_pipe*)pipe_list->content;
@@ -276,11 +274,34 @@ int		init_pipe(t_env *env, char *line)
 	return (env);
 }*/
 
+void	del_env(t_env **environment)
+{
+	t_env	*env;
+	t_list	*tmp;
+
+	env = *environment;
+	free(env->start);
+	free(env->end);
+	while (env->head_room)
+	{
+		tmp = env->head_room;
+		env->head_room = env->head_room->next;
+		free(tmp);
+	}
+	while (env->head_pipe)
+	{
+		tmp = env->head_pipe;
+		env->head_pipe = env->head_pipe->next;
+		free(tmp);	
+	}
+}
+
 int		main(void)
 {
-	int        ret;
-	char    *line;
-	t_env    *env;
+	int		ret;
+	char	*line;
+	t_env	*env;
+	char	**split;
 
 	line = NULL;
 //	env = init_env(env);
@@ -312,29 +333,29 @@ int		main(void)
 	{
 		//ROOM
 		ft_putendl(line);
-		if (len_double_tab(ft_strsplit(line, ' ')) == 3 && line[0] != '#' && line[0] != 'L')
+		if (len_double_tab((split = ft_strsplit(line, ' '))) == 3 && line[0] != '#' && line[0] != 'L')
+		{
 			init_room(env, line);
+			free_double_tab(split);
+		}
 		else if (line[0] == '#')
 		{
 			if (handle_command(env, line) == 0)
 			{
-				//       ft_putstr_fd("Error\n", 2);
 				ft_strdel(&line);
 				break;
-				//       return (0);
 			}
 		}
-		else if (len_double_tab(ft_strsplit(line, '-')) == 2)
+		else if (len_double_tab((split = ft_strsplit(line, '-'))) == 2)
 		{
+			free_double_tab(split);
 			if (init_pipe(env, line) == 0)
 				break;
 		}
 		else
 		{
-		//	      ft_putstr_fd("Error\n", 2);
 			ft_strdel(&line);
 			break;
-			//return (0);
 		}
 		ft_strdel(&line);
 	}
@@ -351,6 +372,7 @@ int		main(void)
 		return (0);
 	}
 	move_ant(env);
+	del_env(&env);
 /*		
 	t_path *path;
 	t_room *room;
@@ -367,5 +389,7 @@ int		main(void)
 	  printf("------\n");
 	  env->head_path = env->head_path->next;
 	  }
-*/	return (0);
+*/
+	while (1);
+	return (0);
 }

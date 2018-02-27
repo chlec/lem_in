@@ -22,13 +22,7 @@ typedef struct		s_path
 	t_list			*room;
 	int				len;
 }					t_path;
-/*
-typedef struct		s_ant
-{
-	int				num;
-	int				room;
-}					t_ant;
-*/
+
 typedef struct		s_pipe
 {
 	t_room	*left;
@@ -55,6 +49,7 @@ t_path				*copy_maillon(t_list **p);
 int     			list_len(t_list **l);
 t_room				*get_last_room(t_list **l);
 int					room_is_present(t_list	**l, t_room *room);
+void				free_double_tab(char **tab);
 
 
 #endif
