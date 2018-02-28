@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 15:28:12 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/28 15:53:13 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,13 +251,11 @@ int		init_pipe(t_env *env, char *line, int *err)
 	}
 	if (pipe->left == NULL || pipe->right == NULL)
 	{
-		ft_strdel(&line);
+//		ft_strdel(&line);
 		return (0);
 	}
-//	printf("||||||||||||||||%s|||||||||||||||||||||||\n", pipe->right->name);
 	if ((!ft_strcmp(pipe->right->name, env->start->name) && !ft_strcmp(pipe->left->name, env->end->name)) || (!ft_strcmp(pipe->left->name, env->start->name) && !ft_strcmp(pipe->right->name, env->end->name)))
 	{
-		printf("--------%d--------\n", *err);
 		if (*err == 1)
 			return (1);
 		*err = 1;
@@ -470,7 +468,6 @@ int		main(void)
 		ft_putendl(line);
 		if (env->error == OK && len_double_tab((split = ft_strsplit(line, '-'))) == 2)
 		{
-			printf("on init le pipe\n");
 			free_double_tab(split);
 			if (init_pipe(env, line, &err) == 0)
 				env->error = INVALID_PIPE;
