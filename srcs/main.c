@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 10:57:21 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/28 11:59:55 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@ int        handle_command(t_env *env, char *line)
 		ft_putendl(line);
 		//	}
 		//    	ft_putendl(line);
-		if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !ft_strchr(line, '#') && !ft_strchr(line, 'L'))
+		if (len_double_tab((temp = ft_strsplit(line, ' '))) == 3 && !ft_strchr(line, '#') && !ft_strchr(line, 'L'))
 		{
-			temp = ft_strsplit(line, ' ');
 			env->start = (t_room*)malloc(sizeof(t_room));
 			env->start->name = ft_strdup(temp[0]);
 			env->start->x = ft_atoi(temp[1]);
@@ -54,9 +53,8 @@ int        handle_command(t_env *env, char *line)
 		//      	ft_putendl(line);
 		//get_next_line(0, &line);
 		//ft_putendl(line);
-		if (len_double_tab(ft_strsplit(line, ' ')) == 3 && !ft_strchr(line, '#') && !ft_strchr(line, 'L'))
+		if (len_double_tab((temp = ft_strsplit(line, ' '))) == 3 && !ft_strchr(line, '#') && !ft_strchr(line, 'L'))
 		{
-			temp = ft_strsplit(line, ' ');
 			env->end = (t_room*)malloc(sizeof(t_room));
 			env->end->name = ft_strdup(temp[0]);
 			env->end->x = ft_atoi(temp[1]);
@@ -100,10 +98,8 @@ int		already_found(t_list **l, t_list **p)
 	t_path	*path;
 	t_list	*new_path;
 	t_room	*room1;
-	//	t_room	*room2;
 
 	all_path = *l;
-
 	while (all_path)
 	{
 		path = (t_path*)all_path->content;
@@ -111,7 +107,6 @@ int		already_found(t_list **l, t_list **p)
 		while (new_path)
 		{
 			room1 = (t_room*)new_path->content;
-			//			room2 = (t_room*)new_path->next->content;
 			if (room_is_present((&path->room), room1))
 				return (1);
 			new_path = new_path->next;
@@ -429,7 +424,18 @@ int		main(void)
 				break;
 			}
 		}
-		else if (len_double_tab((split = ft_strsplit(line, '-'))) == 2)
+		else
+			break;
+	}
+	if (init_pipe(env, line) == 0)
+	{
+		ft_putstr_fd("Error\nno start or no end\n", 2);
+		return (0);
+	}
+	while ((ret = get_next_line(0, &line)) > 0)
+	{
+		ft_putendl(line);
+		if (len_double_tab((split = ft_strsplit(line, '-'))) == 2)
 		{
 			free_double_tab(split);
 			if (init_pipe(env, line) == 0)
@@ -458,6 +464,6 @@ int		main(void)
 	print_path(env);
 	move_ant(env);
 	del_env(&env);
-//	while (1);
+	while (1);
 	return (0);
 }
