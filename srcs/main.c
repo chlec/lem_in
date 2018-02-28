@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 10:56:42 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/28 10:57:21 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,14 +396,6 @@ int		main(void)
 
 	line = NULL;
 	env = init_env();
-//	if (!(env = (t_env*)malloc(sizeof(t_env))))
-//		return (0);
-/*	env->start = NULL;
-	env->end = NULL;
-	env->head_room = NULL;
-	env->head_pipe = NULL;
-	env->head_path = NULL;
-	env->head_ant = NULL;*/
 	if (get_next_line(0, &line) <= 0)
 	{
 		ft_putstr_fd("Error\n", 2);
