@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 15:24:53 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/28 15:28:12 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -460,6 +460,8 @@ int		main(void)
 	}
 	if (!env->head_room)
 		env->error = INVALID_ROOM;
+	if (env->start == NULL || env->end == NULL)
+		env->error = NO_END_OR_START;
 	if (env->error == OK && init_pipe(env, line, &err) == 0)
 		env->error = NO_END_OR_START;
 	ft_strdel(&line);
@@ -478,8 +480,6 @@ int		main(void)
 		ft_strdel(&line);
 	}
 	ft_putchar('\n');
-	if (env->start == NULL || env->end == NULL)
-		env->error = NO_END_OR_START;
 	if (env->error == OK)
 	{
 		create_path(env, NULL);
