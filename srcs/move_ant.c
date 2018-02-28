@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/26 15:25:11 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/28 14:17:57 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,14 @@ void	print_ant(t_env *env)
 	printf("\n");
 }
 
-void	ant_is_moving(t_env *env, t_room *room, t_room *room_after)
+void	ant_is_moving(t_env *env, int len, t_room *room, t_room *room_after)
 {
 //	printf("room %s a %d,room %s a %d\n",room->name, room->ant,room_after->name, room_after->ant);
 	if (!ft_strcmp(room_after->name, env->start->name))
 	{
-		room_after->ant = env->start->ant; 	
+		room_after->ant = env->start->ant;
+		if (len > env->start->ant)
+			return ;
 	}
 	if (!ft_strcmp(room->name, env->end->name))
 	{
@@ -158,7 +160,7 @@ void	move_ant(t_env *env)
 			head = path->room;
 			while (path->room->next)
 			{
-				ant_is_moving(env, path->room->content, path->room->next->content);
+				ant_is_moving(env, path->len,  path->room->content, path->room->next->content);
 				path->room = path->room->next;
 			}
 			path->room = head;

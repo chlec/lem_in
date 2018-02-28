@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 14:04:49 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/28 14:10:14 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -363,6 +363,21 @@ void		nb_room_path(t_env *env)
 	}
 }
 
+void		init_lowest_path(t_env *env)
+{	
+	t_path	*path;
+	t_list	*head_p;
+
+	head_p = env->head_path;
+	while (head_p)
+	{
+		path = (t_path*)(head_p->content);
+		if (path->len == env->lower_size)
+			path->len = 0;
+		head_p = head_p->next;
+	}
+}
+
 void		print_path(t_env *env)
 {	
 	t_path	*path;
@@ -452,8 +467,9 @@ int		main(void)
 		if (env->head_path == NULL)
 			env->error = NO_PATH;
 		nb_room_path(env);
+		init_lowest_path(env);
 		print_path(env);
-		printf("taille plus petit chemin = %d\n", env->lower_size);
+//		printf("taille plus petit chemin = %d\n", env->lower_size);
 		move_ant(env);
 	}
 	else
