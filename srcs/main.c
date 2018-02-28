@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 14:10:14 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/28 15:22:31 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,10 +219,11 @@ void	init_room(t_env *env, char *line)
 	room = NULL;
 }
 
-int		init_pipe(t_env *env, char *line)
+int		init_pipe(t_env *env, char *line, int *err)
 {
 	t_pipe *pipe;
 	t_room *room;
+	t_room *room2;
 	char	**temp;
 	t_list	*head_temp;
 
@@ -243,15 +244,23 @@ int		init_pipe(t_env *env, char *line)
 	head_temp = env->head_room;
 	while (head_temp)
 	{
-		room = (t_room*)(head_temp->content);
-		if (!ft_strcmp(room->name, temp[1]))
-			pipe->right = room;
+		room2 = (t_room*)(head_temp->content);
+		if (!ft_strcmp(room2->name, temp[1]))
+			pipe->right = room2;
 		head_temp = head_temp->next;
 	}
 	if (pipe->left == NULL || pipe->right == NULL)
 	{
 		ft_strdel(&line);
 		return (0);
+	}
+//	printf("||||||||||||||||%s|||||||||||||||||||||||\n", pipe->right->name);
+	if ((!ft_strcmp(pipe->right->name, env->start->name) && !ft_strcmp(pipe->left->name, env->end->name)) || (!ft_strcmp(pipe->left->name, env->start->name) && !ft_strcmp(pipe->right->name, env->end->name)))
+	{
+		printf("--------%d--------\n", *err);
+		if (*err == 1)
+			return (1);
+		*err = 1;
 	}
 	ft_list_push_back(&(env->head_pipe), pipe, sizeof(t_pipe));
 	return (1);
@@ -409,7 +418,9 @@ int		main(void)
 	char	*line;
 	t_env	*env;
 	char	**split;
+	int err;
 
+	err = 0;
 	line = NULL;
 	env = init_env();
 	if (get_next_line(0, &line) <= 0)
@@ -442,7 +453,7 @@ int		main(void)
 		else
 			break;
 	}
-	if (env->error == OK && init_pipe(env, line) == 0)
+	if (env->error == OK && init_pipe(env, line, &err) == 0)
 		env->error = NO_END_OR_START;
 	ft_strdel(&line);
 	while ((ret = get_next_line(0, &line)) > 0)
@@ -451,7 +462,7 @@ int		main(void)
 		if (len_double_tab((split = ft_strsplit(line, '-'))) == 2)
 		{
 			free_double_tab(split);
-			if (init_pipe(env, line) == 0)
+			if (init_pipe(env, line, &err) == 0)
 				env->error = INVALID_PIPE;
 		}
 		else if (line[0] != '#')
