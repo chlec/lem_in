@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 17:29:48 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/28 17:47:50 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -476,15 +476,16 @@ int		main(void)
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
 		ft_putendl(line);
-		if (env->error == OK && len_double_tab((split = ft_strsplit(line, '-'))) == 2)
+		if (line[0] == '#')
+			;
+		else if (env->error == OK && len_double_tab((split = ft_strsplit(line, '-'))) == 2)
 		{
+			//	env->error = INVALID_PIPE;
 			free_double_tab(split);
 			if (init_pipe(env, line, &err) == 0)
-			{
 				env->error = INVALID_PIPE;
-			}
 		}
-		else if (env->error == OK && line[0] != '#')
+		else
 			env->error = INVALID_PIPE;
 		ft_strdel(&line);
 	}
