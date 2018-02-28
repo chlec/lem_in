@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 15:22:31 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/28 15:24:53 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,7 +266,6 @@ int		init_pipe(t_env *env, char *line, int *err)
 	return (1);
 }
 
-
 t_env	*init_env()
 {
 	t_env	*env;
@@ -418,21 +417,26 @@ int		main(void)
 	char	*line;
 	t_env	*env;
 	char	**split;
-	int err;
+	int		err;
 
 	err = 0;
 	line = NULL;
 	env = init_env();
-	if (get_next_line(0, &line) <= 0)
+	while ((ret = get_next_line(0, &line)))
 	{
-		ft_putstr_fd("Error\nNo content\n", 2);
-		return (0);
+		ft_putendl(line);
+		if (ret <= 0)
+		{
+			ft_strdel(&line);
+			ft_putstr_fd("Error: No content\n", 2);
+			return (0);
+		}
+		if (!(ft_strlen(line) >= 2 && line[0] == '#' && line[1] != '#'))
+			break ;
 	}
 	if (in_integer(line) == 0)
 		env->error = INVALID_ANT_NUMBER;
 	env->nb_ant = ft_atoi(line);
-	ft_putnbr(env->nb_ant);
-	ft_putchar('\n');
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
 		//ROOM
@@ -447,20 +451,24 @@ int		main(void)
 			if (handle_command(env, line) == 0)
 			{
 				ft_strdel(&line);
-				break;
+				env->error = INVALID_ROOM;
+				//break;
 			}
 		}
 		else
 			break;
 	}
+	if (!env->head_room)
+		env->error = INVALID_ROOM;
 	if (env->error == OK && init_pipe(env, line, &err) == 0)
 		env->error = NO_END_OR_START;
 	ft_strdel(&line);
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
 		ft_putendl(line);
-		if (len_double_tab((split = ft_strsplit(line, '-'))) == 2)
+		if (env->error == OK && len_double_tab((split = ft_strsplit(line, '-'))) == 2)
 		{
+			printf("on init le pipe\n");
 			free_double_tab(split);
 			if (init_pipe(env, line, &err) == 0)
 				env->error = INVALID_PIPE;
@@ -493,6 +501,8 @@ int		main(void)
 			ft_putstr_fd("Error: No path\n", 2);
 		else if (env->error == INVALID_PIPE)
 			ft_putstr_fd("Error: Invalid pipe\n", 2);
+		else if (env->error == INVALID_ROOM)
+			ft_putstr_fd("Error: Invalid room\n", 2);
 		return (0);
 	}
 	del_env(&env);
