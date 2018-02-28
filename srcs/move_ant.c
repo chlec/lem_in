@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 14:17:57 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/28 14:51:22 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	print_antv2(t_env *env)
 		//En gros si une fourmi arrive a 0, on la supprime de la chaine
 		if (!ft_strcmp(l_ant->position, env->end->name))
 		{
-	//		printf("la fourmie %d et arriver", l_ant->num);
-			if (head == NULL)
+		//	printf("la fourmie %d et arriver  ||  ", l_ant->num);
+			if (head == NULL || env->head_ant == head_temp)
 			{
 				env->head_ant = head_temp->next;
 			//	free(l_ant);
@@ -80,6 +80,7 @@ void	print_antv2(t_env *env)
 			}
 		}
 		head = head_temp;
+	//	head = NULL;
 		head_temp = head_temp->next;
 	}
 	printf("\n");
