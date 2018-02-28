@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/27 11:17:07 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/28 10:56:42 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,8 +261,10 @@ int		init_pipe(t_env *env, char *line)
 }
 
 
-/*t_env	*init_env(t_env *env)
+t_env	*init_env()
 {
+	t_env	*env;
+
 	if (!(env = (t_env*)malloc(sizeof(t_env))))
 		return (0);
 	env->start = NULL;
@@ -272,28 +274,65 @@ int		init_pipe(t_env *env, char *line)
 	env->head_path = NULL;
 	env->head_ant = NULL;
 	return (env);
-}*/
+}
+
+void	del(void *e, size_t size)
+{
+	(void)size;
+	free(e);
+	e = NULL;
+}
 
 void	del_env(t_env **environment)
 {
 	t_env	*env;
+	t_list	*list;
+	t_room	*room;
+	t_pipe	*pipe;
 	t_list	*tmp;
 
 	env = *environment;
+	ft_strdel(&(env->start->name));
 	free(env->start);
+	ft_strdel(&(env->end->name));
 	free(env->end);
-	while (env->head_room)
+	list = env->head_room;
+	while (list)
 	{
-		tmp = env->head_room;
-		env->head_room = env->head_room->next;
-		free(tmp);
+		tmp = list->next;
+		room = (t_room*)list->content;
+		//ft_strdel(&(room->name));
+		free(list);
+		list = NULL;
+		free(room);
+		room = NULL;
+		list = tmp;
 	}
-	while (env->head_pipe)
+//	ft_lstdel(&(env->head_room), del);
+	list = env->head_pipe;
+	while (list)
 	{
-		tmp = env->head_pipe;
-		env->head_pipe = env->head_pipe->next;
-		free(tmp);	
+		tmp = list->next;
+		pipe = (t_pipe*)list->content;
+		//ft_strdel(&(room->name));
+		free(list);
+		if (pipe->left)
+		{
+	//	free(pipe->left);
+		pipe->left = NULL;
+		}
+		if (pipe->right)
+		{
+	//	free(pipe->right);
+		pipe->right = NULL;
+		}
+		free(pipe);
+		pipe = NULL;
+		list = tmp;
 	}
+//	ft_lstdel(&(env->head_pipe), del);
+	ft_lstdel(&(env->head_path), del);
+	ft_lstdel(&(env->head_ant), del);
 }
 
 void		nb_room_path(t_env *env)
@@ -356,15 +395,15 @@ int		main(void)
 	char	**split;
 
 	line = NULL;
-//	env = init_env(env);
-	if (!(env = (t_env*)malloc(sizeof(t_env))))
-		return (0);
-	env->start = NULL;
+	env = init_env();
+//	if (!(env = (t_env*)malloc(sizeof(t_env))))
+//		return (0);
+/*	env->start = NULL;
 	env->end = NULL;
 	env->head_room = NULL;
 	env->head_pipe = NULL;
 	env->head_path = NULL;
-	env->head_ant = NULL;
+	env->head_ant = NULL;*/
 	if (get_next_line(0, &line) <= 0)
 	{
 		ft_putstr_fd("Error\n", 2);
@@ -426,7 +465,7 @@ int		main(void)
 	nb_room_path(env);
 	print_path(env);
 	move_ant(env);
-//	del_env(&env);
+	del_env(&env);
 //	while (1);
 	return (0);
 }
