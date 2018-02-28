@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 14:51:22 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/28 15:31:51 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	ant_is_moving(t_env *env, int len, t_room *room, t_room *room_after)
 	if (!ft_strcmp(room_after->name, env->start->name))
 	{
 		room_after->ant = env->start->ant;
-		if (len > env->start->ant)
+		if (len > env->start->ant + 1)
 			return ;
 	}
 	if (!ft_strcmp(room->name, env->end->name))
