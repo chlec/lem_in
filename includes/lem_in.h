@@ -50,6 +50,7 @@ typedef struct		s_env
 	t_list	*head_ant;
 	int		nb_ant;
 	enum e_error	error;
+	int		lower_size;
 }					t_env;
 
 void				ft_list_push_back(t_list **begin_list, void *data, size_t len);
