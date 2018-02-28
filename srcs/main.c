@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 13:02:47 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/28 13:58:27 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -430,27 +430,24 @@ int		main(void)
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
 		ft_putendl(line);
-		if (env->error == OK && len_double_tab((split = ft_strsplit(line, '-'))) == 2)
+		if (len_double_tab((split = ft_strsplit(line, '-'))) == 2)
 		{
 			free_double_tab(split);
 			if (init_pipe(env, line) == 0)
 				env->error = INVALID_PIPE;
 		}
-		else
-		{
-			ft_strdel(&line);
+		else if (line[0] != '#')
 			env->error = INVALID_PIPE;
-		}
 		ft_strdel(&line);
 	}
 	ft_putchar('\n');
-	if (env->head_path == NULL)
-		env->error = NO_PATH;
 	if (env->start == NULL || env->end == NULL)
 		env->error = NO_END_OR_START;
 	if (env->error == OK)
 	{
 		create_path(env, NULL);
+		if (env->head_path == NULL)
+			env->error = NO_PATH;
 		nb_room_path(env);
 		print_path(env);
 		move_ant(env);
