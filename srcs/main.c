@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 16:43:53 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/28 16:47:28 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -420,6 +420,12 @@ int		main(void)
 	err = 0;
 	line = NULL;
 	env = init_env();
+	if ((ret = get_next_line(0, &line) <= 0))
+	{
+			ft_strdel(&line);
+			ft_putstr_fd("Error: No content\n", 2);
+			return (0);	
+	}
 	while ((ret = get_next_line(0, &line)))
 	{
 		ft_putendl(line);
