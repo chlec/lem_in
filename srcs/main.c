@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 17:06:04 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/02/28 17:29:48 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -461,7 +461,8 @@ int		main(void)
 		}
 		else
 		{
-			env->error = INVALID_ROOM;
+			if (line[0] == 'L')
+				env->error = INVALID_ROOM;
 			break;
 		}
 	}
@@ -479,27 +480,26 @@ int		main(void)
 		{
 			free_double_tab(split);
 			if (init_pipe(env, line, &err) == 0)
+			{
 				env->error = INVALID_PIPE;
+			}
 		}
-		else if (line[0] != '#')
+		else if (env->error == OK && line[0] != '#')
 			env->error = INVALID_PIPE;
 		ft_strdel(&line);
 	}
 	ft_putchar('\n');
 	if (env->error == OK)
 		create_path(env, NULL);
-	if (env->head_path == NULL)
+	if (env->error == OK && env->head_path == NULL)
 		env->error = NO_PATH;
 	if (env->error == OK)
 	{
-		if (env->error == OK)
-		{
-			nb_room_path(env);
-			init_lowest_path(env);
-			print_path(env);
-//			printf("taille plus petit chemin = %d\n", env->lower_size);
-			move_ant(env);
-		}
+		nb_room_path(env);
+		init_lowest_path(env);
+		print_path(env);
+//		printf("taille plus petit chemin = %d\n", env->lower_size);
+		move_ant(env);
 	}
 	else
 	{

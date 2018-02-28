@@ -1,9 +1,13 @@
 #!/bin/sh
 
-for file in tests/test_err*
+for file in tests/*
 do
-	echo "File: $file"
-	./lem_in < "$file" 2>&1
+	if [[ ${file} != *"err"* ]];then
+		if [[ ${file} != *"big"* ]];then
+			echo "File: $file"
+			./lem_in < "$file" 2>&1
+		fi
+	fi
 done
 	
 

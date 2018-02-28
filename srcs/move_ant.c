@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 15:31:51 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/28 17:34:42 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	move_ant(t_env *env)
 				path->room = path->room->next;
 			}
 			path->room = head;
-			usleep(10000);
+//			usleep(10000);
 //			print_antv2(env);
 			head_p = head_p->next;
 		}
