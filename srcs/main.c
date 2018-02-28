@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 11:59:55 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/02/28 13:02:47 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,8 @@ int		init_pipe(t_env *env, char *line)
 	t_list	*head_temp;
 
 	pipe = (t_pipe*)malloc(sizeof(t_pipe));
+	if (!line)
+		return (0);
 	temp = ft_strsplit(line, '-');
 	head_temp = env->head_room;
 	pipe->used = 0;
@@ -268,6 +270,7 @@ t_env	*init_env()
 	env->head_pipe = NULL;
 	env->head_path = NULL;
 	env->head_ant = NULL;
+	env->error = OK;
 	return (env);
 }
 
@@ -393,17 +396,11 @@ int		main(void)
 	env = init_env();
 	if (get_next_line(0, &line) <= 0)
 	{
-		ft_putstr_fd("Error\n", 2);
-//		ft_strdel(&line);
+		ft_putstr_fd("Error\nNo content\n", 2);
 		return (0);
 	}
-	//    get_next_line(0, &line);
 	if (in_integer(line) == 0)
-	{
-		ft_putstr_fd("Error\n", 2);
-		ft_strdel(&line);
-		return (0);
-	}
+		env->error = INVALID_ANT_NUMBER;
 	env->nb_ant = ft_atoi(line);
 	ft_putnbr(env->nb_ant);
 	ft_putchar('\n');
@@ -411,12 +408,12 @@ int		main(void)
 	{
 		//ROOM
 		ft_putendl(line);
-		if (len_double_tab((split = ft_strsplit(line, ' '))) == 3 && line[0] != '#' && line[0] != 'L')
+		if (env->error == OK && len_double_tab((split = ft_strsplit(line, ' '))) == 3 && line[0] != '#' && line[0] != 'L')
 		{
 			init_room(env, line);
 			free_double_tab(split);
 		}
-		else if (line[0] == '#')
+		else if (env->error == OK && line[0] == '#')
 		{
 			if (handle_command(env, line) == 0)
 			{
@@ -427,42 +424,49 @@ int		main(void)
 		else
 			break;
 	}
-	if (init_pipe(env, line) == 0)
-	{
-		ft_putstr_fd("Error\nno start or no end\n", 2);
-		return (0);
-	}
+	if (env->error == OK && init_pipe(env, line) == 0)
+		env->error = NO_END_OR_START;
+	ft_strdel(&line);
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
 		ft_putendl(line);
-		if (len_double_tab((split = ft_strsplit(line, '-'))) == 2)
+		if (env->error == OK && len_double_tab((split = ft_strsplit(line, '-'))) == 2)
 		{
 			free_double_tab(split);
 			if (init_pipe(env, line) == 0)
-				break;
+				env->error = INVALID_PIPE;
 		}
 		else
 		{
 			ft_strdel(&line);
-			break;
+			env->error = INVALID_PIPE;
 		}
 		ft_strdel(&line);
 	}
 	ft_putchar('\n');
-	if (env->start == NULL || env->end == NULL)
-	{
-		ft_putstr_fd("Error\nno start or no end\n", 2);
-		return (0);
-	}
-	create_path(env, NULL);
 	if (env->head_path == NULL)
+		env->error = NO_PATH;
+	if (env->start == NULL || env->end == NULL)
+		env->error = NO_END_OR_START;
+	if (env->error == OK)
 	{
-		ft_putstr_fd("Error\nno path\n", 2);
+		create_path(env, NULL);
+		nb_room_path(env);
+		print_path(env);
+		move_ant(env);
+	}
+	else
+	{
+		if (env->error == NO_END_OR_START)
+			ft_putstr_fd("Error: No start or no end\n", 1);
+		else if (env->error == INVALID_ANT_NUMBER)
+			ft_putstr_fd("Error: Invalid ant number\n", 2);
+		else if (env->error == NO_PATH)
+			ft_putstr_fd("Error: No path\n", 2);
+		else if (env->error == INVALID_PIPE)
+			ft_putstr_fd("Error: Invalid pipe\n", 2);
 		return (0);
 	}
-	nb_room_path(env);
-	print_path(env);
-	move_ant(env);
 	del_env(&env);
 	while (1);
 	return (0);

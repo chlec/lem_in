@@ -3,6 +3,15 @@
 # include "libft.h"
 # include <stdio.h>
 
+enum				e_error
+{
+	OK,
+	NO_PATH,
+	NO_END_OR_START,
+	INVALID_ANT_NUMBER,
+	INVALID_PIPE
+};
+
 typedef struct		s_ant
 {
 	int				num;
@@ -40,6 +49,7 @@ typedef struct		s_env
 	t_list	*head_path;
 	t_list	*head_ant;
 	int		nb_ant;
+	enum e_error	error;
 }					t_env;
 
 void				ft_list_push_back(t_list **begin_list, void *data, size_t len);
@@ -50,6 +60,5 @@ int     			list_len(t_list **l);
 t_room				*get_last_room(t_list **l);
 int					room_is_present(t_list	**l, t_room *room);
 void				free_double_tab(char **tab);
-
 
 #endif
