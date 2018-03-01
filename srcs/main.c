@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 13:21:41 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 13:24:45 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -556,6 +556,8 @@ int		main(void)
 		env->error = NO_PATH;
 	if (env->error == OK || env->error == INVALID_PIPE)
 	{
+		if (env->error == INVALID_PIPE)
+			ft_putstr("Error: Acquisition non completee\n");
 		nb_room_path(env);
 		init_lowest_path(env);
 		print_path(env);
