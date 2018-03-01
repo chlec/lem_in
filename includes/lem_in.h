@@ -74,5 +74,7 @@ void				print_path(t_env *env);
 void				create_path(t_env *env, t_path *);
 int					already_found(t_list **l, t_list **p);
 int					in_integer(char *argv);
+void				del(void *e, size_t size);
+
 
 #endif
