@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:08:13 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 14:09:28 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 14:25:12 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ void	init_room(t_env *env, char *line)
 	if (!(room = (t_room*)malloc(sizeof(t_room))))
 		return ;
 	temp = ft_strsplit(line, ' ');
-	room->name = temp[0];
+	room->name = ft_strdup(temp[0]);
 	room->x = ft_atoi(temp[1]);
 	room->y = ft_atoi(temp[2]);
 	room->ant = 0;
 	ft_list_push_back(&(env->head_room), room, sizeof(t_room));
 	room = NULL;
+	free_double_tab(temp);
 }
 
 int		check_room(t_env *env, char *str, int x, int y)

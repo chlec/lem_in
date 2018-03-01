@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 14:17:05 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 14:31:43 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,49 +131,28 @@ void	del_env(t_env **environment)
 	t_env	*env;
 	t_list	*list;
 	t_room	*room;
-	t_pipe	*pipe;
+//	t_pipe	*pipe;
 	t_list	*tmp;
 
 	env = *environment;
-	ft_strdel(&(env->start->name));
-	free(env->start);
-	ft_strdel(&(env->end->name));
-	free(env->end);
+//	ft_strdel(&(env->start->name));
+//	free(env->start);
+//	ft_strdel(&(env->end->name));
+//	free(env->end);
 	list = env->head_room;
-	while (list)
+	while (env->head_room)
 	{
-		tmp = list->next;
-		room = (t_room*)list->content;
-		//ft_strdel(&(room->name));
-		free(list);
+		tmp = env->head_room->next;
+		room = (t_room*)env->head_room->content;
+		ft_strdel(&(room->name));
+		free(env->head_room);
 		list = NULL;
 		free(room);
 		room = NULL;
-		list = tmp;
+		env->head_room = tmp;
 	}
-//	ft_lstdel(&(env->head_room), del);
-	list = env->head_pipe;
-	while (list)
-	{
-		tmp = list->next;
-		pipe = (t_pipe*)list->content;
-		//ft_strdel(&(room->name));
-		free(list);
-		if (pipe->left)
-		{
-	//	free(pipe->left);
-		pipe->left = NULL;
-		}
-		if (pipe->right)
-		{
-	//	free(pipe->right);
-		pipe->right = NULL;
-		}
-		free(pipe);
-		pipe = NULL;
-		list = tmp;
-	}
-//	ft_lstdel(&(env->head_pipe), del);
+	ft_lstdel(&(env->head_room), del);
+	ft_lstdel(&(env->head_pipe), del);
 	ft_lstdel(&(env->head_path), del);
 	ft_lstdel(&(env->head_ant), del);
 }
@@ -297,6 +276,6 @@ int		main(void)
 		return (0);
 	}
 	del_env(&env);
-//	while (1);
+	while (1);
 	return (0);
 }
