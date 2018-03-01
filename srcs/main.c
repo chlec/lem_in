@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 12:54:05 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 13:00:42 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,9 +240,11 @@ int		pipe_exist(t_list *head_pipe, t_room *left, t_room *right)
 		if ((!ft_strcmp(pipe->right->name, right->name)
 			&& !ft_strcmp(pipe->left->name, left->name))
 				||
-			(!ft_strcmp(pipe->left->name, left->name)
-			 && !ft_strcmp(pipe->right->name, left->name)))
+			(!ft_strcmp(pipe->right->name, left->name)
+			 && !ft_strcmp(pipe->left->name, right->name)))
+		{
 			return (1);
+		}
 		list = list->next;
 	}
 	return (0);
