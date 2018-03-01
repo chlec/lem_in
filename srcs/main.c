@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 13:18:23 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/01 13:21:41 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -489,7 +489,7 @@ int		main(void)
 		ft_putstr_fd("Error: No content\n", 2);
 		return (0);
 	}
-	if (in_integer(line) == 0)
+	if (in_integer(line) == 0 || ft_atoi(line) <= 0)
 		env->error = INVALID_ANT_NUMBER;
 	env->nb_ant = ft_atoi(line);
 	while ((ret = get_next_line(0, &line)) > 0)
