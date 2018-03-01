@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 14:42:59 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 14:58:42 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ int		main(void)
 	if (in_integer(line) == 0 || ft_atoi(line) <= 0)
 		env->error = INVALID_ANT_NUMBER;
 	env->nb_ant = ft_atoi(line);
+		ft_strdel(&line);
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
 		//ROOM
