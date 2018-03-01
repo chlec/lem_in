@@ -7,7 +7,10 @@ HEADERS_FILES = includes/
 SRCS =	$(PATH_SRCS)main.c \
 		$(PATH_SRCS)ft_list_push_back.c \
 		$(PATH_SRCS)move_ant.c \
-		$(PATH_SRCS)lem_in.util.c
+		$(PATH_SRCS)lem_in.util.c \
+		$(PATH_SRCS)get_room.c \
+		$(PATH_SRCS)get_pipe.c \
+		$(PATH_SRCS)get_path.c
 
 OBJS = $(SRCS:.c=.o)
 

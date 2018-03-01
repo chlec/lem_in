@@ -63,5 +63,16 @@ int     			list_len(t_list **l);
 t_room				*get_last_room(t_list **l);
 int					room_is_present(t_list	**l, t_room *room);
 void				free_double_tab(char **tab);
+void				init_room(t_env *env, char *line);
+int					check_room(t_env *env, char *str, int x, int y);
+int					linked(t_list **p, t_room *left, t_room *right);
+int					pipe_exist(t_list *head_pipe, t_room *left, t_room *rigtht);
+int					init_pipe(t_env *env, char *line);
+void				nb_room_path(t_env *env);
+void				init_lowest_path(t_env *env);
+void				print_path(t_env *env);
+void				create_path(t_env *env, t_path *);
+int					already_found(t_list **l, t_list **p);
+int					in_integer(char *argv);
 
 #endif
