@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 13:00:42 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/01 13:18:23 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -498,9 +498,11 @@ int		main(void)
 		ft_putendl(line);
 		if (env->error == OK && len_double_tab((split = ft_strsplit(line, ' '))) == 3 && line[0] != '#' && line[0] != 'L')
 		{
-			if (check_room(env, split[0], ft_atoi(split[1]), ft_atoi(split[2])) == 1)
+			if (!in_integer(split[1]) || !in_integer(split[2]))
 				env->error = INVALID_ROOM;
-			if (env->end && !ft_strcmp(split[0], env->end->name))
+			else if (check_room(env, split[0], ft_atoi(split[1]), ft_atoi(split[2])) == 1)
+				env->error = INVALID_ROOM;
+			else if (env->end && !ft_strcmp(split[0], env->end->name))
 				env->error = INVALID_ROOM;
 			else if (env->start && !ft_strcmp(split[0], env->start->name))
 				env->error = INVALID_ROOM;
