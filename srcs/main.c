@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 17:47:50 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 11:36:44 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,6 +384,24 @@ void		init_lowest_path(t_env *env)
 	}
 }
 
+int		check_room(t_env *env, char *str)
+{
+	int		check;
+	t_list	*head;
+	t_room	*room;
+
+	check = 0;
+	head = env->head_room;
+	while (head)
+	{
+		room = (t_room*)head->content;
+		if (!ft_strcmp(room->name, str))
+				return (1);
+		head = head->next;
+	}
+	return (0);
+}
+
 void		print_path(t_env *env)
 {	
 	t_path	*path;
@@ -447,7 +465,14 @@ int		main(void)
 		ft_putendl(line);
 		if (env->error == OK && len_double_tab((split = ft_strsplit(line, ' '))) == 3 && line[0] != '#' && line[0] != 'L')
 		{
-			init_room(env, line);
+			if (check_room(env, split[0]) == 1)
+				env->error = INVALID_ROOM;
+			if (env->end && !ft_strcmp(split[0], env->end->name))
+				env->error = INVALID_ROOM;
+			else if (env->start && !ft_strcmp(split[0], env->start->name))
+				env->error = INVALID_ROOM;
+			else	
+				init_room(env, line);
 			free_double_tab(split);
 		}
 		else if (env->error == OK && line[0] == '#')
@@ -490,11 +515,11 @@ int		main(void)
 		ft_strdel(&line);
 	}
 	ft_putchar('\n');
-	if (env->error == OK)
+	if (env->error == OK || env->error == INVALID_PIPE || env->error == INVALID_ROOM)
 		create_path(env, NULL);
 	if (env->error == OK && env->head_path == NULL)
 		env->error = NO_PATH;
-	if (env->error == OK)
+	if (env->error == OK || env->error == INVALID_PIPE || env->error == INVALID_ROOM)
 	{
 		nb_room_path(env);
 		init_lowest_path(env);
