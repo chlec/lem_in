@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 11:36:44 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 12:02:42 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,20 @@ int        handle_command(t_env *env, char *line)
 	{
 		if (env->start)
 			return (0);
-		//	while (line[0] == '#')
-		//	{
-		get_next_line(0, &line);
+		/*while (line[0] == '#')
+		{
+			get_next_line(0, &line);
+			ft_putendl(line);
+		}*/
+		while (get_next_line(0, &line))
+		{
+			if (line[0] != '#' || (line[0] == '#' && line[1] == '#'))
+				break;
+			else
+				ft_putendl(line);
+			ft_strdel(&line);
+		}
 		ft_putendl(line);
-		//	}
-		//    	ft_putendl(line);
 		if (len_double_tab((temp = ft_strsplit(line, ' '))) == 3 && !ft_strchr(line, '#') && !ft_strchr(line, 'L'))
 		{
 			env->start = (t_room*)malloc(sizeof(t_room));
@@ -45,14 +53,15 @@ int        handle_command(t_env *env, char *line)
 	{
 		if (env->end)
 			return (0);
-		//	while (line[0] == '#')
-		//	{
-		get_next_line(0, &line);
+		while (get_next_line(0, &line))
+		{
+			if (line[0] != '#' || (line[0] == '#' && line[1] == '#'))
+				break;
+			else
+				ft_putendl(line);
+			ft_strdel(&line);
+		}
 		ft_putendl(line);
-		//	}
-		//      	ft_putendl(line);
-		//get_next_line(0, &line);
-		//ft_putendl(line);
 		if (len_double_tab((temp = ft_strsplit(line, ' '))) == 3 && !ft_strchr(line, '#') && !ft_strchr(line, 'L'))
 		{
 			env->end = (t_room*)malloc(sizeof(t_room));
@@ -384,7 +393,7 @@ void		init_lowest_path(t_env *env)
 	}
 }
 
-int		check_room(t_env *env, char *str)
+int		check_room(t_env *env, char *str, int x, int y)
 {
 	int		check;
 	t_list	*head;
@@ -396,6 +405,14 @@ int		check_room(t_env *env, char *str)
 	{
 		room = (t_room*)head->content;
 		if (!ft_strcmp(room->name, str))
+				return (1);
+		head = head->next;
+	}
+	head = env->head_room;
+	while (head)
+	{
+		room = (t_room*)head->content;
+		if (room->x == x && room->y == y)
 				return (1);
 		head = head->next;
 	}
@@ -465,7 +482,7 @@ int		main(void)
 		ft_putendl(line);
 		if (env->error == OK && len_double_tab((split = ft_strsplit(line, ' '))) == 3 && line[0] != '#' && line[0] != 'L')
 		{
-			if (check_room(env, split[0]) == 1)
+			if (check_room(env, split[0], ft_atoi(split[1]), ft_atoi(split[2])) == 1)
 				env->error = INVALID_ROOM;
 			if (env->end && !ft_strcmp(split[0], env->end->name))
 				env->error = INVALID_ROOM;
@@ -515,11 +532,11 @@ int		main(void)
 		ft_strdel(&line);
 	}
 	ft_putchar('\n');
-	if (env->error == OK || env->error == INVALID_PIPE || env->error == INVALID_ROOM)
+	if (env->error == OK || env->error == INVALID_PIPE)
 		create_path(env, NULL);
-	if (env->error == OK && env->head_path == NULL)
+	if ((env->error == OK || env->error == INVALID_PIPE) && env->head_path == NULL)
 		env->error = NO_PATH;
-	if (env->error == OK || env->error == INVALID_PIPE || env->error == INVALID_ROOM)
+	if (env->error == OK || env->error == INVALID_PIPE)
 	{
 		nb_room_path(env);
 		init_lowest_path(env);
