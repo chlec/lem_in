@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/27 10:52:02 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 16:12:22 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	free_double_tab(char **tab)
 		ft_strdel(&tab[i]);
 		i++;
 	}
+	free(tab);
+	tab = NULL;
 }
 
 int len_double_tab(char **tab)

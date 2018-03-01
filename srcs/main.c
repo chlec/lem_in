@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 16:06:31 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 16:10:46 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,8 @@ void	del_env(t_env *env)
 	t_ant	*ant;
 	t_path	*path;
 
-//	ft_strdel(&(env->start->name));
 	free(env->start);
 	env->start = NULL;
-//	ft_strdel(&(env->end->name));
 	free(env->end);
 	env->end = NULL;
 //	list = env->head_room;
@@ -198,8 +196,8 @@ void	del_env(t_env *env)
 		env->head_path = NULL;
 		env->head_path = tmp;
 	}
-//	free(env);
-//	env = NULL;
+	free(env);
+	env = NULL;
 }
 
 int		main(void)
