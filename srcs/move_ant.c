@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/28 17:34:42 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 15:43:15 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	init_ant(t_env *env)
 		l_ant->num = i + 1;
 		l_ant->position = env->start->name;
 		ft_list_push_back(&(env->head_ant), l_ant, sizeof(t_ant));
+		free(l_ant);
 		l_ant = NULL;
 		i++;
 	}

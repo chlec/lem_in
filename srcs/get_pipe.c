@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:10:47 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 14:52:53 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/01 15:44:40 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,16 @@ int		init_pipe(t_env *env, char *line)
 	free_double_tab(temp);
 	if (pipe->left == NULL || pipe->right == NULL)
 	{
+	free(pipe);
 //		ft_strdel(&line);
 		return (0);
 	}
 	if (pipe_exist(env->head_pipe, pipe->left, pipe->right))
+	{
+//	free(pipe);
 		return (0);
+	}
 	ft_list_push_back(&(env->head_pipe), pipe, sizeof(t_pipe));
+	free(pipe);
 	return (1);
 }

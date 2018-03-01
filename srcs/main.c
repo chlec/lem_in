@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 14:58:42 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/01 15:44:55 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,32 +131,33 @@ void	del(void *e, size_t size)
 	e = NULL;
 }
 
-void	del_env(t_env **environment)
+void	del_env(t_env *env)
 {
-	t_env	*env;
-	t_list	*list;
+//	t_list	*list;
 	t_room	*room;
 //	t_pipe	*pipe;
 	t_list	*tmp;
 	t_ant	*ant;
 
-	env = *environment;
+	printf("add de env = %p\n", env->head_room);
 //	ft_strdel(&(env->start->name));
-//	free(env->start);
+	free(env->start);
 //	ft_strdel(&(env->end->name));
-//	free(env->end);
-	list = env->head_room;
+	free(env->end);
+//	list = env->head_room;
+
 	while (env->head_room)
 	{
 		tmp = env->head_room->next;
 		room = (t_room*)env->head_room->content;
 		ft_strdel(&(room->name));
 		free(env->head_room);
-		list = NULL;
+	//	env->head_room = NULL;
 		free(room);
 		room = NULL;
 		env->head_room = tmp;
 	}
+	printf("add de env = %p\n", env->head_room);
 	ft_lstdel(&(env->head_room), del);
 	ft_lstdel(&(env->head_pipe), del);
 	ft_lstdel(&(env->head_path), del);
@@ -166,11 +167,14 @@ void	del_env(t_env **environment)
 		ant = (t_ant*)env->head_ant->content;
 		ft_strdel(&(ant->position));
 		free(env->head_ant);
-		list = NULL;
+		env->head_ant = NULL;
 		free(room);
 		room = NULL;
 		env->head_ant = tmp;
 	}
+//	free(env->head_room);
+//	free(env->head_pipe);
+//	free(env->head_path);
 	//ft_lstdel(&(env->head_ant), del);
 }
 
@@ -295,7 +299,8 @@ int		main(void)
 			ft_putstr_fd("Error: Pipe in double\n", 2);
 		return (0);
 	}
-	del_env(&env);
+	printf("add de env = %p\n", env->head_room);
+//	del_env(env);
 	while (1);
 	return (0);
 }

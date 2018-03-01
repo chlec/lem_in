@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:08:13 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 14:25:12 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 15:45:58 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_room(t_env *env, char *line)
 	room->y = ft_atoi(temp[2]);
 	room->ant = 0;
 	ft_list_push_back(&(env->head_room), room, sizeof(t_room));
+	free(room);
 	room = NULL;
 	free_double_tab(temp);
 }
