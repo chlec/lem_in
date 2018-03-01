@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 12:02:42 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 12:54:05 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,27 @@ void	init_room(t_env *env, char *line)
 	room = NULL;
 }
 
-int		init_pipe(t_env *env, char *line, int *err)
+int		pipe_exist(t_list *head_pipe, t_room *left, t_room *right)
+{
+	t_list	*list;
+	t_pipe	*pipe;
+
+	list = head_pipe;
+	while (list)
+	{
+		pipe = (t_pipe*)list->content;
+		if ((!ft_strcmp(pipe->right->name, right->name)
+			&& !ft_strcmp(pipe->left->name, left->name))
+				||
+			(!ft_strcmp(pipe->left->name, left->name)
+			 && !ft_strcmp(pipe->right->name, left->name)))
+			return (1);
+		list = list->next;
+	}
+	return (0);
+}
+
+int		init_pipe(t_env *env, char *line)
 {
 	t_pipe *pipe;
 	t_room *room;
@@ -263,12 +283,8 @@ int		init_pipe(t_env *env, char *line, int *err)
 //		ft_strdel(&line);
 		return (0);
 	}
-	if ((!ft_strcmp(pipe->right->name, env->start->name) && !ft_strcmp(pipe->left->name, env->end->name)) || (!ft_strcmp(pipe->left->name, env->start->name) && !ft_strcmp(pipe->right->name, env->end->name)))
-	{
-		if (*err == 1)
-			return (1);
-		*err = 1;
-	}
+	if (pipe_exist(env->head_pipe, pipe->left, pipe->right))
+		return (0);
 	ft_list_push_back(&(env->head_pipe), pipe, sizeof(t_pipe));
 	return (1);
 }
@@ -450,9 +466,7 @@ int		main(void)
 	char	*line;
 	t_env	*env;
 	char	**split;
-	int		err;
 
-	err = 0;
 	line = NULL;
 	env = init_env();
 /*	if ((ret = get_next_line(0, &line) <= 0))
@@ -464,7 +478,7 @@ int		main(void)
 */	while ((ret = get_next_line(0, &line)))
 	{
 		ft_putendl(line);
-		if (!(ft_strlen(line) >= 2 && line[0] == '#' && line[1] != '#'))
+		if (line[0] != '#')
 			break ;
 	}
 	if ((ret <= 0))
@@ -512,8 +526,8 @@ int		main(void)
 		env->error = INVALID_ROOM;
 	if (env->start == NULL || env->end == NULL)
 		env->error = NO_END_OR_START;
-	if (env->error == OK && init_pipe(env, line, &err) == 0)
-		env->error = NO_END_OR_START;
+	if (env->error == OK && init_pipe(env, line) == 0)
+		env->error = DOUBLE_PIPE;
 	ft_strdel(&line);
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
@@ -524,7 +538,7 @@ int		main(void)
 		{
 			//	env->error = INVALID_PIPE;
 			free_double_tab(split);
-			if (init_pipe(env, line, &err) == 0)
+			if (init_pipe(env, line) == 0)
 				env->error = INVALID_PIPE;
 		}
 		else
@@ -556,6 +570,8 @@ int		main(void)
 			ft_putstr_fd("Error: Invalid pipe\n", 2);
 		else if (env->error == INVALID_ROOM)
 			ft_putstr_fd("Error: Invalid room\n", 2);
+		else if (env->error == DOUBLE_PIPE)
+			ft_putstr_fd("Error: Pipe in double\n", 2);
 		return (0);
 	}
 	del_env(&env);

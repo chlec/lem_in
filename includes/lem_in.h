@@ -10,7 +10,8 @@ enum				e_error
 	NO_END_OR_START,
 	INVALID_ANT_NUMBER,
 	INVALID_PIPE,
-	INVALID_ROOM
+	INVALID_ROOM,
+	DOUBLE_PIPE
 };
 
 typedef struct		s_ant
