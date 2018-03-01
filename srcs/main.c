@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 15:44:55 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/01 15:59:54 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,32 +135,28 @@ void	del_env(t_env *env)
 {
 //	t_list	*list;
 	t_room	*room;
-//	t_pipe	*pipe;
+	t_pipe	*pipe;
 	t_list	*tmp;
+	t_list	*tmp2;
 	t_ant	*ant;
+	t_path	*path;
 
-	printf("add de env = %p\n", env->head_room);
 //	ft_strdel(&(env->start->name));
-	free(env->start);
+//	free(env->start);
 //	ft_strdel(&(env->end->name));
-	free(env->end);
+//	free(env->end);
 //	list = env->head_room;
-
 	while (env->head_room)
 	{
 		tmp = env->head_room->next;
 		room = (t_room*)env->head_room->content;
 		ft_strdel(&(room->name));
 		free(env->head_room);
-	//	env->head_room = NULL;
+		env->head_room = NULL;
 		free(room);
 		room = NULL;
 		env->head_room = tmp;
 	}
-	printf("add de env = %p\n", env->head_room);
-	ft_lstdel(&(env->head_room), del);
-	ft_lstdel(&(env->head_pipe), del);
-	ft_lstdel(&(env->head_path), del);
 	while (env->head_ant)
 	{
 		tmp = env->head_ant->next;
@@ -172,10 +168,35 @@ void	del_env(t_env *env)
 		room = NULL;
 		env->head_ant = tmp;
 	}
-//	free(env->head_room);
-//	free(env->head_pipe);
-//	free(env->head_path);
-	//ft_lstdel(&(env->head_ant), del);
+	while (env->head_pipe)
+	{
+		tmp = env->head_pipe->next;
+		pipe = (t_pipe*)env->head_pipe->content;
+		free(pipe);
+		pipe = NULL;
+		free(env->head_pipe);
+		env->head_pipe = NULL;
+		env->head_pipe = tmp;
+	}
+	while (env->head_path)
+	{
+		tmp = env->head_path->next;
+		path = (t_path*)env->head_path->content;
+		while (path->room)
+		{
+			tmp2 = path->room->next;
+			room = (t_room*)path->room->content;
+		//	ft_strdel(&(room->name));
+			free(path->room);
+			path->room = NULL;
+			free(room);
+			room = NULL;
+			path->room = tmp2;
+		}
+		free(env->head_path);
+		env->head_path = NULL;
+		env->head_path = tmp;
+	}
 }
 
 int		main(void)
@@ -300,7 +321,7 @@ int		main(void)
 		return (0);
 	}
 	printf("add de env = %p\n", env->head_room);
-//	del_env(env);
+	del_env(env);
 	while (1);
 	return (0);
 }
