@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 14:31:43 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 14:42:59 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int        handle_command(t_env *env, char *line)
 
 	if (!ft_strcmp(line, "##start"))
 	{
+		ft_strdel(&line);
 		if (env->start)
 			return (0);
 		/*while (line[0] == '#')
@@ -51,6 +52,7 @@ int        handle_command(t_env *env, char *line)
 	}
 	else if (!ft_strcmp(line, "##end"))
 	{
+		ft_strdel(&line);
 		if (env->end)
 			return (0);
 		while (get_next_line(0, &line))
@@ -75,7 +77,10 @@ int        handle_command(t_env *env, char *line)
 			free_double_tab(temp);
 		}
 		else
+		{
+			free_double_tab(temp);
 			return (0);
+		}
 	}
 	return (1);
 }
@@ -133,6 +138,7 @@ void	del_env(t_env **environment)
 	t_room	*room;
 //	t_pipe	*pipe;
 	t_list	*tmp;
+	t_ant	*ant;
 
 	env = *environment;
 //	ft_strdel(&(env->start->name));
@@ -154,7 +160,18 @@ void	del_env(t_env **environment)
 	ft_lstdel(&(env->head_room), del);
 	ft_lstdel(&(env->head_pipe), del);
 	ft_lstdel(&(env->head_path), del);
-	ft_lstdel(&(env->head_ant), del);
+	while (env->head_ant)
+	{
+		tmp = env->head_ant->next;
+		ant = (t_ant*)env->head_ant->content;
+		ft_strdel(&(ant->position));
+		free(env->head_ant);
+		list = NULL;
+		free(room);
+		room = NULL;
+		env->head_ant = tmp;
+	}
+	//ft_lstdel(&(env->head_ant), del);
 }
 
 int		main(void)
@@ -204,18 +221,20 @@ int		main(void)
 			else	
 				init_room(env, line);
 			free_double_tab(split);
+			ft_strdel(&line);
 		}
 		else if (env->error == OK && line[0] == '#')
 		{
+			free_double_tab(split);
 			if (handle_command(env, line) == 0)
 			{
 				ft_strdel(&line);
 				env->error = INVALID_ROOM;
-				//break;
 			}
 		}
 		else
 		{
+			free_double_tab(split);
 			if (line[0] == 'L')
 				env->error = INVALID_ROOM;
 			break;
@@ -236,12 +255,12 @@ int		main(void)
 		else if (env->error == OK && len_double_tab((split = ft_strsplit(line, '-'))) == 2)
 		{
 			//	env->error = INVALID_PIPE;
-			free_double_tab(split);
 			if (init_pipe(env, line) == 0)
 				env->error = INVALID_PIPE;
 		}
 		else
 			env->error = INVALID_PIPE;
+		free_double_tab(split);
 		ft_strdel(&line);
 	}
 	ft_putchar('\n');
