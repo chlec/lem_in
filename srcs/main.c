@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 15:59:54 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/01 16:06:31 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,11 @@ void	del_env(t_env *env)
 	t_path	*path;
 
 //	ft_strdel(&(env->start->name));
-//	free(env->start);
+	free(env->start);
+	env->start = NULL;
 //	ft_strdel(&(env->end->name));
-//	free(env->end);
+	free(env->end);
+	env->end = NULL;
 //	list = env->head_room;
 	while (env->head_room)
 	{
@@ -186,7 +188,6 @@ void	del_env(t_env *env)
 		{
 			tmp2 = path->room->next;
 			room = (t_room*)path->room->content;
-		//	ft_strdel(&(room->name));
 			free(path->room);
 			path->room = NULL;
 			free(room);
@@ -197,6 +198,8 @@ void	del_env(t_env *env)
 		env->head_path = NULL;
 		env->head_path = tmp;
 	}
+//	free(env);
+//	env = NULL;
 }
 
 int		main(void)
@@ -320,7 +323,6 @@ int		main(void)
 			ft_putstr_fd("Error: Pipe in double\n", 2);
 		return (0);
 	}
-	printf("add de env = %p\n", env->head_room);
 	del_env(env);
 	while (1);
 	return (0);
