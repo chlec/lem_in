@@ -21,8 +21,8 @@ void	init_ant(t_env *env)
 	i = 0;
 	while (i < env->nb_ant)
 	{
-		if(!(l_ant = (t_ant*)malloc(sizeof(t_ant))))
-			return ;
+		if (!(l_ant = (t_ant*)malloc(sizeof(t_ant))))
+			exit(0);
 		l_ant->num = i + 1;
 		l_ant->position = env->start->name;
 		ft_list_push_back(&(env->head_ant), l_ant, sizeof(t_ant));

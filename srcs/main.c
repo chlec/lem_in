@@ -164,8 +164,8 @@ void	del_env(t_env *env)
 		ft_strdel(&(ant->position));
 		free(env->head_ant);
 		env->head_ant = NULL;
-		free(room);
-		room = NULL;
+		free(ant);
+		ant = NULL;
 		env->head_ant = tmp;
 	}
 	while (env->head_pipe)

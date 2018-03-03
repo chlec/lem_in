@@ -124,6 +124,10 @@ void	create_path(t_env *env, t_path *p)
 		pipe = (t_pipe*)pipe_list->content;
 		if (!p && !pipe->used && (ft_strequ(pipe->left->name, env->end->name) || ft_strequ(pipe->right->name, env->end->name)))
 		{
+			/*
+			* LEAKS SONT ICI
+			* On le duplique mais on ne le free pas
+			*/
 			path = (t_path*)malloc(sizeof(t_path));
 			path->room = NULL;
 			path->len = 0;
@@ -138,6 +142,7 @@ void	create_path(t_env *env, t_path *p)
 				//printf("Ajout du path au head\n");
 				ft_list_push_back(&(env->head_path), path, sizeof(t_path));
 				free(path);
+				path = NULL;
 				return create_path(env, NULL);
 			}
 			else if (already_found(&(env->head_path), &(path->room)))
@@ -168,9 +173,14 @@ void	create_path(t_env *env, t_path *p)
 				//printf("Ajout du path au head\n");
 				ft_list_push_back(&(env->head_path), path, sizeof(t_path));
 				free(path);
+				path = NULL;
 				return create_path(env, NULL);
 			}
 			ft_lstdel(&path->room, del);
+			free(path->room);
+			path->room = NULL;
+			free(path);
+			path = NULL;
 		}
 		pipe_list = pipe_list->next;
 	}
