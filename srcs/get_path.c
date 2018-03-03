@@ -148,6 +148,8 @@ void	create_path(t_env *env, t_path *p)
 			else if (already_found(&(env->head_path), &(path->room)))
 			{
 				ft_lstdel(&path->room, del);
+				free(path);
+				path = NULL;
 			}
 			return create_path(env, path);
 		}

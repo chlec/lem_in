@@ -16,14 +16,17 @@ void	free_double_tab(char **tab)
 {
 	int		i;
 
-	i = 0;
-	while (tab[i])
+	if (tab)
 	{
-		ft_strdel(&tab[i]);
-		i++;
+		i = 0;
+		while (tab[i])
+		{
+			ft_strdel(&tab[i]);
+			i++;
+		}
+		free(tab);
+		tab = NULL;
 	}
-	free(tab);
-	tab = NULL;
 }
 
 int len_double_tab(char **tab)

@@ -287,7 +287,8 @@ int		main(void)
 		}
 		else
 			env->error = INVALID_PIPE;
-		free_double_tab(split);
+		if (line[0] != '#')
+			free_double_tab(split);
 		ft_strdel(&line);
 	}
 	ft_putchar('\n');
@@ -298,7 +299,7 @@ int		main(void)
 	if (env->error == OK || env->error == INVALID_PIPE)
 	{
 		if (env->error == INVALID_PIPE)
-			ft_putstr("Error: Acquisition non completee\n");
+			ft_putstr_fd("Error: Acquisition non completee\n", 2);
 		nb_room_path(env);
 		init_lowest_path(env);
 		print_path(env);
@@ -308,7 +309,7 @@ int		main(void)
 	else
 	{
 		if (env->error == NO_END_OR_START)
-			ft_putstr_fd("Error: No start or no end\n", 1);
+			ft_putstr_fd("Error: No start or no end\n", 2);
 		else if (env->error == INVALID_ANT_NUMBER)
 			ft_putstr_fd("Error: Invalid ant number\n", 2);
 		else if (env->error == NO_PATH)
