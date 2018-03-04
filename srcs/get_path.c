@@ -128,7 +128,8 @@ void	create_path(t_env *env, t_path *p)
 			* LEAKS SONT ICI
 			* On le duplique mais on ne le free pas
 			*/
-			path = (t_path*)malloc(sizeof(t_path));
+			if (!(path = (t_path*)malloc(sizeof(t_path))))
+				exit(0);
 			path->room = NULL;
 			path->len = 0;
 			//On met toujours le ##end en 1er sur le path
