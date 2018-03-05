@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:13:24 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 15:47:17 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/05 14:12:50 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void		print_path(t_env *env)
 		path = (t_path*)(head_p->content);
 		head_r = path->room;
 		printf("nombre de room = %d\n", path->len);
+	//	printf("path = %p\n", path);
 		while (head_r)
 		{
 			room = (t_room*)(head_r->content);
@@ -140,8 +141,9 @@ void	create_path(t_env *env, t_path *p)
 			pipe->used = 1;
 			if (ft_strequ(get_last_room(&(path->room))->name, env->start->name) && !already_found(&(env->head_path), &(path->room)))
 			{
-				//printf("Ajout du path au head\n");
+//				printf("Ajout du path au head\n");
 				ft_list_push_back(&(env->head_path), path, sizeof(t_path));
+//				printf("%p %p %p\n", path, p, pipe);
 				free(path);
 				path = NULL;
 				return create_path(env, NULL);
@@ -156,15 +158,19 @@ void	create_path(t_env *env, t_path *p)
 		}
 		else if (p && !pipe->used)
 		{
+		//		printf("%p\n", p);
 			path = copy_maillon(&(p->room));
 			//the loop behind break the linked list
 			room1 = get_last_room(&(p->room));
 			if ((ft_strequ(room1->name, pipe->right->name) || ft_strequ(room1->name, pipe->left->name)))
 			{
+		//		printf("%p\n", p);
 				//printf("on ajoute %s\n", ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name);
 				//	usleep(500000);
 				if (ft_strequ(room1->name, env->end->name) || ft_strequ(room1->name, env->start->name))
+				{
 					return create_path(env, NULL);
+				}
 				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe->left->name) ? pipe->right : pipe->left, sizeof(t_room));
 				p->len++;
 				//Supprimer la ligne du dessous?

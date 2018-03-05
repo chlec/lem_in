@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 16:10:46 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/05 14:19:13 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ void	del_env(t_env *env)
 	{
 		tmp = env->head_path->next;
 		path = (t_path*)env->head_path->content;
+		printf("%p\n", path);
 		while (path->room)
 		{
 			tmp2 = path->room->next;
@@ -190,8 +191,12 @@ void	del_env(t_env *env)
 			path->room = NULL;
 			free(room);
 			room = NULL;
+//			free(path);
+//			path = NULL;
 			path->room = tmp2;
 		}
+		free(path);
+		path = NULL;
 		free(env->head_path);
 		env->head_path = NULL;
 		env->head_path = tmp;
