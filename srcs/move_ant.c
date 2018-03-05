@@ -71,11 +71,11 @@ void	print_antv2(t_env *env)
 		//	printf("la fourmie %d et arriver  ||  ", l_ant->num);
 			if (head == NULL || env->head_ant == head_temp)
 			{
+				free(l_ant);
+				l_ant = NULL;
 				free(env->head_ant);
 				env->head_ant = NULL;
 				env->head_ant = head_temp->next;
-				free(l_ant);
-				l_ant = NULL;
 			}
 			else
 			{
@@ -83,7 +83,6 @@ void	print_antv2(t_env *env)
 			}
 		}
 		head = head_temp;
-	//	head = NULL;
 		head_temp = head_temp->next;
 	}
 	printf("\n");
