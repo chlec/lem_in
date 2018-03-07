@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:13:24 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/07 13:10:55 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/07 14:25:12 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,6 @@ void	create_path(t_env *env, t_path *p)
 		}
 		else if (p && !pipe->used)
 		{
-		//		printf("%p\n", p);
 			path = copy_maillon(&(p->room));
 			//the loop behind break the linked list
 			room1 = get_last_room(&(p->room));
@@ -211,13 +210,12 @@ void	create_path(t_env *env, t_path *p)
 		//		printf("%p\n", p);
 				//printf("on ajoute %s\n", ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name);
 				//	usleep(500000);
-				/*
-				* je pence que cette condition n'est jamais vrais
-				*              ||
-				*              \/
-				*/
 				if (ft_strequ(room1->name, env->end->name) || ft_strequ(room1->name, env->start->name))
 				{
+					printf("p = %p ,path = %p\n", p->room, path->room);
+					ft_lstdel(&path->room, del);
+					free(path->room);
+					path->room = NULL;
 					return create_path(env, NULL);
 				}
 				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe->left->name) ? pipe->right : pipe->left, sizeof(t_room));
