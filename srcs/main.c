@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/07 12:57:35 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/07 14:54:55 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	del_env(t_env *env)
 	t_pipe	*pipe;
 	t_list	*tmp;
 	t_list	*tmp2;
-	t_ant	*ant;
+//	t_ant	*ant;
 	t_path	*path;
 
 	free(env->start);
@@ -166,7 +166,7 @@ void	del_env(t_env *env)
 		room = NULL;
 		env->head_room = tmp;
 	}
-	while (env->head_ant)
+/*	while (env->head_ant)
 	{
 		tmp = env->head_ant->next;
 		ant = (t_ant*)env->head_ant->content;
@@ -177,7 +177,7 @@ void	del_env(t_env *env)
 		env->head_ant = NULL;
 		env->head_ant = tmp;
 	}
-	while (env->head_pipe)
+*/	while (env->head_pipe)
 	{
 		tmp = env->head_pipe->next;
 		pipe = (t_pipe*)env->head_pipe->content;
