@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:13:24 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/07 12:33:46 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/07 13:10:55 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ void	create_path(t_env *env, t_path *p)
 	 * Faire de la recursive!
 	 * En gros si on a 0-4 on fait tout les chemin possible a partir de 0-4 et ainsi de suite
 	 * */
-	printf("%p\n", p);
 	pipe_list = env->head_pipe;
 	room1 = NULL;
 //	all_path = NULL;
@@ -192,6 +191,9 @@ void	create_path(t_env *env, t_path *p)
 			}
 //			ft_list_push_back(&(env->all_path), path, sizeof(t_path));
 			create_path(env, path);
+			ft_lstdel(&path->room, del);
+			free(path->room);
+			path->room = NULL;
 			free(path);
 			path = NULL;
 			return ;
