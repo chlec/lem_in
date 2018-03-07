@@ -49,6 +49,7 @@ typedef struct		s_env
 	t_list	*head_room;
 	t_list	*head_pipe;
 	t_list	*head_path;
+	t_list	*all_path;
 	t_list	*head_ant;
 	int		nb_ant;
 	enum e_error	error;
@@ -71,6 +72,7 @@ int					init_pipe(t_env *env, char *line);
 void				nb_room_path(t_env *env);
 void				init_lowest_path(t_env *env);
 void				print_path(t_env *env);
+void				print_all_path(t_env *env);//a suprimer 
 void				create_path(t_env *env, t_path *);
 int					already_found(t_list **l, t_list **p);
 int					in_integer(char *argv);

@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:13:24 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/05 14:12:50 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/07 12:33:46 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,21 +105,58 @@ void		print_path(t_env *env)
 		head_p = head_p->next;
 	}
 }
+
+void		print_all_path(t_env *env)
+{	
+	t_path	*path;
+	t_room	*room;
+	t_list	*head_p;
+	t_list	*head_r;
+
+	head_p = env->all_path;
+	if (!head_p)
+		return ;
+	head_r = head_p->content;;
+	while (head_p)
+	{
+		path = (t_path*)(head_p->content);
+		head_r = path->room;
+		printf("nombre de room = %d\n", path->len);
+		printf("path = %p\n", path);
+		if (!head_r)
+			return ;
+		while (head_r)
+		{
+			printf("%p\n", head_r);
+			printf("%p\n", head_r->next);
+			if (head_r->content)
+			{
+				room = (t_room*)(head_r->content);
+				printf("chemin: %s nb_ant = %d \n", room->name, room->ant);
+			}
+			head_r = head_r->next;
+		}
+		printf("------\n");
+		head_p = head_p->next;
+	}
+}
+
 void	create_path(t_env *env, t_path *p)
 {
 	t_path	*path;
 	t_list	*pipe_list;
 	t_room	*room1;
 	t_pipe	*pipe;
-	t_list	*all_path;
+//	t_list	*all_path;
 
 	/*
 	 * Faire de la recursive!
 	 * En gros si on a 0-4 on fait tout les chemin possible a partir de 0-4 et ainsi de suite
 	 * */
+	printf("%p\n", p);
 	pipe_list = env->head_pipe;
 	room1 = NULL;
-	all_path = NULL;
+//	all_path = NULL;
 	while (pipe_list)
 	{
 		pipe = (t_pipe*)pipe_list->content;
@@ -143,7 +180,6 @@ void	create_path(t_env *env, t_path *p)
 			{
 //				printf("Ajout du path au head\n");
 				ft_list_push_back(&(env->head_path), path, sizeof(t_path));
-//				printf("%p %p %p\n", path, p, pipe);
 				free(path);
 				path = NULL;
 				return create_path(env, NULL);
@@ -154,7 +190,11 @@ void	create_path(t_env *env, t_path *p)
 				free(path);
 				path = NULL;
 			}
-			return create_path(env, path);
+//			ft_list_push_back(&(env->all_path), path, sizeof(t_path));
+			create_path(env, path);
+			free(path);
+			path = NULL;
+			return ;
 		}
 		else if (p && !pipe->used)
 		{
@@ -162,11 +202,18 @@ void	create_path(t_env *env, t_path *p)
 			path = copy_maillon(&(p->room));
 			//the loop behind break the linked list
 			room1 = get_last_room(&(p->room));
+		//		printf("room1 = %p\n", room1);
+//				printf("%p\n", room1);
 			if ((ft_strequ(room1->name, pipe->right->name) || ft_strequ(room1->name, pipe->left->name)))
 			{
 		//		printf("%p\n", p);
 				//printf("on ajoute %s\n", ft_strequ(room1->name, pipe->left->name) ? pipe->right->name : pipe->left->name);
 				//	usleep(500000);
+				/*
+				* je pence que cette condition n'est jamais vrais
+				*              ||
+				*              \/
+				*/
 				if (ft_strequ(room1->name, env->end->name) || ft_strequ(room1->name, env->start->name))
 				{
 					return create_path(env, NULL);
@@ -175,6 +222,7 @@ void	create_path(t_env *env, t_path *p)
 				p->len++;
 				//Supprimer la ligne du dessous?
 				pipe->used = 1;
+//				ft_list_push_back(&(env->all_path), path, sizeof(t_path));
 				create_path(env, path);
 			}
 			if (ft_strequ(get_last_room(&(path->room))->name, env->start->name) && !already_found(&(env->head_path), &(path->room)))
@@ -190,7 +238,9 @@ void	create_path(t_env *env, t_path *p)
 			path->room = NULL;
 			free(path);
 			path = NULL;
+		//	printf("%p\n", p);
 		}
 		pipe_list = pipe_list->next;
 	}
+		//	printf("%p %p\n", p, path);
 }

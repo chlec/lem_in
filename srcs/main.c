@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/05 14:19:13 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/07 12:23:09 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ t_env	*init_env()
 	env->head_room = NULL;
 	env->head_pipe = NULL;
 	env->head_path = NULL;
+	env->all_path = NULL;
 	env->head_ant = NULL;
 	env->error = OK;
 	env->lower_size = 1000000;
@@ -145,7 +146,15 @@ void	del_env(t_env *env)
 	env->start = NULL;
 	free(env->end);
 	env->end = NULL;
-//	list = env->head_room;
+/*	if (!env->head_room)
+		printf("NO ROOM\n");
+	if (!env->head_pipe)
+		printf("NO PIPE\n");
+	if (!env->head_ant)
+		printf("NO ANT\n");
+	if (!env->head_path)
+		printf("NO PATH\n");
+*///	list = env->head_room;
 	while (env->head_room)
 	{
 		tmp = env->head_room->next;
@@ -172,6 +181,7 @@ void	del_env(t_env *env)
 	{
 		tmp = env->head_pipe->next;
 		pipe = (t_pipe*)env->head_pipe->content;
+	//	printf("%p\n", env->head_pipe);
 		free(pipe);
 		pipe = NULL;
 		free(env->head_pipe);
@@ -182,7 +192,6 @@ void	del_env(t_env *env)
 	{
 		tmp = env->head_path->next;
 		path = (t_path*)env->head_path->content;
-		printf("%p\n", path);
 		while (path->room)
 		{
 			tmp2 = path->room->next;
@@ -191,8 +200,6 @@ void	del_env(t_env *env)
 			path->room = NULL;
 			free(room);
 			room = NULL;
-//			free(path);
-//			path = NULL;
 			path->room = tmp2;
 		}
 		free(path);
@@ -308,6 +315,7 @@ int		main(void)
 		nb_room_path(env);
 		init_lowest_path(env);
 		print_path(env);
+	//	print_all_path(env);
 //		printf("taille plus petit chemin = %d\n", env->lower_size);
 		move_ant(env);
 	}

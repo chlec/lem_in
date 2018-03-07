@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 15:43:15 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/07 11:17:51 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	print_antv2(t_env *env)
 				free(l_ant);
 				l_ant = NULL;
 				free(env->head_ant);
-				env->head_ant = NULL;
 				env->head_ant = head_temp->next;
 			}
 			else
