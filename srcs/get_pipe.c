@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:10:47 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 15:43:27 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/08 15:52:15 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,14 @@ int		init_pipe(t_env *env, char *line)
 	head_temp = env->head_room;
 	pipe->used = 0;
 	pipe->left = NULL;
+	pipe->right = NULL;
 	while (head_temp)
 	{
 		room = (t_room*)(head_temp->content);
 		if (!ft_strcmp(room->name, temp[0]))
-			pipe->left = room;
-		else 
 		{
-			free_double_tab(temp);
-			free(pipe);
-			return (0);
+			pipe->left = room;
+			break ;
 		}
 		head_temp = head_temp->next;
 	}
@@ -90,14 +88,16 @@ int		init_pipe(t_env *env, char *line)
 	{
 		room2 = (t_room*)(head_temp->content);
 		if (!ft_strcmp(room2->name, temp[1]))
+		{
 			pipe->right = room2;
+			break ;
+		}
 		head_temp = head_temp->next;
 	}
 	free_double_tab(temp);
 	if (pipe->left == NULL || pipe->right == NULL)
 	{
 		free(pipe);
-//		ft_strdel(&line);
 		return (0);
 	}
 	if (pipe_exist(env->head_pipe, pipe->left, pipe->right))

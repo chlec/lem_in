@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 15:42:09 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/08 15:45:07 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,6 +346,6 @@ int		main(void)
 			ft_putstr_fd("Error: Pipe in double\n", 2);
 	}
 	del_env(env);
-	while (1);
+//	while (1);
 	return (0);
 }
