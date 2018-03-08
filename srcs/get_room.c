@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:08:13 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/01 15:45:58 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/08 17:02:25 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_room(t_env *env, char *line)
 {
-	t_room 	*room;
+	t_room	*room;
 	char	**temp;
 
 	if (!(room = (t_room*)malloc(sizeof(t_room))))
@@ -42,7 +42,7 @@ int		check_room(t_env *env, char *str, int x, int y)
 	{
 		room = (t_room*)head->content;
 		if (!ft_strcmp(room->name, str))
-				return (1);
+			return (1);
 		head = head->next;
 	}
 	head = env->head_room;
@@ -50,7 +50,7 @@ int		check_room(t_env *env, char *str, int x, int y)
 	{
 		room = (t_room*)head->content;
 		if (room->x == x && room->y == y)
-				return (1);
+			return (1);
 		head = head->next;
 	}
 	return (0);
