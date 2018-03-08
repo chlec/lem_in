@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 14:30:01 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/08 15:12:48 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int        handle_command(t_env *env, char *line)
 		}*/
 		while (get_next_line(0, &line))
 		{
-			if (line[0] != '#' || (line[0] == '#' && line[1] == '#'))
+			if (line[0] != '#' || (line[0] != '#' && line[1] != '#'))
 				break;
 			else
 				ft_putendl(line);
@@ -44,7 +44,7 @@ int        handle_command(t_env *env, char *line)
 			env->start->ant = env->nb_ant;
 			//    ft_strdel(&temp);
 			ft_list_push_back(&(env->head_room), env->start, sizeof(t_room));
-			ft_strdel(&line);
+	//		ft_strdel(&line);
 			free_double_tab(temp);
 		}
 		else
@@ -57,7 +57,7 @@ int        handle_command(t_env *env, char *line)
 			return (0);
 		while (get_next_line(0, &line))
 		{
-			if (line[0] != '#' || (line[0] == '#' && line[1] == '#'))
+			if (line[0] != '#' || (line[0] != '#' && line[1] != '#'))
 				break;
 			else
 				ft_putendl(line);
@@ -73,8 +73,9 @@ int        handle_command(t_env *env, char *line)
 			env->end->ant = 0;
 			//    ft_strdel(&temp);
 			ft_list_push_back(&(env->head_room), env->end, sizeof(t_room));
-			ft_strdel(&line);
+	//		ft_strdel(&line);
 			free_double_tab(temp);
+			return (1);
 		}
 		else
 		{
@@ -343,6 +344,6 @@ int		main(void)
 			ft_putstr_fd("Error: Pipe in double\n", 2);
 	}
 	del_env(env);
-	while (1);
+//	while (1);
 	return (0);
 }
