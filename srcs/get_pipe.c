@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:10:47 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 15:52:15 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/08 16:13:08 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ int		init_pipe(t_env *env, char *line)
 	char	**temp;
 	t_list	*head_temp;
 
-	pipe = (t_pipe*)malloc(sizeof(t_pipe));
-	if (!line)
+	if (!line || (line && line[0] == '\0'))
 		return (0);
+	pipe = (t_pipe*)malloc(sizeof(t_pipe));
 	temp = ft_strsplit(line, '-');
 	head_temp = env->head_room;
 	pipe->used = 0;
