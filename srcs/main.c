@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 15:12:48 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/08 15:31:13 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ int        handle_command(t_env *env, char *line)
 			env->start->ant = env->nb_ant;
 			//    ft_strdel(&temp);
 			ft_list_push_back(&(env->head_room), env->start, sizeof(t_room));
-	//		ft_strdel(&line);
+			ft_strdel(&line);
 			free_double_tab(temp);
+			return (1);
 		}
 		else
 			return (0);
@@ -73,14 +74,14 @@ int        handle_command(t_env *env, char *line)
 			env->end->ant = 0;
 			//    ft_strdel(&temp);
 			ft_list_push_back(&(env->head_room), env->end, sizeof(t_room));
-	//		ft_strdel(&line);
+			ft_strdel(&line);
 			free_double_tab(temp);
 			return (1);
 		}
 		else
 		{
 			free_double_tab(temp);
-	//		ft_strdel(&line);
+			ft_strdel(&line);
 			return (0);
 		}
 	}
@@ -271,7 +272,8 @@ int		main(void)
 			free_double_tab(split);
 			if (handle_command(env, line) == 0)
 			{
-				ft_strdel(&line);
+			//	if (line)
+				//	ft_strdel(&line);
 				env->error = INVALID_ROOM;
 			}
 		}
