@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 16:10:41 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/08 16:36:19 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ int        handle_command(t_env *env, char *line)
 			return (1);
 		}
 		else
+		{
+			free_double_tab(temp);
+			ft_strdel(&line);
 			return (0);
+		}
 	}
 	else if (!ft_strcmp(line, "##end"))
 	{
@@ -347,6 +351,6 @@ int		main(void)
 			ft_putstr_fd("Error: Pipe in double\n", 2);
 	}
 	del_env(env);
-//	while (1);
+	while (1);
 	return (0);
 }
