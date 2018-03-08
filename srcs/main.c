@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 15:45:07 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/08 16:08:02 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,7 @@ int		main(void)
 				env->error = INVALID_ROOM;
 			break;
 		}
+		line = NULL;
 	}
 	if (!env->head_room)
 		env->error = INVALID_ROOM;
