@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:13:24 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 17:09:54 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/08 17:14:50 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,23 @@ void		print_path(t_env *env)
 	}
 }
 
+void	add_to_head(t_env *env, t_path *path)
+{
+	ft_list_push_back(&(env->head_path), path, sizeof(t_path));
+	free(path);
+	path = NULL;
+	return create_path(env, NULL);
+}
+
+void	delete_path(t_path *path)
+{
+	ft_lstdel(&path->room, del);
+	free(path->room);
+	path->room = NULL;
+	free(path);
+	path = NULL;
+}
+
 void	create_non_existant_path(t_env *env, t_pipe *pipe)
 {
 	t_path	*path;
@@ -119,12 +136,7 @@ void	create_non_existant_path(t_env *env, t_pipe *pipe)
 	path->len += 2;
 	pipe->used = 1;
 	if (ft_strequ(get_last_room(&(path->room))->name, env->start->name) && !already_found(&(env->head_path), &(path->room)))
-	{
-		ft_list_push_back(&(env->head_path), path, sizeof(t_path));
-		free(path);
-		path = NULL;
-		return create_path(env, NULL);
-	}
+		return add_to_head(env, path);
 	else if (already_found(&(env->head_path), &(path->room)))
 	{
 		ft_lstdel(&path->room, del);
@@ -132,11 +144,7 @@ void	create_non_existant_path(t_env *env, t_pipe *pipe)
 		path = NULL;
 	}
 	create_path(env, path);
-	ft_lstdel(&path->room, del);
-	free(path->room);
-	path->room = NULL;
-	free(path);
-	path = NULL;
+	delete_path(path);
 	return ;
 }
 
@@ -164,17 +172,8 @@ void	create_existant_path(t_env *env, t_pipe *pipe, t_path *p)
 		create_path(env, path);
 	}
 	if (ft_strequ(get_last_room(&(path->room))->name, env->start->name) && !already_found(&(env->head_path), &(path->room)))
-	{
-		ft_list_push_back(&(env->head_path), path, sizeof(t_path));
-		free(path);
-		path = NULL;
-		return create_path(env, NULL);
-	}
-	ft_lstdel(&path->room, del);
-	free(path->room);
-	path->room = NULL;
-	free(path);
-	path = NULL;
+		return add_to_head(env, path);
+	delete_path(path);
 }
 
 void	create_path(t_env *env, t_path *p)
