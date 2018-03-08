@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:13:24 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/07 14:48:09 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/08 13:08:13 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,8 @@ void	create_path(t_env *env, t_path *p)
 					ft_lstdel(&path->room, del);
 					free(path->room);
 					path->room = NULL;
+					free(path);
+					path = NULL;
 					return create_path(env, NULL);
 				}
 				ft_list_push_back(&(path->room), ft_strequ(room1->name, pipe->left->name) ? pipe->right : pipe->left, sizeof(t_room));
