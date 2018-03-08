@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/07 14:54:55 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/08 12:57:59 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,12 @@ int        handle_command(t_env *env, char *line)
 		else
 		{
 			free_double_tab(temp);
+	//		ft_strdel(&line);
 			return (0);
 		}
 	}
+	else
+		ft_strdel(&line);
 	return (1);
 }
 
