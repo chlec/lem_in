@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:13:24 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 13:08:13 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/08 14:39:46 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ void	create_path(t_env *env, t_path *p)
 			if (ft_strequ(get_last_room(&(path->room))->name, env->start->name) && !already_found(&(env->head_path), &(path->room)))
 			{
 					printf("p = %p ,path = %p\n", p->room, path->room);
-				//printf("Ajout du path au head\n");
+			//	printf("Ajout du path au head\n");
 				ft_list_push_back(&(env->head_path), path, sizeof(t_path));
 				free(path);
 				path = NULL;

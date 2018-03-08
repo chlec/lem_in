@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:10:47 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 13:08:49 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/08 14:42:33 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ int		pipe_exist(t_list *head_pipe, t_room *left, t_room *right)
 			(!ft_strcmp(pipe->right->name, left->name)
 			 && !ft_strcmp(pipe->left->name, right->name)))
 		{
-			return (1);
+			pipe->used = 1;
+//			printf("ICI\n");
+			return (0);
 		}
 		list = list->next;
 	}

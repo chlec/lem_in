@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 14:21:58 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/08 14:30:01 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,7 +284,7 @@ int		main(void)
 	}
 	if (!env->head_room)
 		env->error = INVALID_ROOM;
-	if (env->start == NULL || env->end == NULL)
+	if (env->error == OK && (env->start == NULL || env->end == NULL))
 		env->error = NO_END_OR_START;
 	if (env->error == OK && init_pipe(env, line) == 0)
 		env->error = DOUBLE_PIPE;
@@ -310,9 +310,10 @@ int		main(void)
 		ft_strdel(&line);
 	}
 	ft_putchar('\n');
-	printf("code %d\n", env->error);
 	if (env->error == OK || env->error == INVALID_PIPE)
+	{
 		create_path(env, NULL);
+	}
 	if ((env->error == OK || env->error == INVALID_PIPE) && env->head_path == NULL)
 		env->error = NO_PATH;
 	if (env->error == OK || env->error == INVALID_PIPE)
@@ -342,6 +343,6 @@ int		main(void)
 			ft_putstr_fd("Error: Pipe in double\n", 2);
 	}
 	del_env(env);
-//	while (1);
+	while (1);
 	return (0);
 }
