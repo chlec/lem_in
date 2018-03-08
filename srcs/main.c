@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 16:36:19 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/08 16:44:57 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,6 +241,7 @@ int		main(void)
 		ft_putendl(line);
 		if (line[0] != '#')
 			break ;
+		ft_strdel(&line);
 	}
 	if ((ret <= 0))
 	{
