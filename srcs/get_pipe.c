@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:10:47 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 15:39:56 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/08 15:43:27 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,11 @@ int		init_pipe(t_env *env, char *line)
 		if (!ft_strcmp(room->name, temp[0]))
 			pipe->left = room;
 		else 
+		{
+			free_double_tab(temp);
+			free(pipe);
 			return (0);
+		}
 		head_temp = head_temp->next;
 	}
 	head_temp = env->head_room;
