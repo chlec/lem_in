@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/08 12:57:59 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/08 14:21:58 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ int		main(void)
 	{
 		//ROOM
 		ft_putendl(line);
-		if (env->error == OK && len_double_tab((split = ft_strsplit(line, ' '))) == 3 && line[0] != '#' && line[0] != 'L')
+		if (len_double_tab((split = ft_strsplit(line, ' '))) == 3 && env->error == OK && line[0] != '#' && line[0] != 'L')
 		{
 			if (!in_integer(split[1]) || !in_integer(split[2]))
 				env->error = INVALID_ROOM;
@@ -294,19 +294,23 @@ int		main(void)
 		ft_putendl(line);
 		if (line[0] == '#')
 			;
-		else if (env->error == OK && len_double_tab((split = ft_strsplit(line, '-'))) == 2)
+		else if (len_double_tab((split = ft_strsplit(line, '-'))) == 2 && env->error == OK)
 		{
 			//	env->error = INVALID_PIPE;
+			free_double_tab(split);
 			if (init_pipe(env, line) == 0)
 				env->error = INVALID_PIPE;
 		}
 		else
-			env->error = INVALID_PIPE;
-		if (line[0] != '#')
+		{
 			free_double_tab(split);
+			if (env->error == OK)
+				env->error = INVALID_PIPE;
+		}
 		ft_strdel(&line);
 	}
 	ft_putchar('\n');
+	printf("code %d\n", env->error);
 	if (env->error == OK || env->error == INVALID_PIPE)
 		create_path(env, NULL);
 	if ((env->error == OK || env->error == INVALID_PIPE) && env->head_path == NULL)
@@ -336,9 +340,8 @@ int		main(void)
 			ft_putstr_fd("Error: Invalid room\n", 2);
 		else if (env->error == DOUBLE_PIPE)
 			ft_putstr_fd("Error: Pipe in double\n", 2);
-		return (0);
 	}
 	del_env(env);
-	while (1);
+//	while (1);
 	return (0);
 }
