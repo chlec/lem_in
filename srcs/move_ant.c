@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/12 14:33:22 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/12 15:49:11 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,19 @@ void	print_antv2(t_env *env)
 	{
 		l_ant = (t_ant*)(head_temp->content);
 		if (ft_strcmp(l_ant->position, env->start->name))
-			printf("L%d-%s ", l_ant->num, l_ant->position);
+		{
+			ft_putchar('L');
+			ft_putnbr(l_ant->num);
+			ft_putchar('-');
+			ft_putstr(l_ant->position);
+			ft_putchar(' ');
+		}
 		if (!ft_strcmp(l_ant->position, env->end->name))
 			del_ant(env, head_temp, head, l_ant);
 		head = head_temp;
 		head_temp = head_temp->next;
 	}
-	printf("\n");
+	ft_putchar('\n');
 }
 
 void	ant_is_moving(t_env *env, int len, t_room *room, t_room *room_after)
