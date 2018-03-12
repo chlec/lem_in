@@ -10,7 +10,10 @@ SRCS =	$(PATH_SRCS)main.c \
 		$(PATH_SRCS)lem_in.util.c \
 		$(PATH_SRCS)get_room.c \
 		$(PATH_SRCS)get_pipe.c \
-		$(PATH_SRCS)get_path.c
+		$(PATH_SRCS)get_path.c \
+		$(PATH_SRCS)get_path.util.c \
+		$(PATH_SRCS)free_func.c \
+		$(PATH_SRCS)handle_command.c
 
 OBJS = $(SRCS:.c=.o)
 

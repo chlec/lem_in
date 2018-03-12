@@ -77,6 +77,13 @@ void				create_path(t_env *env, t_path *);
 int					already_found(t_list **l, t_list **p);
 int					in_integer(char *argv);
 void				del(void *e, size_t size);
-
+void				add_to_head(t_env *env, t_path *path);
+void				delete_path(t_path *path);
+void				init_lowest_path(t_env *env);
+void				print_path(t_env *env);
+void				del_ant(t_env *env, t_list *head_temp, t_list *head, t_ant *l_ant);
+void				free_double_tab(char **tab);
+void				del_env(t_env *env);
+int					handle_command(t_env *env, char *line);
 
 #endif

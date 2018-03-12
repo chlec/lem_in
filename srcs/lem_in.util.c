@@ -6,41 +6,24 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/05 12:14:59 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/12 14:37:26 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	free_double_tab(char **tab)
+int		len_double_tab(char **tab)
 {
 	int		i;
 
-	if (tab)
+	i = 0;
+	if (!tab)
+		return (0);
+	while (tab[i])
 	{
-		i = 0;
-		while (tab[i])
-		{
-			ft_strdel(&tab[i]);
-			i++;
-		}
-		free(tab);
-		tab = NULL;
+		i++;
 	}
-}
-
-int len_double_tab(char **tab)
-{
-    int i;
-    
-    i = 0;
-    if (!tab)
-        return (0);
-    while (tab[i])
-    {
-        i++;
-    }
-    return (i);
+	return (i);
 }
 
 t_path	*copy_maillon(t_list **p)
@@ -58,22 +41,22 @@ t_path	*copy_maillon(t_list **p)
 		ret->len++;
 		list = list->next;
 	}
-	return (ret);	
+	return (ret);
 }
 
-int     list_len(t_list **l)
+int		list_len(t_list **l)
 {
-    t_list  *list;
-    int     len;
+	t_list	*list;
+	int		len;
 
-    len = 0;
-    list = *l;
-    while (list)
-    {
-        len++;
-        list = list->next;
-    }
-    return (len);
+	len = 0;
+	list = *l;
+	while (list)
+	{
+		len++;
+		list = list->next;
+	}
+	return (len);
 }
 
 t_room	*get_last_room(t_list **l)
@@ -84,7 +67,7 @@ t_room	*get_last_room(t_list **l)
 	list = *l;
 	room = NULL;
 	while (list && !room)
-	{	
+	{
 		if (list->next == NULL)
 			room = (t_room*)list->content;
 		list = list->next;
@@ -92,7 +75,7 @@ t_room	*get_last_room(t_list **l)
 	return (room);
 }
 
-int		room_is_present(t_list	**l, t_room *room)
+int		room_is_present(t_list **l, t_room *room)
 {
 	t_list	*list;
 	t_room	*room2;
@@ -103,7 +86,7 @@ int		room_is_present(t_list	**l, t_room *room)
 	{
 		room2 = (t_room*)list->content;
 		if (ft_strequ(room->name, room2->name))
-			return (1);	
+			return (1);
 		list = list->next;
 	}
 	return (0);
