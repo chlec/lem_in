@@ -5,6 +5,7 @@ PATH_SRCS = srcs/
 HEADERS_FILES = includes/
 
 SRCS =	$(PATH_SRCS)main.c \
+		$(PATH_SRCS)init_data.c \
 		$(PATH_SRCS)ft_list_push_back.c \
 		$(PATH_SRCS)move_ant.c \
 		$(PATH_SRCS)lem_in.util.c \
@@ -13,7 +14,8 @@ SRCS =	$(PATH_SRCS)main.c \
 		$(PATH_SRCS)get_path.c \
 		$(PATH_SRCS)get_path.util.c \
 		$(PATH_SRCS)free_func.c \
-		$(PATH_SRCS)handle_command.c
+		$(PATH_SRCS)handle_command.c \
+		$(PATH_SRCS)handle_error.c
 
 OBJS = $(SRCS:.c=.o)
 
