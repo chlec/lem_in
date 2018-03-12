@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 14:10:47 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/12 14:26:45 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/12 16:00:17 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ int		pipe_exist(t_list *head_pipe, t_room *left, t_room *right)
 	while (list)
 	{
 		pipe = (t_pipe*)list->content;
-		if ((!ft_strcmp(pipe->right->name, right->name)
-			&& !ft_strcmp(pipe->left->name, left->name))
+		if ((ft_strequ(pipe->right->name, right->name)
+			&& ft_strequ(pipe->left->name, left->name))
 				||
-			(!ft_strcmp(pipe->right->name, left->name)
-				&& !ft_strcmp(pipe->left->name, right->name)))
+			(ft_strequ(pipe->right->name, left->name)
+				&& ft_strequ(pipe->left->name, right->name)))
 		{
 			pipe->used = 1;
 			return (0);
@@ -69,7 +69,7 @@ void	store_room_in_pipe(t_env *env, t_pipe *pipe, char **temp)
 	while (head_temp)
 	{
 		room = (t_room*)(head_temp->content);
-		if (!ft_strcmp(room->name, temp[0]))
+		if (ft_strequ(room->name, temp[0]))
 			pipe->left = room;
 		head_temp = head_temp->next;
 	}
@@ -77,7 +77,7 @@ void	store_room_in_pipe(t_env *env, t_pipe *pipe, char **temp)
 	while (head_temp)
 	{
 		room2 = (t_room*)(head_temp->content);
-		if (!ft_strcmp(room2->name, temp[1]))
+		if (ft_strequ(room2->name, temp[1]))
 			pipe->right = room2;
 		head_temp = head_temp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 14:31:03 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/12 14:44:39 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/12 16:51:37 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void		del_ant(t_env *env, t_list *head_temp, t_list *head, t_ant *l_ant)
 		l_ant = NULL;
 		free(env->head_ant);
 		env->head_ant = head_temp->next;
+
 	}
 	else
 	{

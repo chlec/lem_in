@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 10:50:23 by clecalie          #+#    #+#             */
-/*   Updated: 2017/11/09 10:55:33 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/12 16:02:20 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		ft_strequ(char const *s1, char const *s2)
 	int		i;
 
 	i = 0;
+	if (!s1 || !s2)
+		return (0);
 	while (s1[i] || s2[i])
 	{
 		if (s1[i] != s2[i])

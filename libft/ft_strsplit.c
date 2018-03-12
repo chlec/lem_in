@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 12:48:04 by clecalie          #+#    #+#             */
-/*   Updated: 2018/02/14 13:47:05 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/12 16:17:55 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static char	*get_word(char const *str, int start, int end)
 	char	*word;
 	int		i;
 
-	if (!(word = (char*)malloc(sizeof(char) * (end - start))))
+	if (!str)
+		return (0);
+	if (!(word = (char*)malloc(sizeof(char) * ((end - start) + 1))))
 		return (0);
 	i = 0;
 	while (start < end)
@@ -54,7 +56,7 @@ char		**ft_strsplit(char const *s, char c)
 	int		end;
 	int		id;
 
-	if (!(tab = (char**)malloc(sizeof(char*) * (total_length(s, c) + 1))))
+	if (!s || !(tab = (char**)malloc(sizeof(char*) * (total_length(s, c) + 1))))
 		return (0);
 	end = 0;
 	start = 0;
