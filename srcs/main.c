@@ -83,9 +83,9 @@ int		main(void)
 	t_env	*env;
 
 	line = NULL;
-	env = init_env();
 	if (!(line = check_content()))
 		return (0);
+	env = init_env();
 	if (in_integer(line) == 0 || ft_atoi(line) <= 0)
 		env->error = INVALID_ANT_NUMBER;
 	env->nb_ant = ft_atoi(line);
