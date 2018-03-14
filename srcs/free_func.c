@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 14:31:03 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/12 16:51:37 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/14 12:38:00 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void		del_ant(t_env *env, t_list *head_temp, t_list *head, t_ant *l_ant)
 	{
 		free(l_ant);
 		l_ant = NULL;
+		// Le soucis est a la ligne ci-dessous
 		free(env->head_ant);
 		env->head_ant = head_temp->next;
 
