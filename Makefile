@@ -23,7 +23,7 @@ OBJS_FILTERED = $(notdir $(OBJS))
 
 LIB_OBJS = libft/*.o
 
-FLAGS = -Wall -Werror -Wextra -fsanitize=address
+FLAGS = -Wall -Werror -Wextra #-fsanitize=address
 
 all: $(NAME)
 

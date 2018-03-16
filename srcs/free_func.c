@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 14:31:03 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/14 12:38:00 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/16 13:24:55 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 void		del_ant(t_env *env, t_list *head_temp, t_list *head, t_ant *l_ant)
 {
-	if (head == NULL || env->head_ant == head_temp)
+	//on va jamais dans le else
+	if (head == NULL)
 	{
 		free(l_ant);
 		l_ant = NULL;
-		// Le soucis est a la ligne ci-dessous
 		free(env->head_ant);
+		// Le soucis est a la ligne ci-dessous
+		// car env->head_ant = head_temp donc le next existe pas vu qu'on free
 		env->head_ant = head_temp->next;
-
 	}
 	else
 	{
