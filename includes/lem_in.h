@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 15:04:49 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/20 14:28:47 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/20 15:04:00 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int					pipe_exist(t_list *head_pipe, t_room *left, t_room *rigtht);
 int					init_pipe(t_env *env, char *line);
 void				nb_room_path(t_env *env);
 void				init_lowest_path(t_env *env);
-void				print_path(t_env *env);
+void				print_path(t_env *env, int i);
 void				create_path(t_env *env, t_path *p);
 int					already_found(t_list **l, t_list **p);
 int					in_integer(char *argv);
@@ -93,7 +93,6 @@ void				del(void *e, size_t size);
 void				add_to_head(t_env *env, t_path *path);
 void				delete_path(t_path *path);
 void				init_lowest_path(t_env *env);
-void				print_path(t_env *env);
 void				free_double_tab(char **tab);
 void				del_env(t_env *env);
 int					handle_command(t_env *env, char *line);

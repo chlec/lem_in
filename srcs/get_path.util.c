@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 14:06:56 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/20 14:48:14 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/20 15:03:36 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,20 @@ void	init_lowest_path(t_env *env)
 	}
 }
 
-void	print_path(t_env *env)
+void	print_path(t_env *env, int i)
 {
 	t_path	*path;
 	t_room	*room;
 	t_list	*head_p;
 	t_list	*head_r;
-	int i;
-	
-	i = 0;
+
 	head_p = env->head_path;
 	head_r = head_p->content;
 	while (head_p)
 	{
 		path = (t_path*)(head_p->content);
 		head_r = path->room;
-		ft_putstr("chemin nº");
+		ft_putstr("path nº");
 		ft_putnbr(++i);
 		ft_putstr("\n");
 		while (head_r)

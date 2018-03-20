@@ -6,13 +6,13 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/14 11:37:27 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/20 15:04:42 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int		in_integer(char *argv)
+int			in_integer(char *argv)
 {
 	int		nb;
 	char	*str_nbr;
@@ -32,7 +32,7 @@ int		in_integer(char *argv)
 	return (0);
 }
 
-t_env	*init_env(void)
+t_env		*init_env(void)
 {
 	t_env	*env;
 
@@ -50,14 +50,14 @@ t_env	*init_env(void)
 	return (env);
 }
 
-void	del(void *e, size_t size)
+void		del(void *e, size_t size)
 {
 	(void)size;
 	free(e);
 	e = NULL;
 }
 
-void	resolve(t_env *env)
+static void	resolve(t_env *env, int argc, char **argv)
 {
 	if (env->error == OK || env->error == INVALID_PIPE)
 		create_path(env, NULL);
@@ -70,14 +70,18 @@ void	resolve(t_env *env)
 			ft_putstr_fd("Error: Parsing stopped before the end\n", 2);
 		nb_room_path(env);
 		init_lowest_path(env);
-		print_path(env);
+		if (argc == 2 && ft_strequ(argv[1], "-p"))
+		{
+			print_path(env, 0);
+			ft_putchar('\n');
+		}
 		move_ant(env);
 	}
 	else
 		display_error(env);
 }
 
-int		main(void)
+int			main(int argc, char **argv)
 {
 	char	*line;
 	t_env	*env;
@@ -95,7 +99,7 @@ int		main(void)
 	ft_strdel(&line);
 	store_pipe(env);
 	ft_putchar('\n');
-	resolve(env);
+	resolve(env, argc, argv);
 	del_env(env);
 	return (0);
 }
