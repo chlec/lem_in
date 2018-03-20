@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 14:31:03 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/16 13:24:55 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/20 11:14:16 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void		del_ant(t_env *env, t_list *head_temp, t_list *head, t_ant *l_ant)
 {
 	//on va jamais dans le else
-	if (head == NULL)
+	if (head == NULL || env->head_ant == head_temp)
 	{
 		free(l_ant);
 		l_ant = NULL;
