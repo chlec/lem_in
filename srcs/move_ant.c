@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/20 14:28:36 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/20 14:55:58 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,29 @@ void	find_ant(t_env *env, char *pos_init, char *new_pos)
 	}
 }
 
-void	print_antv2(t_env *env)
+void	print_ant(t_env *env)
 {
 	t_ant	*l_ant;
 	t_list	*head_temp;
-	t_list	*head;
+	int		first;
 
-	head = NULL;
+	first = 1;
 	head_temp = env->head_ant;
 	while (head_temp)
 	{
 		l_ant = (t_ant*)(head_temp->content);
 		if (l_ant->end == 0 && ft_strcmp(l_ant->position, env->start->name))
 		{
+			if (!first)
+				ft_putchar(' ');
+			first = 0;
 			ft_putchar('L');
 			ft_putnbr(l_ant->num);
 			ft_putchar('-');
 			ft_putstr(l_ant->position);
-			if (head_temp->next)
-				ft_putchar(' ');
 		}
 		if (!ft_strcmp(l_ant->position, env->end->name))
 			l_ant->end = 1;
-		head = head_temp;
 		head_temp = head_temp->next;
 	}
 	ft_putchar('\n');
@@ -133,6 +133,6 @@ void	move_ant(t_env *env)
 			path->room = head;
 			head_p = head_p->next;
 		}
-		print_antv2(env);
+		print_ant(env);
 	}
 }
