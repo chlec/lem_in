@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 15:04:49 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/12 15:35:46 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/20 14:28:47 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct		s_ant
 {
 	int				num;
 	char			*position;
+	int				end;
 }					t_ant;
 
 typedef struct		s_room
@@ -93,8 +94,6 @@ void				add_to_head(t_env *env, t_path *path);
 void				delete_path(t_path *path);
 void				init_lowest_path(t_env *env);
 void				print_path(t_env *env);
-void				del_ant(t_env *env, t_list *head_temp,
-		t_list *head, t_ant *l_ant);
 void				free_double_tab(char **tab);
 void				del_env(t_env *env);
 int					handle_command(t_env *env, char *line);

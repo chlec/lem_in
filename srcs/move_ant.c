@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/14 11:23:18 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/20 14:28:36 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_ant(t_env *env)
 			exit(0);
 		l_ant->num = i + 1;
 		l_ant->position = env->start->name;
+		l_ant->end = 0;
 		ft_list_push_back(&(env->head_ant), l_ant, sizeof(t_ant));
 		free(l_ant);
 		l_ant = NULL;
@@ -61,16 +62,17 @@ void	print_antv2(t_env *env)
 	while (head_temp)
 	{
 		l_ant = (t_ant*)(head_temp->content);
-		if (ft_strcmp(l_ant->position, env->start->name))
+		if (l_ant->end == 0 && ft_strcmp(l_ant->position, env->start->name))
 		{
 			ft_putchar('L');
 			ft_putnbr(l_ant->num);
 			ft_putchar('-');
 			ft_putstr(l_ant->position);
-			ft_putchar(' ');
+			if (head_temp->next)
+				ft_putchar(' ');
 		}
 		if (!ft_strcmp(l_ant->position, env->end->name))
-			del_ant(env, head_temp, head, l_ant);
+			l_ant->end = 1;
 		head = head_temp;
 		head_temp = head_temp->next;
 	}

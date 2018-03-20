@@ -50,7 +50,7 @@ LIB_OBJS = libft/ft_putstr.o \
 		   libft/ft_bzero.o \
 		   libft/ft_memset.o
 
-FLAGS = -Wall -Werror -Wextra -fsanitize=address
+FLAGS = -Wall -Werror -Wextra #-fsanitize=address
 
 all: $(NAME)
 

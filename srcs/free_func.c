@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 14:31:03 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/20 11:14:16 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/20 14:28:02 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void		del_ant(t_env *env, t_list *head_temp, t_list *head, t_ant *l_ant)
 {
-	//on va jamais dans le else
 	if (head == NULL || env->head_ant == head_temp)
 	{
 		free(l_ant);
@@ -48,6 +47,23 @@ void		free_double_tab(char **tab)
 		}
 		free(tab);
 		tab = NULL;
+	}
+}
+
+static void	del_all_ant(t_env *env)
+{
+	t_list	*tmp;
+	t_ant	*ant;
+
+	while (env->head_ant)
+	{
+		tmp = env->head_ant->next;
+		ant = (t_ant*)env->head_ant->content;
+		free(ant);
+		ant = NULL;
+		free(env->head_ant);
+		env->head_ant = NULL;
+		env->head_ant = tmp;
 	}
 }
 
@@ -119,6 +135,7 @@ void		del_env(t_env *env)
 	}
 	del_all_pipe(env);
 	del_all_path(env);
+	del_all_ant(env);
 	free(env);
 	env = NULL;
 }
