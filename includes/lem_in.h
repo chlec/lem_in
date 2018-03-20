@@ -6,14 +6,13 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 15:04:49 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/20 15:04:00 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/20 15:38:22 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
 # include "libft.h"
-# include <stdio.h>
 
 enum				e_error
 {
