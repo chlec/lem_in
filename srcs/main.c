@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 15:53:28 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/20 15:25:19 by mdaunois         ###   ########.fr       */
+/*   Updated: 2018/03/20 15:34:57 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int			in_integer(char *argv)
 		i++;
 	if (argv[i] == str_nbr[0])
 	{
-		while(argv[++i])
+		while (argv[++i])
 		{
 			if (!ft_isdigit(argv[i]))
 			{

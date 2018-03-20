@@ -48,7 +48,8 @@ LIB_OBJS = libft/ft_putstr.o \
 		   libft/ft_strrev.o \
 		   libft/ft_strsub.o \
 		   libft/ft_bzero.o \
-		   libft/ft_memset.o
+		   libft/ft_memset.o \
+		   libft/ft_isdigit.o
 
 FLAGS = -Wall -Werror -Wextra #-fsanitize=address
 

@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 15:26:42 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/12 15:45:45 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/20 15:34:16 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*check_content(void)
 
 void	handle_room_error(t_env *env, char *line)
 {
-	if (!env->head_room)
+	if (env->error == OK && !env->head_room)
 		env->error = INVALID_ROOM;
 	if (env->error == OK && (env->start == NULL || env->end == NULL))
 		env->error = NO_END_OR_START;
