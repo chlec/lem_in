@@ -21,9 +21,36 @@ OBJS = $(SRCS:.c=.o)
 
 OBJS_FILTERED = $(notdir $(OBJS))
 
-LIB_OBJS = libft/*.o
+LIB_OBJS = libft/ft_putstr.o \
+		   libft/ft_atoi.o \
+		   libft/ft_itoa.o \
+		   libft/ft_lstdel.o \
+		   libft/ft_lstnew.o \
+		   libft/ft_putchar.o \
+		   libft/ft_putendl.o \
+		   libft/ft_putnbr.o \
+		   libft/ft_putstr_fd.o \
+		   libft/ft_strcmp.o \
+		   libft/ft_strchr.o \
+		   libft/ft_strdel.o \
+		   libft/ft_strdup.o \
+		   libft/ft_strequ.o \
+		   libft/ft_strsplit.o \
+		   libft/get_next_line.o \
+		   libft/ft_isprint.o \
+		   libft/ft_lstdelone.o \
+		   libft/ft_memalloc.o \
+		   libft/ft_memcpy.o \
+		   libft/ft_putchar_fd.o \
+		   libft/ft_strcpy.o \
+		   libft/ft_strlen.o \
+		   libft/ft_strnew.o \
+		   libft/ft_strrev.o \
+		   libft/ft_strsub.o \
+		   libft/ft_bzero.o \
+		   libft/ft_memset.o
 
-FLAGS = -Wall -Werror -Wextra #-fsanitize=address
+FLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 all: $(NAME)
 
