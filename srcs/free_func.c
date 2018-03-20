@@ -6,32 +6,11 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 14:31:03 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/20 14:28:02 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/20 14:31:26 by clecalie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-void		del_ant(t_env *env, t_list *head_temp, t_list *head, t_ant *l_ant)
-{
-	if (head == NULL || env->head_ant == head_temp)
-	{
-		free(l_ant);
-		l_ant = NULL;
-		free(env->head_ant);
-		// Le soucis est a la ligne ci-dessous
-		// car env->head_ant = head_temp donc le next existe pas vu qu'on free
-		env->head_ant = head_temp->next;
-	}
-	else
-	{
-		free(l_ant);
-		l_ant = NULL;
-		head->next = head_temp->next;
-		free(head_temp);
-		head_temp = head;
-	}
-}
 
 void		free_double_tab(char **tab)
 {
