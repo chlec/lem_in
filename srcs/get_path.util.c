@@ -6,7 +6,7 @@
 /*   By: clecalie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 14:06:56 by clecalie          #+#    #+#             */
-/*   Updated: 2018/03/12 14:19:55 by clecalie         ###   ########.fr       */
+/*   Updated: 2018/03/20 14:48:14 by mdaunois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,27 @@ void	print_path(t_env *env)
 	t_room	*room;
 	t_list	*head_p;
 	t_list	*head_r;
-
+	int i;
+	
+	i = 0;
 	head_p = env->head_path;
 	head_r = head_p->content;
 	while (head_p)
 	{
 		path = (t_path*)(head_p->content);
 		head_r = path->room;
-		printf("nombre de room = %d\n", path->len);
+		ft_putstr("chemin nº");
+		ft_putnbr(++i);
+		ft_putstr("\n");
 		while (head_r)
 		{
 			room = (t_room*)(head_r->content);
-			printf("chemin: %s nb_ant = %d \n", room->name, room->ant);
+			ft_putstr(room->name);
+			if (head_r->next)
+				ft_putstr(" -> ");
 			head_r = head_r->next;
 		}
-		printf("------\n");
+		ft_putstr("\n");
 		head_p = head_p->next;
 	}
 }
